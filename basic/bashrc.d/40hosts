@@ -1,0 +1,16 @@
+#! /bin/bash
+
+#
+# Load host-specific configuration, if it exists
+
+# Try to be slightly smart about the hostname
+hostname=''
+retval_which host \
+	&& host -W1 $(hostname) >/dev/null 2>&1 \
+	&& hostname="$(host $(hostname)) 2>/dev/null)"
+: ${hostname:=$(hostname)}
+
+# Source the file when extent
+hfile="$HOME/.bashrc.d/hosts/$hostname"
+[ -f "$hfile" ] \
+	&& source "$hfile"

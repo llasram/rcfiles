@@ -1,0 +1,30 @@
+! Clear all modifier keys
+clear lock
+clear control
+clear mod1
+clear mod4
+clear mod5
+
+! Left thumb switches
+keysym BackSpace = Control_L
+keysym Delete = Meta_L
+keysym Control_L = Super_L
+keysym Alt_L = Meta_L
+!keysym Home = Super_L
+!keysym End = Tab
+
+! Right thumb switches
+keysym Super_R = Alt_R
+keysym Control_R = Super_R
+
+! More typical Dvorak
+! keysym backslash = minus underscore
+! keysym minus = backslash bar
+
+! Twiddle > grave
+! keysym grave = asciitilde grave
+
+add Control = Control_L Control_R
+add mod1 = Meta_L Alt_L
+add mod4 = Super_L Super_R 
+add mod5 = Hyper_R

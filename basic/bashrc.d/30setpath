@@ -1,0 +1,123 @@
+#! /bin/bash
+
+# Definitions to cleanly set the various PATH variables.  Derived from
+# code by Alex Newman <dolemite@wuli.nu>
+
+# Figure out the java path
+for I in "/usr/java" "/usr/pkg/java"; do
+    [ -d "${I}/bin" ] && JL="${I}" && break ;
+done
+if [ -z "${JL}" ]; then
+    JL="$(for dir in /usr/share/java \
+                     /usr/lib/*Java* \
+                     /usr/java/j*re* \
+                     /usr/java/j*sdk* \
+                     /usr/pkg/java/j*re* \
+                     /usr/pkg/java/j*sdk*; \
+          do \
+              echo $dir; \
+          done | \
+          grep -v '[*]' | \
+          tail -n 1)" ;
+fi
+
+# Check for bizarro IRIX standard man paths
+for I in "/usr/share" "/usr"; do
+    [ -d "${I}/catman" ] && MANPATH="${MANPATH}:${I}/catman" ;
+done
+
+# Choose our site tools path
+# TODO: fix this
+TOOLS_NARCH="/tools/noarch"
+TOOLS_YARCH="/tools/${CONFIG_GUESS}"
+
+# Personal export paths
+PE_NARCH="$HOME/export/noarch"
+PE_YARCH="$HOME/export/$CONFIG_GUESS"
+
+# Include precursor paths
+for I in "/sw" "$TOOLS_NARCH" "$TOOLS_YARCH" "$HOME" \
+         "$PE_NARCH" "$PE_YARCH" "$PE_YARCH/X"*; do
+  if [ "${I}" ] && [ "${I}" != "/" ] && [ -d "${I}" ]; then
+      [ -d "${I}/bin" ] && PATH="${I}/bin:${PATH}"
+      [ -d "${I}/sbin" ] && PATH="${I}/sbin:${PATH}"
+      [ -d "${I}/man" ] && MANPATH="${I}/man:${MANPATH}"
+      [ -d "${I}/share/man" ] && MANPATH="${I}/share/man:${MANPATH}"
+      [ -d "${I}/catman" ] && MANPATH="${I}/catman:${MANPATH}"
+      [ -d "${I}/info" ] && INFOPATH="${I}/info:${INFOPATH}"
+      [ -d "${I}/share/info" ] && INFOPATH="${I}/share/info:${INFOPATH}" ;
+  fi ;
+done
+
+# Include detected paths
+for I in "/opt/"* "/opt/precompiled/"* "/usr/public" "/usr/local" \
+         "/usr/X"* "/usr/ccs" "/usr/atria" "${JL}" "/usr/openwin" \
+         "/usr/dt" "/usr/pkg" "/usr/games" "/usr/pkg/gcc"* "/usr/NX" \
+         "/usr/pkg/bsd" "/usr/share/"*"-data/$CONFIG_GUESS/"* \
+         "/var/lib/gems/"*; do
+  if [ "${I}" ] && [ "${I}" != "/" ] && [ -d "${I}" ]; then
+      [ -d "${I}/bin" ] && PATH="${PATH}:${I}/bin"
+      [ -d "${I}/sbin" ] && PATH="${PATH}:${I}/sbin"
+      [ -d "${I}/man" ] && MANPATH="${MANPATH}:${I}/man"
+      [ -d "${I}/doc/man" ] && MANPATH="${MANPATH}:${I}/doc/man"
+      [ -d "${I}/share/man" ] && MANPATH="${MANPATH}:${I}/share/man"
+      [ -d "${I}/catman" ] && MANPATH="${MANPATH}:${I}/catman"
+      [ -d "${I}/info" ] && INFOPATH="${INFOPATH}:${I}/info"
+      [ -d "${I}/share/info" ] && INFOPATH="${INFOPATH}:${I}/share/info" ;
+  fi ;
+done
+
+# Possible library paths
+for I in "${HOME}" "$PE_YARCH" "$PE_YARCH/X11R6" "$TOOLS" \
+         "/opt/precompiled/"* "/opt/"*; do
+  if [ "${I}" ] && [ "${I}" != "/" ] && [ -d "${I}" ]; then
+      if [ -d "${I}/lib" ] && ls "${I}/lib/"*.so* >/dev/null 2>&1; then
+          ( [ -r /etc/ld.so.conf ] \
+                  && grep '^'"${I}"'/lib$' /etc/ld.so.conf >/dev/null 2>&1 ) \
+              || add_path LD_LIBRARY_PATH "${I}/lib"
+      fi
+  fi
+done
+
+# Include non-standard OS-specific paths
+for I in "/usr/ucb" "/cygdrive/C/WINDOWS/system32"; do
+    [ -d "${I}" ] && PATH="${PATH}:${I}"
+done
+
+# Sometimes this path has executables in it directly
+[ -x /usr/games/caesar ] && PATH="${PATH}:/usr/games"
+
+# Occasional, non-standard /usr/local paths
+if [ -d  /usr/local/ ]; then 
+	[ -d /usr/local/apache/bin ] && PATH="${PATH}:/usr/local/apache/bin"
+	[ -d /usr/local/maple/bin ]  && PATH="${PATH}:/usr/local/maple/bin" ;
+fi
+
+# Configure our Java class-path
+if [ "${JL}" ]; then
+    for JAR in "${HOME}"/java/*.jar "${HOME}"/java/*.zip \
+             "${JL}"/*.jar "${JL}"/jre/lib/*.jar "${JL}"/lib/*.jar; do
+      [ -e "${JAR}" ] && add_path CLASSPATH "${JAR}" ;
+    done ;
+fi
+add_path CLASSPATH "."
+
+# jikes might need a little extra help
+JIKESPATH=".:${JL}/jre/lib/rt.jar"
+
+# Configure the Python path
+if retval_which python; then
+    pyversion="$(python -V 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)"
+    for dir in /opt/* "$PE_YARCH" "$PE_NARCH"; do
+        dir="$dir/lib"
+        for sub in "python" "python${pyversion}"; do
+            sub="$dir/$sub"
+            for pydir in "$sub" "$sub/site-packages"; do
+                [ -d "$pydir" ] && add_path PYTHONPATH "$pydir"
+            done
+        done
+    done
+fi
+
+export PATH LD_LIBRARY_PATH MANPATH INFOPATH INFODIR CLASSPATH \
+    JIKESPATH TOOLS TOOLS_NOARCH CONFIG_GUESS PYTHONPATH

@@ -1,0 +1,15 @@
+#! /bin/bash
+
+## All actual definitions are stored in ~/.bashrc.d
+
+# Source additional definitions
+if [ -d "$HOME/.bashrc.d" ] \
+        && [ "x$(echo "$HOME/.bashrc.d/"[0-9]*[^~])" != 'x' ]; then
+    for file in "$HOME/.bashrc.d/"[0-9]*[^~]; do
+        source $file
+    done
+fi
+
+# Attempt to bring in bash completion
+[ -f "/etc/bash_completion" ] \
+	&& source "/etc/bash_completion"

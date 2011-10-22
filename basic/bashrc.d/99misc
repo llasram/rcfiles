@@ -1,0 +1,92 @@
+#! /bin/bash
+
+## Miscellaneous final definitions
+
+# Backup prompt
+PS1="[\u@\h \W]\$ "
+export PS1
+
+# SHELL is 'bash', unless is 'sh'
+if retval_which bash; then
+	SHELL="$(good_which bash)"
+else
+	SHELL="$(good_which sh)"
+fi
+export SHELL
+
+# Browser
+BROWSER=""
+if retval_which google-chrome; then
+    BROWSER="$(good_which google-chrome)"
+elif retval_which firefox; then
+    BROWSER="$(good_which firefox)"
+elif retval_which links; then
+    BROWSER="$(good_which links)"
+elif retval_which lynx; then
+    BROWSER="$(good_which lynx)"
+fi
+export BROWSER
+
+# Configure the TERM
+if [ "x$TERM" =  "xlinux" ]; then
+    Control="$(for (( i = 0; i < 8; i++ )); do echo 'Control'; done)"
+    echo "keycode 58 = $(echo $Control)" | sudo loadkeys - >/dev/null 2>&1
+fi
+
+# Editors for goodness and light
+export SVN_EDITOR="$EDITOR"
+
+# My authinfo is here, not there
+export AUTHINFO="${HOME}/.authinfo"
+
+# Select a pager to use
+if retval_which less; then
+    PAGER="$(good_which less)" ;
+elif retval_which pg; then
+    PAGER="$(good_which pg)" ;
+elif retval_which more; then
+    PAGER="$(good_which more)" ;
+fi
+export PAGER
+
+# Options for LESS
+export LESS="-R -i"
+
+# Configure CVS with a default repository
+[ -d "$HOME/cvsroot" ] \
+    && default_CVSROOT="$HOME/cvsroot" \
+    || default_CVSROOT=":ext:llasram@www.wuli.nu:/home/llasram/cvsroot"
+export CVSROOT="${CVSROOT:-${default_CVSROOT}}"
+export CVS_RSH="ssh"
+
+# Check for ssh auth forwarding
+[ "x$SSH_CLIENT" != "x" ] \
+        && [ "x$SSH_AUTH_SOCK" != "x" ] \
+        && [ -e "$SSH_AUTH_SOCK" ] \
+    && SSH_AUTH_FORWARD="$SSH_AUTH_SOCK" \
+    || SSH_AUTH_FORWARD=""
+export SSH_AUTH_FORWARD
+
+# If keychain foo exists, try loading it
+[ "x$SSH_AUTH_FORWARD" = "x" ] && \
+for file in "$HOME/.keychain/${HOSTNAME}-sh"*; do
+    [ -f "$file" ] && source "$file"
+done
+
+# Collation must be "C" for usefullness
+export LC_COLLATE="C"
+
+# Rubygems?
+if retval_which ruby && ruby -rubygems -e 'exit 0' >/dev/null 2>&1; then
+	export RUBYOPT="rubygems"
+fi
+
+# Super RI (well, not as good as fastri)
+#RI_PATHS="$(
+#    find /usr/lib/ruby/gems/*/doc -type d -name 'ri' 2>/dev/null | 
+#    paste -s -d':')"
+#RI_PATHS="$RI_PATHS:/usr/share/ri/1.8/system"
+#export RI="-d $(echo "$RI_PATHS" | sed -e's,:, -d ,g')"
+
+# MPD/C needs this?
+export MPD_HOST="127.0.0.1"

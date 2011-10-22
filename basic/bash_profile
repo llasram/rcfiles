@@ -1,0 +1,32 @@
+#! /bin/bash
+
+# This file is sourced by bash when you log in interactively.
+
+# Load general bash configuration
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+
+# Check if done, and if not copy over ssh keys
+SSHKEYS="/mnt/sshkeys/$USER"
+if [ -d /mnt/keydrive ] && [ ! -f "$HOME/.ssh/id_rsa" ]; then
+    mkdir -p "$SSHKEYS" && \
+    mount /mnt/keydrive && \
+    cp /mnt/keydrive/ssh/* "$SSHKEYS" && \
+    umount /mnt/keydrive && \
+    chmod 0755 "$SSHKEYS" && \
+    chmod 0600 "$SSHKEYS/"* && \
+    sudo mount --bind "$SSHKEYS" "$HOME/.ssh"
+fi
+
+# Run keychain, unless doing ssh auth forwarding
+if [ "x$SSH_AUTH_FORWARD" = "x" ]; then
+    # Configure
+    keychain_options="--agents ssh --ignore-missing -q"
+    keychain_keys="identity id_rsa id_dsa 74E31689"
+
+    # Load keychain
+    retval_which keychain \
+        && keychain $keychain_options $keychain_keys
+    for file in "$HOME/.keychain/${HOSTNAME}-sh"*; do
+        [ -f "$file" ] && source "$file"
+    done
+fi

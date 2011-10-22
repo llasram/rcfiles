@@ -1,0 +1,29 @@
+## Screen configuration
+
+# Basic config
+escape ^Uu
+startup_message off
+defscrollback 1000
+defflow off
+vbell off 
+shelltitle '@|'
+hardstatus alwayslastline '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'
+
+# Copy mode
+markkeys ^B=Y:^F=V:h=^B:l=^F:0=^A:$=^E:
+markkeys \033=\015=^G=^D=h=j=k=l=H=M=L=G=g=y=c=v=a=x=b=e=B=E=w
+markkeys @=\033
+bindkey -m ^e stuff "\$^f"
+bindkey -m -k kP stuff Y
+bindkey -m -k kN stuff V
+bindkey -m \033v stuff Y
+bindkey -m ^v stuff V
+markkeys ' '=^@
+markkeys B=[:E=]:b={:e=}:w=>
+bindkey -m ^[Od stuff {  #"[[}"
+bindkey -m ^[Oc stuff ]  #"}]^f"
+bindkey -m \033b stuff {
+bindkey -m \033f stuff ]
+bindkey -m ^[w eval "stuff ' '" writebuf "exec | sh -c 'xsel -bi </tmp/screen-exchange'"
+bind y exec .!. xsel -bno
+bind ^y exec .!. xsel -bno

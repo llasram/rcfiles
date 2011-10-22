@@ -1,0 +1,39 @@
+# -*- mode: sh -*-
+
+export MODKEY=Mod4
+export UP=t
+export DOWN=n
+export LEFT=h
+export RIGHT=s
+
+export WMII_NORMCOLORS='#4D4E4F #DDDDAA #FFFFCC'
+export WMII_FOCUSCOLORS='#FFFFFF #248047 #147027'
+
+set_client_width() {
+  pixels=$1
+  client=$(wmiir read /client/sel/ctl | head -n1)
+  column=$(wmiir read /tag/sel/index | fgrep $client | awk '{print$1}')
+  width=$(wmiir read /tag/sel/index | grep "^# $column " | awk '{print$4}')
+  diff=$(( $pixels - $width ))
+  wmiir xwrite /tag/sel/ctl "grow client $client right ${diff}px"
+}
+
+local_events() {
+	cat <<'!'
+KeyGroup Misc
+Key $MODKEY-x
+	xscreensaver-command -lock
+Key F10
+        setxkbmap -option ctrl:nocaps us
+Key F11
+        setxkbmap -option ctrl:nocaps dvorak; xmodmap ~/.Xmodmap-thinkpad
+Key F12
+        setxkbmap -option ctrl:nocaps us; xmodmap ~/.Xmodmap-kinesis
+Key $MODKEY-8
+        set_client_width 486
+Key $MODKEY-9
+        set_client_width 533
+Key $MODKEY-g
+        set_client_width 300
+!
+}

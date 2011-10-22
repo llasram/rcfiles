@@ -1,0 +1,60 @@
+#! /bin/bash
+
+#
+# Universal version control at your fingertips...
+
+uvc_fn () {
+    local uvc_prog=''
+
+    if [ -d 'CVS' ]; then
+        uvc_prog='cvs'
+    elif [ -d '.svn' ]; then
+        uvc_prog='svn'
+    fi
+    : ${uvc_prog:=$uvc_guess}
+    [ "x$uvc_prog" = "x" ] \
+        && echo 'uvc: could not determine version control system' >&2 \
+        && return 1
+    
+    $uvc_prog "$@"
+}
+alias uvc='uvc_fn'
+
+cvs_fn () {
+    uvc_guess='cvs' uvc "$@"
+}
+alias cvs='cvs_fn'
+alias rcvs='env cvs'
+
+svn_fn () {
+    uvc_guess='svn' uvc "$@"
+}
+alias svn='svn_fn'
+alias rsvn='env svn'
+
+stcmd() {
+    local dashp=""
+    local cmd=""
+    for cmd in add add-folder add-view apply-label ci co delete-local \
+               diff dsc hist label lck list local-mkdir move-status \
+               remove update-status; do
+        if [ "$cmd" = "$1" ]; then dashp="yes"; break; fi
+    done
+
+    if [ -n "$dashp" ]; then
+        local cmd="$1"; shift
+        local project="$1"; shift
+
+        if [ "$project" = "-?" ]; then
+            env stcmd "$cmd" -?
+        else
+            local server="$(echo "$project" | cut -d'/' -f1)"
+            local path="$(echo "$project" | cut -d'/' -f2-)"
+
+            env stcmd "$cmd" \
+                -p "$(authinfo "$server")@${server}:49201/${path}" "$@"
+        fi
+    else
+        env stcmd "$@"
+    fi
+}

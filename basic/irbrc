@@ -1,0 +1,6 @@
+# -*- mode: ruby -*-
+
+# Load all modules in the ~/.irbrc.d directory
+Dir.open(File.join(ENV['HOME'], '.irbrc.d')) do |dir|
+  dir.grep(/[.]rb$/) { |entry| load File.join(dir.path, entry) }
+end

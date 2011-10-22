@@ -1,0 +1,7 @@
+Emacs.font: fixed
+XTerm*metaSendsEscape: true
+UXTerm*metaSendsEscape: true
+XTerm*background: black
+UXTerm*background: white
+XTerm*foreground: white
+UXTerm*foreground: black

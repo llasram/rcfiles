@@ -1,0 +1,9 @@
+[user]
+	name = Marshall T. Vandegrift
+	email = llasram@gmail.com
+[core]
+	excludesfile = ~/.gitexcludes
+[color]
+        ui = auto
+[svn]
+	rmdir = true

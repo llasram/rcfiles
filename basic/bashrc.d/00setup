@@ -1,0 +1,29 @@
+#! /bin/bash
+
+## Set up globally used variables, aliases, functions, etc
+
+# Initial versions of basic paths
+PATH="/bin:/usr/bin:/sbin:/usr/sbin"
+MANPATH="/usr/man:/usr/share/man"
+INFOPATH="/usr/share/info:/usr/info"
+INFODIR=""
+LD_LIBRARY_PATH=""
+CLASSPATH=""
+PYTHONPATH=""
+
+# IRIX sticks many standard tools in /usr/bsd
+[ -d "/usr/bsd" ] && PATH="${PATH}:/usr/bsd" ;
+
+# Unalias common annoyances
+for fn in ls which less date; do
+    eval "unalias $fn >/dev/null 2>&1"
+done
+
+# Set a sensible umask
+umask 0022
+
+# Recent version of GNU config.guess must live in home
+CONFIG_GUESS="$($HOME/.bashrc.d/config.guess)"
+
+export PATH MANPATH INFOPATH INFODIR LD_LIBRARY_PATH \
+    CLASSPATH CONFIG_GUESS

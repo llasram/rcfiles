@@ -1,0 +1,7 @@
+clear mod1
+clear mod4
+
+keysym Alt_L = Meta_L
+
+add mod1 = Meta_L
+add mod4 = Super_L Alt_R
