@@ -1,7 +1,8 @@
 clear mod1
 clear mod4
 
-keysym Alt_L = Meta_L
+keycode 64 = Meta_L
+keycode 108 = Alt_R
 
-add mod1 = Meta_L
 add mod4 = Super_L Alt_R
+add mod1 = Meta_L

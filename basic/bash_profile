@@ -30,3 +30,7 @@ if [ "x$SSH_AUTH_FORWARD" = "x" ]; then
         [ -f "$file" ] && source "$file"
     done
 fi
+
+ # Load RVM into a shell session *as a function*
+[[ -s "/home/llasram/.rvm/scripts/rvm" ]] \
+    && source "/home/llasram/.rvm/scripts/rvm"

@@ -16,7 +16,9 @@ export SHELL
 
 # Browser
 BROWSER=""
-if retval_which google-chrome; then
+if retval_which conkeror; then
+    BROWSER="$(good_which conkeror)"
+elif retval_which google-chrome; then
     BROWSER="$(good_which google-chrome)"
 elif retval_which firefox; then
     BROWSER="$(good_which firefox)"

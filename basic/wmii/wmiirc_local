@@ -22,7 +22,7 @@ local_events() {
 	cat <<'!'
 KeyGroup Misc
 Key $MODKEY-x
-	xscreensaver-command -lock
+	mpc pause; xscreensaver-command -lock
 Key F10
         setxkbmap -option ctrl:nocaps us
 Key F11
@@ -35,5 +35,11 @@ Key $MODKEY-9
         set_client_width 533
 Key $MODKEY-g
         set_client_width 300
+Key $MODKEY-semicolon
+        mpc toggle
+Key $MODKEY-q
+        mpc prev
+Key $MODKEY-j
+        mpc next
 !
 }

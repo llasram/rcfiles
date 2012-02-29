@@ -50,7 +50,8 @@
 (define-clojure-indent
   (doto-let 1)
   (assert-args 1)
-  (case-expr 1))
+  (case-expr 1)
+  (ignore-errors 0))
 
 (put 'defupdaters 'clojure-backtracking-indent '((2)))
 (put 'defmulti-group 'clojure-backtracking-indent '((2)))

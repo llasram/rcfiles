@@ -3,30 +3,21 @@
 
 (define-abbrev-table 'Custom-mode-abbrev-table '())
 
+(define-abbrev-table 'apache-mode-abbrev-table '())
+
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
 (define-abbrev-table 'asm-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
 
 (define-abbrev-table 'browse-kill-ring-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'browse-kill-ring-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-    ("catch" "catch" c-electric-continued-statement 0)
-    ("else" "else" c-electric-continued-statement 0)
-    ("while" "while" c-electric-continued-statement 0)
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-    ("else" "else" c-electric-continued-statement 4)
-    ("while" "while" c-electric-continued-statement 1)
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -52,25 +43,7 @@
 
 (define-abbrev-table 'conf-xdefaults-mode-abbrev-table '())
 
-(define-abbrev-table 'cperl-mode-abbrev-table
-  '(
-    ("continue" "continue" cperl-electric-else 0)
-    ("do" "do" cperl-electric-keyword 0)
-    ("else" "else" cperl-electric-else 0)
-    ("elsif" "elsif" cperl-electric-keyword 0)
-    ("for" "for" cperl-electric-keyword 1)
-    ("foreach" "foreach" cperl-electric-keyword 0)
-    ("foreachmy" "foreachmy" cperl-electric-keyword 0)
-    ("formy" "formy" cperl-electric-keyword 0)
-    ("head1" "head1" cperl-electric-pod 0)
-    ("head2" "head2" cperl-electric-pod 0)
-    ("if" "if" cperl-electric-keyword 1)
-    ("over" "over" cperl-electric-pod 0)
-    ("pod" "pod" cperl-electric-pod 0)
-    ("unless" "unless" cperl-electric-keyword 0)
-    ("until" "until" cperl-electric-keyword 0)
-    ("while" "while" cperl-electric-keyword 0)
-   ))
+(define-abbrev-table 'cperl-mode-abbrev-table '())
 
 (define-abbrev-table 'css-mode-abbrev-table '())
 
@@ -94,60 +67,7 @@
 
 (define-abbrev-table 'gdb-script-mode-abbrev-table '())
 
-(define-abbrev-table 'global-abbrev-table
-  '(
-    ("Reccomendations" "Recommendations" nil 0)
-    ("WPS" "PS" nil 0)
-    ("accidently" "accidentally" nil 1)
-    ("accompanyment" "accompaniment" nil 0)
-    ("aggamemnon" "Agamemnon" nil 0)
-    ("allieviate" "alleviate" nil 0)
-    ("ameture" "amateur" nil 0)
-    ("annecdotal" "anecdotal" nil 0)
-    ("anomalaies" "anomalies" nil 0)
-    ("apendectomy" "appendectomy" nil 0)
-    ("apropriate" "appropriate" nil 1)
-    ("bookswap" "Book Swap" nil 0)
-    ("customizations" "customization's" nil 0)
-    ("dependancy" "dependency" nil 0)
-    ("documention" "document ion" nil 0)
-    ("ecclectic" "eclectic" nil 0)
-    ("efficecy" "efficacy" nil 0)
-    ("encompasing" "encompassing" nil 0)
-    ("environnments" "environments" nil 0)
-    ("hardcoded" "hard-coded" nil 0)
-    ("heirarchical" "hierarchical" nil 0)
-    ("indicies" "indices" nil 0)
-    ("indiscresions" "indiscretions" nil 0)
-    ("ineligance" "inelegance" nil 0)
-    ("inheritence" "inheritance" nil 1)
-    ("juristictions" "jurisdictions" nil 0)
-    ("logorithm" "logarithm" nil 0)
-    ("lzi" "lei" nil 0)
-    ("marijuanna" "marijuana" nil 0)
-    ("mediterranian" "Mediterranean" nil 1)
-    ("misapprehanshion" "misapprehension" nil 0)
-    ("mispeled" "misspelled" nil 0)
-    ("occurrance" "occurrence" nil 0)
-    ("penninsula" "peninsula" nil 0)
-    ("peosition" "position" nil 0)
-    ("pince" "pence" nil 2)
-    ("preceeding" "preceding" nil 0)
-    ("presedence" "precedence" nil 0)
-    ("propogate" "propagate" nil 0)
-    ("recieve" "receive" nil 7)
-    ("recieved" "received" nil 5)
-    ("recieving" "receiving" nil 6)
-    ("redemable" "Redeemable" nil 1)
-    ("regieme" "regime" nil 0)
-    ("respones" "response" nil 2)
-    ("siteprotector" "Site Protector" nil 3)
-    ("styrofoam" "Styrofoam" nil 1)
-    ("subsquent" "subsequent" nil 0)
-    ("thouegh" "though" nil 0)
-    ("unecessary" "unnecessary" nil 2)
-    ("willfulnes" "willfulness" nil 0)
-   ))
+(define-abbrev-table 'global-abbrev-table '())
 
 (define-abbrev-table 'gnus-article-edit-mode-abbrev-table '())
 
@@ -161,22 +81,7 @@
 
 (define-abbrev-table 'haskell-mode-abbrev-table '())
 
-(define-abbrev-table 'html-mode-abbrev-table
-  '(
-    ("%" "" snippet-abbrev-html-mode-% 0)
-    ("%%" "" snippet-abbrev-html-mode-%% 0)
-    ("%for" "" snippet-abbrev-html-mode-%for 0)
-    ("%h" "" snippet-abbrev-html-mode-%h 0)
-    ("%if" "" snippet-abbrev-html-mode-%if 0)
-    ("%ifel" "" snippet-abbrev-html-mode-%ifel 0)
-    ("%unless" "" snippet-abbrev-html-mode-%unless 0)
-    ("ft" "" snippet-abbrev-html-mode-ft 0)
-    ("lia" "" snippet-abbrev-html-mode-lia 0)
-    ("liai" "" snippet-abbrev-html-mode-liai 0)
-    ("lic" "" snippet-abbrev-html-mode-lic 0)
-    ("lica" "" snippet-abbrev-html-mode-lica 0)
-    ("licai" "" snippet-abbrev-html-mode-licai 0)
-   ))
+(define-abbrev-table 'html-mode-abbrev-table '())
 
 (define-abbrev-table 'idl-mode-abbrev-table '())
 
@@ -184,25 +89,13 @@
 
 (define-abbrev-table 'inferior-ruby-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-    ("catch" "catch" c-electric-continued-statement 0)
-    ("else" "else" c-electric-continued-statement 0)
-    ("finally" "finally" c-electric-continued-statement 0)
-    ("while" "while" c-electric-continued-statement 0)
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'javascript-mode-abbrev-table '())
 
 (define-abbrev-table 'jython-mode-abbrev-table '())
 
-(define-abbrev-table 'latex-mode-abbrev-table
-  '(
-    ("Sincerly" "Sincerely" nil 0)
-    ("administator" "administrator" nil 0)
-    ("ambigious" "ambiguous" nil 0)
-    ("inflamatory" "inflammatory" nil 0)
-   ))
+(define-abbrev-table 'latex-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -224,45 +117,21 @@
 
 (define-abbrev-table 'makefile-mode-abbrev-table '())
 
-(define-abbrev-table 'message-mode-abbrev-table
-  '(
-    ("Sincerly" "Sincerely" nil 0)
-    ("administator" "administrator" nil 0)
-    ("ambigious" "ambiguous" nil 0)
-    ("inflamatory" "inflammatory" nil 0)
-   ))
+(define-abbrev-table 'message-mode-abbrev-table '())
 
 (define-abbrev-table 'multi-mode-abbrev-table '())
 
-(define-abbrev-table 'muse-mode-abbrev-table
-  '(
-    ("Sincerly" "Sincerely" nil 0)
-    ("administator" "administrator" nil 0)
-    ("ambigious" "ambiguous" nil 0)
-    ("homogenous" "homogeneous" nil 0)
-    ("inflamatory" "inflammatory" nil 0)
-    ("vulnerabilites" "vulnerabilities" nil 2)
-    ("xmp" "" snippet-abbrev-muse-mode-xmp 1)
-   ))
+(define-abbrev-table 'muse-mode-abbrev-table '())
 
 (define-abbrev-table 'nroff-mode-abbrev-table '())
 
 (define-abbrev-table 'nxml-mode-abbrev-table
   '(
-    ("%" "" snippet-abbrev-nxml-mode-% 7)
-    ("%%" "" snippet-abbrev-nxml-mode-%% 1)
-    ("%for" "" snippet-abbrev-nxml-mode-%for 0)
-    ("%h" "" snippet-abbrev-nxml-mode-%h 0)
-    ("%if" "" snippet-abbrev-nxml-mode-%if 0)
-    ("%ifel" "" snippet-abbrev-nxml-mode-%ifel 0)
-    ("%unless" "" snippet-abbrev-nxml-mode-%unless 0)
-    ("ft" "" snippet-abbrev-nxml-mode-ft 0)
-    ("hlo" "Hello, world!" nil 4)
-    ("lia" "" snippet-abbrev-nxml-mode-lia 4)
-    ("liai" "" snippet-abbrev-nxml-mode-liai 0)
-    ("lic" "" snippet-abbrev-nxml-mode-lic 0)
-    ("lica" "" snippet-abbrev-nxml-mode-lica 0)
-    ("licai" "" snippet-abbrev-nxml-mode-licai 0)
+    ("administator" "administrator" nil 0)
+    ("ambigious" "ambiguous" nil 0)
+    ("homogenous" "homogeneous" nil 0)
+    ("inflamatory" "inflammatory" nil 0)
+    ("vulnerabilites" "vulnerabilities" nil 2)
    ))
 
 (define-abbrev-table 'objc-mode-abbrev-table
@@ -307,67 +176,7 @@
 
 (define-abbrev-table 'python-mode-abbrev-table '())
 
-(define-abbrev-table 'ruby-mode-abbrev-table
-  '(
-    ("ase" "" snippet-abbrev-ruby-mode-ase 1)
-    ("bt" "" snippet-abbrev-ruby-mode-bt 0)
-    ("collect" "" snippet-abbrev-ruby-mode-collect 5)
-    ("def" "" snippet-abbrev-ruby-mode-def 25)
-    ("dt" "" snippet-abbrev-ruby-mode-dt 0)
-    ("each" "" snippet-abbrev-ruby-mode-each 12)
-    ("flash" "" snippet-abbrev-ruby-mode-flash 1)
-    ("hh" "" snippet-abbrev-ruby-mode-hh 0)
-    ("hm" "" snippet-abbrev-ruby-mode-hm 0)
-    ("ho" "" snippet-abbrev-ruby-mode-ho 0)
-    ("iff0" "" snippet-abbrev-ruby-mode-iff0 1)
-    ("iffo" "" snippet-abbrev-ruby-mode-iffo 0)
-    ("inj" "" snippet-abbrev-ruby-mode-inj 1)
-    ("inject" "" snippet-abbrev-ruby-mode-inject 2)
-    ("logi" "" snippet-abbrev-ruby-mode-logi 0)
-    ("mac" "" snippet-abbrev-ruby-mode-mac 3)
-    ("mai" "" snippet-abbrev-ruby-mode-mai 0)
-    ("mait" "" snippet-abbrev-ruby-mode-mait 0)
-    ("mcc" "" snippet-abbrev-ruby-mode-mcc 0)
-    ("mct" "" snippet-abbrev-ruby-mode-mct 0)
-    ("mctf" "" snippet-abbrev-ruby-mode-mctf 0)
-    ("mdt" "" snippet-abbrev-ruby-mode-mdt 0)
-    ("mrec" "" snippet-abbrev-ruby-mode-mrec 0)
-    ("mrmc" "" snippet-abbrev-ruby-mode-mrmc 0)
-    ("mrmi" "" snippet-abbrev-ruby-mode-mrmi 0)
-    ("mtcl" "" snippet-abbrev-ruby-mode-mtcl 0)
-    ("par" "" snippet-abbrev-ruby-mode-par 0)
-    ("ra" "" snippet-abbrev-ruby-mode-ra 0)
-    ("ral" "" snippet-abbrev-ruby-mode-ral 0)
-    ("rcea" "" snippet-abbrev-ruby-mode-rcea 0)
-    ("rcec" "" snippet-abbrev-ruby-mode-rcec 1)
-    ("rceca" "" snippet-abbrev-ruby-mode-rceca 0)
-    ("rea" "" snippet-abbrev-ruby-mode-rea 1)
-    ("reai" "" snippet-abbrev-ruby-mode-reai 0)
-    ("rec" "" snippet-abbrev-ruby-mode-rec 0)
-    ("reca" "" snippet-abbrev-ruby-mode-reca 0)
-    ("recai" "" snippet-abbrev-ruby-mode-recai 0)
-    ("rf" "" snippet-abbrev-ruby-mode-rf 0)
-    ("rfu" "" snippet-abbrev-ruby-mode-rfu 1)
-    ("ri" "" snippet-abbrev-ruby-mode-ri 0)
-    ("ril" "" snippet-abbrev-ruby-mode-ril 0)
-    ("rit" "" snippet-abbrev-ruby-mode-rit 1)
-    ("rl" "" snippet-abbrev-ruby-mode-rl 0)
-    ("rn" "" snippet-abbrev-ruby-mode-rn 0)
-    ("rns" "" snippet-abbrev-ruby-mode-rns 0)
-    ("rp" "" snippet-abbrev-ruby-mode-rp 1)
-    ("rpc" "" snippet-abbrev-ruby-mode-rpc 0)
-    ("rpl" "" snippet-abbrev-ruby-mode-rpl 3)
-    ("rpo" "" snippet-abbrev-ruby-mode-rpo 0)
-    ("rps" "" snippet-abbrev-ruby-mode-rps 0)
-    ("rt" "" snippet-abbrev-ruby-mode-rt 0)
-    ("rtl" "" snippet-abbrev-ruby-mode-rtl 0)
-    ("rtlt" "" snippet-abbrev-ruby-mode-rtlt 0)
-    ("rts" "" snippet-abbrev-ruby-mode-rts 0)
-    ("ses" "" snippet-abbrev-ruby-mode-ses 5)
-    ("vn" "" snippet-abbrev-ruby-mode-vn 0)
-    ("vp" "" snippet-abbrev-ruby-mode-vp 0)
-    ("vu" "" snippet-abbrev-ruby-mode-vu 1)
-   ))
+(define-abbrev-table 'ruby-mode-abbrev-table '())
 
 (define-abbrev-table 'select-tags-table-mode-abbrev-table '())
 
@@ -413,13 +222,7 @@
 
 (define-abbrev-table 'texinfo-mode-abbrev-table '())
 
-(define-abbrev-table 'text-mode-abbrev-table
-  '(
-    ("Sincerly" "Sincerely" nil 0)
-    ("administator" "administrator" nil 0)
-    ("ambigious" "ambiguous" nil 0)
-    ("inflamatory" "inflammatory" nil 0)
-   ))
+(define-abbrev-table 'text-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-annotate-mode-abbrev-table '())
 

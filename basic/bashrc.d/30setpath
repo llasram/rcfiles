@@ -3,24 +3,6 @@
 # Definitions to cleanly set the various PATH variables.  Derived from
 # code by Alex Newman <dolemite@wuli.nu>
 
-# Figure out the java path
-for I in "/usr/java" "/usr/pkg/java"; do
-    [ -d "${I}/bin" ] && JL="${I}" && break ;
-done
-if [ -z "${JL}" ]; then
-    JL="$(for dir in /usr/share/java \
-                     /usr/lib/*Java* \
-                     /usr/java/j*re* \
-                     /usr/java/j*sdk* \
-                     /usr/pkg/java/j*re* \
-                     /usr/pkg/java/j*sdk*; \
-          do \
-              echo $dir; \
-          done | \
-          grep -v '[*]' | \
-          tail -n 1)" ;
-fi
-
 # Check for bizarro IRIX standard man paths
 for I in "/usr/share" "/usr"; do
     [ -d "${I}/catman" ] && MANPATH="${MANPATH}:${I}/catman" ;
@@ -51,7 +33,7 @@ done
 
 # Include detected paths
 for I in "/opt/"* "/opt/precompiled/"* "/usr/public" "/usr/local" \
-         "/usr/X"* "/usr/ccs" "/usr/atria" "${JL}" "/usr/openwin" \
+         "/usr/X"* "/usr/ccs" "/usr/atria" "/usr/openwin" \
          "/usr/dt" "/usr/pkg" "/usr/games" "/usr/pkg/gcc"* "/usr/NX" \
          "/usr/pkg/bsd" "/usr/share/"*"-data/$CONFIG_GUESS/"* \
          "/var/lib/gems/"*; do
@@ -93,18 +75,6 @@ if [ -d  /usr/local/ ]; then
 	[ -d /usr/local/maple/bin ]  && PATH="${PATH}:/usr/local/maple/bin" ;
 fi
 
-# Configure our Java class-path
-if [ "${JL}" ]; then
-    for JAR in "${HOME}"/java/*.jar "${HOME}"/java/*.zip \
-             "${JL}"/*.jar "${JL}"/jre/lib/*.jar "${JL}"/lib/*.jar; do
-      [ -e "${JAR}" ] && add_path CLASSPATH "${JAR}" ;
-    done ;
-fi
-add_path CLASSPATH "."
-
-# jikes might need a little extra help
-JIKESPATH=".:${JL}/jre/lib/rt.jar"
-
 # Configure the Python path
 if retval_which python; then
     pyversion="$(python -V 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)"
@@ -119,5 +89,5 @@ if retval_which python; then
     done
 fi
 
-export PATH LD_LIBRARY_PATH MANPATH INFOPATH INFODIR CLASSPATH \
-    JIKESPATH TOOLS TOOLS_NOARCH CONFIG_GUESS PYTHONPATH
+export PATH LD_LIBRARY_PATH MANPATH INFOPATH INFODIR TOOLS TOOLS_NOARCH \
+       CONFIG_GUESS PYTHONPATH

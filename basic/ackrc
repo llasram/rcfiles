@@ -1,2 +1,4 @@
 --color-match=blue
 --color-filename=magenta
+--type-set
+clojure=.clj

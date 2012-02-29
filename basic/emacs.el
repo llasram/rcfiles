@@ -70,7 +70,9 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(erc-fill-column 45)
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
+ '(erc-nick "llasram")
  '(erc-prompt ">")
+ '(erc-user-full-name "Marshall T. Vandegrift")
  '(eudc-protocol (quote ldap))
  '(eudc-server "atlmaiexcp01.iss.local")
  '(fast-lock-cache-directories (quote ("~/.emacs-flc")))
@@ -344,7 +346,8 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width semi-condensed :foundry "misc" :family "fixed"))))
+ '(default ((t (:stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width semi-condensed :foundry "misc" :family "fixed"))))
+ '(completions-common-part ((t (:inherit default))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Firebrick"))))
  '(highlight-beyond-fill-column-face ((t (:background "red"))))
  '(ido-first-match ((t (:foreground "blue"))))
