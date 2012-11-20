@@ -4,16 +4,12 @@
 require('gmail.js');
 require('google-search-results.js');
 require('google-reader.js')
-require('reddit.js')
 
 define_key(google_reader_keymap, "D", null, $fallthrough);
 define_key(google_reader_keymap, "g", null, $fallthrough);
 define_key(google_reader_keymap, "f", null, $fallthrough);
 define_key(google_reader_keymap, "F", null, $fallthrough);
 google_search_bind_number_shortcuts();
-
-define_key(reddit_keymap, "n", "reddit-next-link");
-define_key(reddit_keymap, "p", "reddit-prev-link");
 
 //
 // Variables
