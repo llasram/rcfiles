@@ -1,1 +1,6 @@
 /extra/
+/basic/emacs.d.new/auto-save-list
+/basic/emacs.d.new/swank
+/basic/emacs.d.new/elpa
+/basic/emacs.d.new/ac-comphist.dat
+/basic/emacs.d.new/url
