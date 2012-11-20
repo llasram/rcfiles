@@ -29,12 +29,6 @@ elif retval_which lynx; then
 fi
 export BROWSER
 
-# Configure the TERM
-if [ "x$TERM" =  "xlinux" ]; then
-    Control="$(for (( i = 0; i < 8; i++ )); do echo 'Control'; done)"
-    echo "keycode 58 = $(echo $Control)" | sudo loadkeys - >/dev/null 2>&1
-fi
-
 # Editors for goodness and light
 export SVN_EDITOR="$EDITOR"
 
