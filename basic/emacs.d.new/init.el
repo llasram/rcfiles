@@ -96,6 +96,7 @@
 (global-set-key "\C-t" nil)
 (global-set-key "\C-tt" 'transpose-chars)
 (global-set-key "\C-t\C-t" 'transpose-chars)
+(global-set-key (kbd "C-t u") 'ucs-insert)
 
 (global-unset-key "\M-%")
 (global-unset-key (kbd "C-M-%"))
@@ -110,6 +111,7 @@
 (global-set-key (kbd "C-x f") 'find-file)
 
 (global-set-key (kbd "C-c g") 'goto-line)
+(global-set-key (kbd "C-c w") 'woman)
 
 (defun my/describe-function ()
   (interactive)
