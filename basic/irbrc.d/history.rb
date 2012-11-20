@@ -22,7 +22,7 @@ unless defined? HISTFILE
       
       Kernel::at_exit do
         lines = Readline::HISTORY.to_a.reverse.uniq.reverse
-        lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.nitems > MAXHISTSIZE
+        lines = lines[-MAXHISTSIZE, MAXHISTSIZE] if lines.size > MAXHISTSIZE
         $stderr.puts "Saving %d history lines to %s." %
           [ lines.length, histfile ] if $VERBOSE || $DEBUG
         File::open(histfile, File::WRONLY|File::CREAT|File::TRUNC) do |ofh|

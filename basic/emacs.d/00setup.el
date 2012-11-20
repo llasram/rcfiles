@@ -12,6 +12,17 @@
 (add-to-list 'load-path "~/.emacs.d/elpa")
 (add-to-list 'load-path "~/.emacs.d/misc")
 
+;; Typeface
+;;(set-face-attribute 'default nil :font "Inconsolata:pixelsize=12")
+;;(set-face-attribute 'default nil :font "Inconsolata:pixelsize=18")
+;;(set-face-attribute 'default nil :font "Anonymous Pro:pixelsize=11")
+;;(set-face-attribute 'default nil :font "Anonymous Pro:pixelsize=12")
+;;(set-face-attribute 'default nil :font "Anonymous Pro:pixelsize=18")
+;;(set-face-attribute 'default nil :font "ProggySquareTTSZ:pixelsize=16")
+;;(set-face-attribute 'default nil :font "ProFontWindows:pixelsize=12")
+(set-face-attribute 'default nil :font "-Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1")
+
+
 ;; Packages!  Oh my!
 (require 'warnings)
 (require 'package)

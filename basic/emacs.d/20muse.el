@@ -78,7 +78,7 @@
           (copy-to-buffer example-buffer beg end)
           (with-current-buffer example-buffer
             (funcall mode)
-            (font-lock-fontify-buffer)
+            ;;(font-lock-fontify-buffer)
             (setq html-buffer (htmlize-buffer)))
           (with-current-buffer html-buffer
             (setq html-string
@@ -126,5 +126,11 @@
 (defun llasram/muse-extra-keys ()
   (define-key muse-mode-map [mouse-1] 'muse-follow-name-at-mouse)
   (define-key muse-mode-map [mouse-2] 'muse-follow-name-at-mouse-other-window))
+
+;; Time for minor modes!
+(add-hook 'muse-mode-hook 'llasram/muse-minor-modes)
+(defun llasram/muse-minor-modes ()
+  (unicode-smarty-mode 1)
+  (footnote-mode 1))
 
 ;; end 20muse.el

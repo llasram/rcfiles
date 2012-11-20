@@ -118,18 +118,6 @@
                (repeat . t)
                (modes  . '(ruby-mode))))
 
-;; Snippets
-(snippet-with-abbrev-table 'ruby-mode-abbrev-table
-  ("inject"  . "$>inject($${[]}) do |$${memo}, $${item}|\n$>$.\nend$>")
-  ("collect" . "$>collect do |$${item}|\n$>$.\nend$>")
-  ("each"    . "$>each do |$${item}|\n$>$.\nend$>")
-  ("def"     . "$>def $${method}($${*args})\n$>$.\nend$>")
-  ("dt"      . "$>def test_$${method}\n$>$.\nend$>")
-  ("iffo"    . "$>if __FILE__ == $0\n$>$.\nend$>")
-  ("iff0"    . "$>if __FILE__ == $0\n$>$.\nend$>")
-  ("hh"      . "# => \n$.$>")
-  ("ase"     . "$>assert_equal $${expected}, $${actual}"))
-
 ;; Some ruby-specific key-bindings
 (add-hook 'ruby-mode-hook 'llasram/ruby-extra-keys)
 (defun llasram/ruby-extra-keys ()

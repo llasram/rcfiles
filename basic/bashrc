@@ -13,3 +13,5 @@ fi
 # Attempt to bring in bash completion
 [ -f "/etc/bash_completion" ] \
 	&& source "/etc/bash_completion"
+
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

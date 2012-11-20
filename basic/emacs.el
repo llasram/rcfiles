@@ -15,6 +15,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(abbrev-mode t)
+ '(align-lisp-modes (quote (emacs-lisp-mode lisp-interaction-mode lisp-mode scheme-mode clojure-mode)))
  '(asm-comment-char 35)
  '(backup-directory-alist (quote (("." . "~/.backup"))))
  '(blink-cursor-mode nil)
@@ -27,6 +28,7 @@
  '(c-font-lock-extra-types (quote ("FILE" "bfd" "\\sw+_t" "Lisp_Object" "KG[^_]\\sw+" "[A-Z][a-z0-9]*\\(?:_[A-Z][a-z0-9]*\\)*" "\\(?:\\(?:[A-Z]\\|\\(?:[A-Z]+[a-z0-9]+I?\\)+\\)_\\)*\\(?:[A-Z][a-z0-9]*\\)+[a-z0-9]\\(?:[A-Z][a-z0-9]*\\)*\\(?:_\\(?:[euft_]\\|[0-9]+\\)\\)?")))
  '(canlock-password "912d8ae2b64e51f9bfc6d51834a5f74a08aae3d6")
  '(case-fold-search t)
+ '(clojure-swank-command "lein2 jack-in %s")
  '(column-number-mode t)
  '(compilation-error-screen-columns t)
  '(compilation-scroll-output nil)
@@ -346,7 +348,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width semi-condensed :foundry "misc" :family "fixed"))))
+ '(default ((t (:stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "unknown" :family "Anonymous Pro"))))
  '(completions-common-part ((t (:inherit default))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Firebrick"))))
  '(highlight-beyond-fill-column-face ((t (:background "red"))))

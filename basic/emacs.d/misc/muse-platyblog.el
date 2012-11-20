@@ -248,6 +248,12 @@ This may be text or a filename."
                      :before-end  'muse-platyblog-indent-content
                      :after       'muse-platyblog-publish-after))
 
+(unless (assoc "platyblog-jekyll" muse-publishing-styles)
+  (muse-derive-style "platyblog-jekyll" "xhtml"
+                     :link-suffix 'muse-xhtml-extension
+                     :header      ""
+                     :footer      ""))
+
 (provide 'muse-platyblog)
 
 ;;; muse-platyblog.el ends here

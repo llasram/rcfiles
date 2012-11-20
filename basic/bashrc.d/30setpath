@@ -49,17 +49,17 @@ for I in "/opt/"* "/opt/precompiled/"* "/usr/public" "/usr/local" \
   fi ;
 done
 
-# Possible library paths
-for I in "${HOME}" "$PE_YARCH" "$PE_YARCH/X11R6" "$TOOLS" \
-         "/opt/precompiled/"* "/opt/"*; do
-  if [ "${I}" ] && [ "${I}" != "/" ] && [ -d "${I}" ]; then
-      if [ -d "${I}/lib" ] && ls "${I}/lib/"*.so* >/dev/null 2>&1; then
-          ( [ -r /etc/ld.so.conf ] \
-                  && grep '^'"${I}"'/lib$' /etc/ld.so.conf >/dev/null 2>&1 ) \
-              || add_path LD_LIBRARY_PATH "${I}/lib"
-      fi
-  fi
-done
+# # Possible library paths
+# for I in "${HOME}" "$PE_YARCH" "$PE_YARCH/X11R6" "$TOOLS" \
+#          "/opt/precompiled/"* "/opt/"*; do
+#   if [ "${I}" ] && [ "${I}" != "/" ] && [ -d "${I}" ]; then
+#       if [ -d "${I}/lib" ] && ls "${I}/lib/"*.so* >/dev/null 2>&1; then
+#           ( [ -r /etc/ld.so.conf ] \
+#                   && grep '^'"${I}"'/lib$' /etc/ld.so.conf >/dev/null 2>&1 ) \
+#               || add_path LD_LIBRARY_PATH "${I}/lib"
+#       fi
+#   fi
+# done
 
 # Include non-standard OS-specific paths
 for I in "/usr/ucb" "/cygdrive/C/WINDOWS/system32"; do
@@ -75,19 +75,18 @@ if [ -d  /usr/local/ ]; then
 	[ -d /usr/local/maple/bin ]  && PATH="${PATH}:/usr/local/maple/bin" ;
 fi
 
-# Configure the Python path
-if retval_which python; then
-    pyversion="$(python -V 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)"
-    for dir in /opt/* "$PE_YARCH" "$PE_NARCH"; do
-        dir="$dir/lib"
-        for sub in "python" "python${pyversion}"; do
-            sub="$dir/$sub"
-            for pydir in "$sub" "$sub/site-packages"; do
-                [ -d "$pydir" ] && add_path PYTHONPATH "$pydir"
-            done
-        done
-    done
-fi
+# # Configure the Python path
+# if retval_which python; then
+#     pyversion="$(python -V 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)"
+#     for dir in /opt/* "$PE_YARCH" "$PE_NARCH"; do
+#         dir="$dir/lib"
+#         for sub in "python" "python${pyversion}"; do
+#             sub="$dir/$sub"
+#             for pydir in "$sub" "$sub/site-packages"; do
+#                 [ -d "$pydir" ] && add_path PYTHONPATH "$pydir"
+#             done
+#         done
+#     done
+# fi
 
-export PATH LD_LIBRARY_PATH MANPATH INFOPATH INFODIR TOOLS TOOLS_NOARCH \
-       CONFIG_GUESS PYTHONPATH
+export PATH MANPATH INFOPATH INFODIR TOOLS TOOLS_NOARCH CONFIG_GUESS

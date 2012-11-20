@@ -51,7 +51,7 @@
 (global-set-key "\C-t" nil)
 (global-set-key "\C-tt" 'transpose-chars)
 (global-set-key "\C-t\C-t" 'transpose-chars)
-(global-set-key "\C-tu" 'unicode-character-insert)
+(global-set-key "\C-tu" 'ucs-insert)
 (global-set-key "\C-te" 'unicode-character-shortcut-insert)
 (global-set-key "\C-tx" 'entity-to-char-buffer)
 (global-set-key "\C-tp" 'unicode-smarty-mode)

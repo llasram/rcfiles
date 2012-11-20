@@ -2,3 +2,5 @@
 --color-filename=magenta
 --type-set
 clojure=.clj
+--type-set
+puppet=.pp

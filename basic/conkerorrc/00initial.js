@@ -18,10 +18,11 @@ define_key(reddit_keymap, "p", "reddit-prev-link");
 //
 // Variables
 
-set_user_agent("Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.4)" +
-               " Gecko/20100614 Firefox/3.6.4");
+//set_user_agent("Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.4)" +
+//               " Gecko/20100614 Firefox/3.6.4");
 url_completion_use_history = true;
 session_pref('browser.history_expire_days', 7);
+session_pref('browser.history_expire_days_min', 5);
 url_remoting_fn = load_url_in_new_buffer;
 
 //
