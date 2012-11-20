@@ -1,0 +1,8 @@
+#! /bin/bash
+
+xmodmap ~/.Xmodmap
+xscreensaver -nosplash &
+gnome-settings-daemon &
+xrdb ~/.Xdefaults
+
+exec wmii
