@@ -10,7 +10,7 @@
 
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse nrepl paredit pos-tip))
+        markdown-mode muse nrepl paredit pos-tip gnus))
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -48,6 +48,19 @@
   (if (not (eq last-command 'yank))
       (browse-kill-ring)
     ad-do-it))
+
+;; gnus
+(require 'gnus)
+(require 'message)
+(require 'bbdb)
+
+(bbdb-initialize 'gnus 'message)
+(bbdb-insinuate-gnus)
+(bbdb-insinuate-message)
+
+(add-hook 'message-mode-hook 'llasram/message-mode-hook)
+(defun llasram/message-mode-hook ()
+  (setq fill-column 72))
 
 ;;
 ;; Local custom extensions

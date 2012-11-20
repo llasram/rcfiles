@@ -4,8 +4,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
+ '(browse-url-browser-function (quote browse-url-xdg-open))
  '(column-number-mode t)
+ '(erc-fill-column 45)
+ '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
  '(erc-prompt ">")
+ '(erc-spelling-mode t)
+ '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
  '(ido-everywhere t)
@@ -14,7 +19,11 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(kill-whole-line t)
+ '(mail-user-agent (quote gnus-user-agent))
  '(menu-bar-mode nil)
+ '(message-signature "Marshall Bockrath-Vandegrift <llasram@damballa.com>
+Damballa Staff Software Engineer | 518.859.4559m")
+ '(mouse-yank-at-point t)
  '(nrepl-popup-stacktraces nil)
  '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/"))))
  '(scroll-bar-mode nil)
@@ -24,6 +33,8 @@
  '(temp-buffer-resize-mode t)
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
+ '(user-full-name "Marshall Bockrath-Vandegrift")
+ '(user-mail-address "llasram@damballa.com")
  '(whitespace-action (quote (auto-cleanup)))
  '(whitespace-style (quote (face trailing lines-tail space-before-tab indentation space-after-tab tab-mark))))
 (custom-set-faces
