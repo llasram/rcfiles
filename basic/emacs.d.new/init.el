@@ -10,7 +10,7 @@
 
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse nrepl paredit pos-tip gnus))
+        markdown-mode muse nrepl paredit pos-tip puppet-mode gnus))
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -72,6 +72,15 @@
 (require 'tight-fit)
 (require 'llasram-c-style)
 (require 'muse-platyblog)
+(require 'llasram-clojure-indent)
+
+;; Mode mapping
+
+(add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Gemfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 ;;
 ;; General configuration
@@ -112,6 +121,7 @@
 
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c w") 'woman)
+(global-set-key (kbd "C-c m") 'gnus)
 
 (defun my/describe-function ()
   (interactive)
