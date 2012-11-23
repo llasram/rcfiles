@@ -14,7 +14,7 @@ clean and ready.  We will become part of each other.
 
 Before the Internet, I swear this creed.  My rcfiles and myself are
 the defenders of our software design priciples.  We are the masters of
-incidental complexity.  We are the saviors and off-site backus of my
+incidental complexity.  We are the saviors and off-site backups of my
 life.
 
 So be it, until victory is Singularity's and there is no software, but
