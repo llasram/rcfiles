@@ -5,7 +5,7 @@ XTerm*background: black
 UXTerm*background: white
 XTerm*foreground: white
 UXTerm*foreground: black
-XTerm*font: fixed
-UXTerm*font: fixed
+XTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
+UXTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
 XTerm*fontSize: 9
 UXTerm*fontSize: 9
