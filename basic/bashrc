@@ -1,17 +1,82 @@
 #! /bin/bash
 
-## All actual definitions are stored in ~/.bashrc.d
+# Pull in external definitions when available
+source_exists() {
+  [[ -f "$1" ]] && source "$1"
+}
+source_exists /etc/bash_completion
+source_exists /usr/share/autojump/autojump.sh
 
-# Source additional definitions
-if [ -d "$HOME/.bashrc.d" ] \
-        && [ "x$(echo "$HOME/.bashrc.d/"[0-9]*[^~])" != 'x' ]; then
-    for file in "$HOME/.bashrc.d/"[0-9]*[^~]; do
-        source $file
-    done
+# Convenient when navigating around files and directories
+ls_or_cmd() {
+    local cmd=$1; shift
+    if [[ -d "$1" ]]; then
+        ls "$@"
+    else
+        "$cmd" "$@"
+    fi
+}
+alias cat='ls_or_cmd cat'
+alias less='ls_or_cmd less'
+
+# Pager options etc
+export PAGER=less
+alias les='less'
+export LESS="-R -i -X"
+
+# Options for ls
+alias ls='ls --color=auto --ignore-backups -I "#*"'
+alias h='ls'
+alias hh='ls -l'
+
+# Options for grep
+alias grep='grep --color=auto'
+
+# Utility functions
+quiet() {
+    "$@" >/dev/null 2>&1
+}
+
+# Editor definition
+if quiet which emacsclient && quiet emacsclient -e '1'; then
+    export EDITOR='emacsclient'
+    alias vi='emacsclient -n'
+else
+    export EDITOR='nano -w'
+    alias vi='nano -w'
 fi
+alias nano='nano -w'
 
-# Attempt to bring in bash completion
-[ -f "/etc/bash_completion" ] \
-	&& source "/etc/bash_completion"
+# Randomness
+alias comitor="~/ws/comitor/comitor.rb > ~/tmp/comics.html \
+                 && conkeror ~/tmp/comics.html"
 
-#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# Prompt
+prompt_command() {
+    EXITSTATUS=$?
+
+    local exit_status
+    local git_status
+
+    [[ $EXITSTATUS = 0 ]] \
+        && exit_status="\033[32m$EXITSTATUS\033[0m" \
+        || exit_status="\033[31m$EXITSTATUS\033[0m"
+
+    if ! quiet git status --porcelain; then
+        git_status="        "
+    elif git status --porcelain | grep -Eq '^( M|\?\?)'; then
+        git_status="\033[31m"
+    elif git status --porcelain | grep -Eq '^M '; then
+        git_status="\033[32m"
+    else
+        git_status="\033[35m"
+    fi
+    git_status="${git_status}$(__git_ps1 2>/dev/null)\033[0m"
+
+    PS1="\n\033k\033\134@\\h\n\033[1A"
+    PS1="$PS1: $exit_status \033[34m\\w\033[0m$git_status\n"
+    PS1="$PS1\\$ "
+
+    export PS1
+}
+export PROMPT_COMMAND="$AUTOJUMP ; prompt_command"
