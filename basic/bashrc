@@ -72,7 +72,7 @@ prompt_command() {
         git_status="        "
     elif git status --porcelain | grep -Eq '^( M|\?\?)'; then
         git_status="\033[31m"
-    elif git status --porcelain | grep -Eq '^M '; then
+    elif git status --porcelain | grep -Eq '^(M |A )'; then
         git_status="\033[32m"
     else
         git_status="\033[35m"
