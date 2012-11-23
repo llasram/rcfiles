@@ -10,16 +10,16 @@ export WMII_NORMCOLORS='#4D4E4F #DDDDAA #FFFFCC'
 export WMII_FOCUSCOLORS='#FFFFFF #248047 #147027'
 
 set_client_width() {
-  pixels=$1
-  client=$(wmiir read /client/sel/ctl | head -n1)
-  column=$(wmiir read /tag/sel/index | fgrep $client | awk '{print$1}')
-  width=$(wmiir read /tag/sel/index | grep "^# $column " | awk '{print$4}')
-  diff=$(( $pixels - $width ))
-  wmiir xwrite /tag/sel/ctl "grow client $client right ${diff}px"
+    pixels=$1
+    client=$(wmiir read /client/sel/ctl | head -n1)
+    column=$(wmiir read /tag/sel/index | fgrep $client | awk '{print$1}')
+    width=$(wmiir read /tag/sel/index | grep "^# $column " | awk '{print$4}')
+    diff=$(( $pixels - $width ))
+    wmiir xwrite /tag/sel/ctl "grow client $client right ${diff}px"
 }
 
 local_events() {
-	cat <<'!'
+    cat <<'!'
 KeyGroup Misc
 Key $MODKEY-x
 	mpc pause; xscreensaver-command -lock
@@ -42,4 +42,11 @@ Key $MODKEY-q
 Key $MODKEY-j
         mpc next
 !
+}
+
+status() {
+    echo -n \
+        $(uptime | sed 's/.*://; s/,//g') \
+        '|' $(acpi -b 2>&1 | head -n1 | grep -Eo '[0-9]+%') \
+        '|' $(date)
 }

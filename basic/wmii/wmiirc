@@ -1,4 +1,5 @@
 #!/bin/dash -f
+# -*- mode: sh -*-
 # Configure wmii
 wmiiscript=wmiirc # For wmii.sh
 . wmii.sh
