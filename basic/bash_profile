@@ -18,3 +18,6 @@ if [ "x$SSH_AUTH_FORWARD" = "x" ]; then
         [ -f "$file" ] && source "$file"
     done
 fi
+
+# Ensure last comand run on login is success
+true
