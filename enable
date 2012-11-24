@@ -1,0 +1,11 @@
+#! /bin/bash -e
+
+rcfiles_root() {
+    dirname ${BASH_SOURCE[0]}
+}
+
+for file in $(rcfiles_root)/basic/*; do
+    name=$(basename "$file")
+    [[ -e ".$name" ]] && mv ".$name" ".$name.bak"
+    ln -s "$file" ".$name"
+done
