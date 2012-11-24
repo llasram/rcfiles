@@ -10,6 +10,7 @@
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
  '(erc-prompt ">")
  '(erc-spelling-mode t)
+ '(flyspell-issue-message-flag nil)
  '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))

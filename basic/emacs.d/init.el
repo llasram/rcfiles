@@ -73,6 +73,7 @@
 (require 'llasram-c-style)
 (require 'muse-platyblog)
 (require 'llasram-clojure-indent)
+(require 'flyspell-everywhere)
 
 ;; Mode mapping
 
