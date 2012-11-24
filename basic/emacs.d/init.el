@@ -43,6 +43,7 @@
 (ac-config-default)
 (ac-flyspell-workaround)
 
+;; Autopair
 (require 'autopair)
 (setq autopair-blink nil)
 (defun my/autopair-extra-newlines (action pair pos-before)
@@ -55,6 +56,7 @@
                 (looking-at (format "\n\\s *%c" last-input-event)))
            (replace-match "")))))
 
+;; browse-kill-ring
 (require 'browse-kill-ring)
 (defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
   "If last action was not a yank, run `browse-kill-ring' instead."
@@ -66,11 +68,9 @@
 (require 'gnus)
 (require 'message)
 (require 'bbdb)
-
 (bbdb-initialize 'gnus 'message)
 (bbdb-insinuate-gnus)
 (bbdb-insinuate-message)
-
 (add-hook 'message-mode-hook 'llasram/message-mode-hook)
 (defun llasram/message-mode-hook ()
   (setq fill-column 72))
