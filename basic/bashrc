@@ -118,7 +118,9 @@ prompt_command() {
     fi
     git_status="${git_status}$(__git_ps1 2>/dev/null)\033[0m"
 
-    PS1="\n\033k\033\134@\\h\n\033[1A"
+    PS1="\n"
+    [[ "x$TERM" = "xscreen" ]] \
+        && PS1="${PS1}\033k\033\134@\\h\n\033[1A"
     PS1="${PS1}∴ ${exit_status} \\h:\033[34m\\w\033[0m${git_status}\n"
     PS1="${PS1}\\$ "
 
