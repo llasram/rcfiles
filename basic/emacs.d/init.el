@@ -10,7 +10,8 @@
 
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse nrepl paredit pos-tip puppet-mode gnus))
+        markdown-mode muse nrepl paredit pos-tip puppet-mode gnus
+        typopunct))
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -25,6 +26,16 @@
 
 (require 'uniquify)
 
+;; Text editing
+(require 'flyspell)
+(require 'typopunct)
+(add-hook 'markdown-mode-hook 'my/text-editing-setup)
+(add-hook 'text-mode-hook 'my/text-editing-setup)
+(add-hook 'muse-mode-hook 'my/text-editing-setup)
+(defun my/text-editing-setup ()
+  (typopunct-mode 1))
+
+;; Autocomplete
 (require 'pos-tip)
 (require 'auto-complete-config)
 (ac-config-default)
@@ -82,6 +93,8 @@
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 
 ;;
 ;; General configuration

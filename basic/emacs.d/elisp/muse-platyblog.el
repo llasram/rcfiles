@@ -131,7 +131,7 @@
 ;; Time for minor modes!
 (add-hook 'muse-mode-hook 'llasram/muse-minor-modes)
 (defun llasram/muse-minor-modes ()
-  (unicode-smarty-mode 1)
+  (typopunct-mode 1)
   (footnote-mode 1))
 
 (unless (assoc "platyblog-jekyll" muse-publishing-styles)
