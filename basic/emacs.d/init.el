@@ -24,6 +24,8 @@
 ;;
 ;; Upstream extensions
 
+;; Misc
+(require 'saveplace)
 (require 'uniquify)
 
 ;; Text editing
