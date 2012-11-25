@@ -96,33 +96,66 @@ export LC_COLLATE=C
 alias comitor="~/ws/comitor/comitor.rb > ~/tmp/comics.html \
                  && conkeror ~/tmp/comics.html"
 
+
 # Prompt
+__my_git_ps1() {
+    __git_ps1 2>/dev/null | sed -r -e 's, *\((.*)\),\1,'
+}
+
+__git_status() {
+    local status
+    if quiet git status --porcelain; then
+        status=" git:"
+        if git status --porcelain | grep -Eq '^( M|\?\?)'; then
+            status="${status}\033[31m"
+        elif git status --porcelain | grep -Eq '^(M |A )'; then
+            status="${status}\033[32m"
+        else
+            status="${status}\033[35m"
+        fi
+        status="${status}$(__my_git_ps1)\033[0m"
+    fi
+    echo "$status"
+}
+
+__ruby_status() {
+    local status
+    if [[ "x$GEM_HOME" != "x" ]]; then
+        status=$(basename "$GEM_HOME")
+        if [[ "$status" == .* ]]; then
+            status=$(basename "$(dirname "$GEM_HOME")")
+        fi
+        status=" rb:\033[36m${status}\033[0m"
+    fi
+    echo "$status"
+}
+
+__python_status() {
+    local status
+    if [[ "x$VIRTUAL_ENV" != "x" ]]; then
+        status=$(basename "$VIRTUAL_ENV")
+        if [[ "$status" == .* ]]; then
+            status=$(basename "$(dirname "$VIRTUAL_ENV")")
+        fi
+        status=" py:\033[36m${status}\033[0m"
+    fi
+    echo "$status"
+}
+
 prompt_command() {
     EXITSTATUS=$?
 
     local exit_status
-    local git_status
-
     [[ $EXITSTATUS = 0 ]] \
         && exit_status="\033[32m$EXITSTATUS\033[0m" \
         || exit_status="\033[31m$EXITSTATUS\033[0m"
 
-    if ! quiet git status --porcelain; then
-        git_status="        "
-    elif git status --porcelain | grep -Eq '^( M|\?\?)'; then
-        git_status="\033[31m"
-    elif git status --porcelain | grep -Eq '^(M |A )'; then
-        git_status="\033[32m"
-    else
-        git_status="\033[35m"
-    fi
-    git_status="${git_status}$(__git_ps1 2>/dev/null)\033[0m"
-
     PS1="\n"
     [[ "x$TERM" = "xscreen" ]] \
         && PS1="${PS1}\033k\033\134@\\h\n\033[1A"
-    PS1="${PS1}∴ ${exit_status} \\h:\033[34m\\w\033[0m${git_status}\n"
-    PS1="${PS1}\\$ "
+    PS1="${PS1}∴ ${exit_status} \\h:\033[34m\\w\033[0m"
+    PS1="${PS1}$(__git_status)$(__ruby_status)$(__python_status)"
+    PS1="${PS1}\n\\$ "
 
     export PS1
 }
