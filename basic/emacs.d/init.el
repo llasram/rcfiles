@@ -88,6 +88,12 @@
 (require 'llasram-clojure-indent)
 (require 'flyspell-everywhere)
 
+;; Diminish after everything else is loaded
+(require 'paredit)
+(require 'eldoc)
+(require 'whitespace)
+(require 'diminish)
+
 ;; Mode mapping
 
 (add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Rakefile$" . ruby-mode))
