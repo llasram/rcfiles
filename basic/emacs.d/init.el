@@ -92,6 +92,7 @@
 (require 'paredit)
 (require 'eldoc)
 (require 'whitespace)
+(require 'hideshow)
 (require 'diminish)
 
 ;; Mode mapping
