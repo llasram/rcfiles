@@ -79,12 +79,14 @@ quiet() {
     "$@" >/dev/null 2>&1
 }
 
-nhl() {
-    nohup "$@" >"${1}.log" 2>&1 </dev/null &
-}
-
 nhq() {
-    nohup "$@" >/dev/null 2>&1 </dev/null &
+    eval "nohup $@ >/dev/null 2>&1 </dev/null &"
+}
+nhl() {
+    eval "nohup $@ >${1}.log 2>&1 </dev/null &"
+}
+nha() {
+    eval "nohup $@ >>${1}.log 2>&1 </dev/null &"
 }
 
 # Editor definition
