@@ -3,14 +3,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(abbrev-mode t)
+ '(abbrev-mode t t)
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
  '(browse-url-browser-function (quote browse-url-xdg-open))
  '(column-number-mode t)
  '(diminished-minor-modes (quote ((paredit-mode . "") (eldoc-mode . "") (whitespace-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (hs-minor-mode . "") (abbrev-mode . ""))))
+ '(erc-auto-query (quote bury))
  '(erc-fill-column 45)
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
  '(erc-prompt ">")
+ '(erc-query-display (quote buffer))
  '(erc-spelling-mode t)
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
