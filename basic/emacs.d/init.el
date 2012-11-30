@@ -10,7 +10,7 @@
 
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse nrepl paredit pos-tip puppet-mode gnus
+        markdown-mode muse nrepl nrepl-ritz paredit pos-tip puppet-mode gnus
         typopunct))
 
 (put 'downcase-region 'disabled nil)
