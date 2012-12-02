@@ -61,6 +61,10 @@
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
 
+(define-abbrev-table 'erc-list-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'erc-mode-abbrev-table '())
+
 (define-abbrev-table 'fancy-diary-display-mode-abbrev-table '())
 
 (define-abbrev-table 'forth-block-mode-abbrev-table '())
@@ -190,6 +194,8 @@
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
 
+(define-abbrev-table 'puppet-mode-abbrev-table '())
+
 (define-abbrev-table 'pyrex-mode-abbrev-table '())
 
 (define-abbrev-table 'python-mode-abbrev-table '())
@@ -239,6 +245,8 @@
 (define-abbrev-table 'svn-log-view-mode-abbrev-table '())
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
+
+(define-abbrev-table 'tar-mode-abbrev-table '())
 
 (define-abbrev-table 'tex-mode-abbrev-table '())
 

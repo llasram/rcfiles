@@ -224,3 +224,17 @@
 (add-hook 'java-mode-hook 'my/java-mode-style)
 (defun my/java-mode-style ()
   (c-set-style "llasram/java"))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     (require 'ruby-electric)
+     (define-key ruby-mode-map "\C-m" 'ruby-electric-return)))
+(defun my/ruby-electric-on () (ruby-electric-mode 1))
+(add-hook 'ruby-mode-hook 'my/ruby-electric-on)
+(add-hook 'ruby-mode-hook 'my/whitespace-mode-on)
+(add-hook 'ruby-mode-hook 'autopair-on)
+(defadvice ruby-electric-bar
+  (around my/ruby-electric-rebar activate)
+  (if (looking-at (string last-command-event))
+      (forward-char 1)
+    ad-do-it))
