@@ -238,3 +238,7 @@
   (if (looking-at (string last-command-event))
       (forward-char 1)
     ad-do-it))
+
+(eval-after-load 'python
+  '(progn
+     (define-key python-mode-map "\C-m" 'newline-and-indent)))
