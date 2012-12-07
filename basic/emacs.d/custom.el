@@ -6,6 +6,7 @@
  '(abbrev-mode t t)
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
  '(browse-url-browser-function (quote browse-url-xdg-open))
+ '(canlock-password "30a32630624cdac50341667c89e7e01a9713a094")
  '(column-number-mode t)
  '(diminished-minor-modes (quote ((paredit-mode . "") (eldoc-mode . "") (whitespace-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (hs-minor-mode . "") (abbrev-mode . ""))))
  '(erc-auto-query (quote bury))
