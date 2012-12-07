@@ -11,7 +11,7 @@ add_path() {
 add_path "/sbin"
 add_path "/usr/sbin"
 add_path "/usr/local/sbin"
-for path in /opt/*/bin /opt/*/*/bin; do
+for path in ~/.gem/*/*/bin /opt/*/bin /opt/*/*/bin; do
     [ -d "$path" ] && add_path "$path"
 done
 add_path "$HOME/bin"
