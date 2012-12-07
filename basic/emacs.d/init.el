@@ -147,6 +147,15 @@
 (global-set-key (kbd "C-c w") 'woman)
 (global-set-key (kbd "C-c m") 'gnus)
 
+;; Extra xterm bindings
+(require 'xterm)
+(define-key xterm-function-map "\e[1;9A" [M-up])
+(define-key xterm-function-map "\e[1;9B" [M-down])
+(define-key xterm-function-map "\e[1;9C" [M-right])
+(define-key xterm-function-map "\e[1;9D" [M-left])
+(define-key xterm-function-map "\e[1;9F" [M-end])
+(define-key xterm-function-map "\e[1;9H" [M-home])
+
 (defun my/describe-function ()
   (interactive)
   (let ((fn (function-called-at-point)))
