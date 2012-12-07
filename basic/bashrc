@@ -89,6 +89,12 @@ nha() {
     eval "nohup $@ >>${1}.log 2>&1 </dev/null &"
 }
 
+hc () {
+    [[ $# == 0 ]] \
+        && unset HADOOP_CONF_DIR \
+        || export HADOOP_CONF_DIR=/etc/hadoop/conf.$1
+}
+
 # Editor definition
 if quiet which emacsclient && quiet emacsclient -e '1'; then
     export EDITOR='emacsclient'
@@ -155,6 +161,15 @@ __python_status() {
     echo "$status"
 }
 
+__hadoop_status() {
+    local status
+    if [[ "x$HADOOP_CONF_DIR" != "x" ]]; then
+        status=$(basename "$HADOOP_CONF_DIR")
+        status=" hadoop:\033[36m${status:5}\033[0m"
+    fi
+    echo "$status"
+}
+
 prompt_command() {
     EXITSTATUS=$?
 
@@ -167,7 +182,10 @@ prompt_command() {
     [[ "x$TERM" = "xscreen" ]] \
         && PS1="${PS1}\033k\033\134@\\h\n\033[1A"
     PS1="${PS1}∴ ${exit_status} \\h:\033[34m\\w\033[0m"
-    PS1="${PS1}$(__git_status)$(__ruby_status)$(__python_status)"
+    PS1="${PS1}$(__git_status)"
+    PS1="${PS1}$(__ruby_status)"
+    PS1="${PS1}$(__python_status)"
+    PS1="${PS1}$(__hadoop_status)"
     PS1="${PS1}\n\\$ "
 
     export PS1
