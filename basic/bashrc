@@ -95,6 +95,13 @@ hc() {
         || export HADOOP_CONF_DIR=/etc/hadoop/conf.$1
 }
 
+dirty-files() {
+    (
+        git ls-files -o -X .gitignore
+        git ls-files -o --directory
+    ) | sort | uniq -u
+}
+
 # Editor definition
 if quiet which emacsclient && quiet emacsclient -e '1'; then
     export EDITOR='emacsclient'
