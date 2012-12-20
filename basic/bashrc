@@ -89,7 +89,7 @@ nha() {
     eval "nohup $@ >>${1}.log 2>&1 </dev/null &"
 }
 
-hc () {
+hc() {
     [[ $# == 0 ]] \
         && unset HADOOP_CONF_DIR \
         || export HADOOP_CONF_DIR=/etc/hadoop/conf.$1
