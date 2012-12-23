@@ -86,7 +86,8 @@
 (define-abbrev-table 'global-abbrev-table
   '(
     ("beleive" "believe" nil 1)
-    ("recieve" "receive" nil 3)
+    ("recieve" "receive" nil 2)
+    ("recieved" "received" nil 1)
    ))
 
 (define-abbrev-table 'gnus-article-edit-mode-abbrev-table '())
@@ -150,6 +151,8 @@
 (define-abbrev-table 'multi-mode-abbrev-table '())
 
 (define-abbrev-table 'muse-mode-abbrev-table '())
+
+(define-abbrev-table 'nrepl-dbg-mode-abbrev-table '())
 
 (define-abbrev-table 'nroff-mode-abbrev-table '())
 
