@@ -1,5 +1,8 @@
-*.o
 *~
+*.asc
+*.o
+*.a
+*.so
 *.pyc
 *.pyo
 *.class
