@@ -141,6 +141,8 @@ define_webjump("areader", "javascript:var%20b=document.body;var%20GR________book
 
 define_webjump("aboxee", "javascript:var%20b=document.body;if(b&&!document.xmlVersion){void(z=document.createElement('script'));void(z.src='http://www.boxee.tv/queue/watchlaterloader?'+(new%20Date()).getTime().toString());void(b.appendChild(z));}else{}");
 
+define_webjump("aevernote", "javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();");
+
 alias_webjump('g', 'google');
 alias_webjump('gl', 'lucky');
 alias_webjump('d', 'delicious');
