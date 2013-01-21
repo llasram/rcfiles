@@ -1,4 +1,5 @@
 *~
+*.log
 *.asc
 *.o
 *.a
@@ -7,3 +8,5 @@
 *.pyo
 *.class
 *.jar
+/.redenv/
+/.oryx/
