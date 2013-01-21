@@ -30,6 +30,7 @@
 
 ;; Text editing
 (require 'flyspell)
+(define-key flyspell-mode-map (kbd "M-TAB") nil)
 (require 'typopunct)
 (add-hook 'markdown-mode-hook 'my/text-editing-setup)
 (add-hook 'text-mode-hook 'my/text-editing-setup)
@@ -106,11 +107,13 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 
 ;;
 ;; General configuration
 
 (global-set-key "\C-ch" help-map)
+(global-set-key (kbd "C-x C-n") nil)
 
 (global-set-key [backspace] 'generic-hungry-backspace)
 (global-set-key "\C-h" 'generic-hungry-backspace)
@@ -254,3 +257,23 @@
 (eval-after-load 'python
   '(progn
      (define-key python-mode-map "\C-m" 'newline-and-indent)))
+
+(autoload 'ess-mode "ess" "" t nil)
+(autoload 'R "ess" "" t nil)
+(eval-after-load "ess"
+  '(progn
+     (require 'ess-inf)
+     (require 'ess-mode)
+     (require 'llasram-ess)))
+(eval-after-load 'llasram-ess
+  '(progn
+     (define-key inferior-ess-mode-map (kbd "C-c M-o") 'ess-truncate-buffer)
+     (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
+     (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
+     (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)))
+(add-hook 'ess-mode-hook 'my/whitespace-mode-on)
+(add-hook 'ess-mode-hook 'autopair-on)
+
+(defadvice ess-load-file
+  (around my/ess-load-file-no-switch activate)
+  (save-excursion ad-do-it))
