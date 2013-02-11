@@ -226,6 +226,7 @@
 (add-hook 'emacs-lisp-mode-hook 'my/whitespace-mode-on)
 (add-hook 'clojure-mode-hook 'my/whitespace-mode-on)
 (add-hook 'c-mode-common-hook 'my/whitespace-mode-on)
+(add-hook 'puppet-mode-hook 'my/whitespace-mode-on)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
