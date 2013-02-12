@@ -174,6 +174,7 @@
 
 (eval-after-load 'paredit
   '(progn
+     (define-key paredit-mode-map "\C-m" 'paredit-newline)
      (define-key paredit-mode-map "\C-h" 'paredit-backward-delete)
      (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)))
 
