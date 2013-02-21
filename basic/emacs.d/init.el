@@ -151,6 +151,8 @@
 (global-set-key (kbd "C-c w") 'woman)
 (global-set-key (kbd "C-c m") 'gnus)
 
+(global-set-key (kbd "C-c f") 'font-lock-fontify-buffer)
+
 ;; Extra xterm bindings
 (eval-after-load "xterm"
   '(progn
@@ -160,6 +162,10 @@
      (define-key xterm-function-map "\e[1;9D" [M-left])
      (define-key xterm-function-map "\e[1;9F" [M-end])
      (define-key xterm-function-map "\e[1;9H" [M-home])))
+
+(eval-after-load 'clojure-mode
+  '(progn
+     (define-key clojure-mode-map "\C-m" 'paredit-newline)))
 
 (defun my/describe-function ()
   (interactive)
@@ -174,7 +180,6 @@
 
 (eval-after-load 'paredit
   '(progn
-     (define-key paredit-mode-map "\C-m" 'paredit-newline)
      (define-key paredit-mode-map "\C-h" 'paredit-backward-delete)
      (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)))
 
@@ -228,6 +233,7 @@
 (add-hook 'clojure-mode-hook 'my/whitespace-mode-on)
 (add-hook 'c-mode-common-hook 'my/whitespace-mode-on)
 (add-hook 'puppet-mode-hook 'my/whitespace-mode-on)
+(add-hook 'org-mode-hook 'my/whitespace-mode-on)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
@@ -270,6 +276,7 @@
 (eval-after-load 'llasram-ess
   '(progn
      (define-key inferior-ess-mode-map (kbd "C-c M-o") 'ess-truncate-buffer)
+     (define-key inferior-ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
      (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)))
@@ -279,3 +286,11 @@
 (defadvice ess-load-file
   (around my/ess-load-file-no-switch activate)
   (save-excursion ad-do-it))
+
+(eval-after-load 'org
+  '(progn
+     (define-key org-mode-map (kbd "M-h") 'backward-kill-word)
+     (define-key org-mode-map (kbd "RET") 'org-return-indent)))
+(eval-after-load 'ob-clojure
+  '(progn
+     (require 'llasram-clojure-ob)))

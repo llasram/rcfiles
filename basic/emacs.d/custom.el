@@ -34,6 +34,46 @@
 Damballa Staff Software Engineer | 518.859.4559m")
  '(mouse-yank-at-point t)
  '(nrepl-popup-stacktraces nil)
+ '(org-babel-load-languages (quote ((R . t) (emacs-lisp . t) (clojure . t) (sh . t))))
+ '(org-confirm-babel-evaluate nil)
+ '(org-export-babel-evaluate nil)
+ '(org-structure-template-alist (quote (("s" "#+begin_src ?
+
+#+end_src" "<src lang=\"?\">
+
+</src>") ("e" "#+begin_example
+?
+#+end_example" "<example>
+?
+</example>") ("q" "#+begin_quote
+?
+#+end_quote" "<quote>
+?
+</quote>") ("v" "#+begin_verse
+?
+#+end_verse" "<verse>
+?
+</verse>") ("v" "#+begin_verbatim
+?
+#+end_verbatim" "<verbatim>
+?
+</verbatim>") ("c" "#+begin_center
+?
+#+end_center" "<center>
+?
+</center>") ("l" "#+begin_latex
+?
+#+end_latex" "<literal style=\"latex\">
+?
+</literal>") ("l" "#+latex: " "<literal style=\"latex\">?</literal>") ("h" "#+begin_html
+?
+#+end_html" "<literal style=\"html\">
+?
+</literal>") ("h" "#+html: " "<literal style=\"html\">?</literal>") ("a" "#+begin_ascii
+?
+#+end_ascii") ("a" "#+ascii: ") ("i" "#+index: ?" "#+index: ?") ("i" "#+include: %file ?" "<include file=%file markup=\"?\">"))))
+ '(package-archive-enable-alist nil)
+ '(package-archive-exclude-alist nil)
  '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/"))))
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values (quote ((encoding . utf-8))))
