@@ -34,6 +34,7 @@
 Damballa Staff Software Engineer | 518.859.4559m")
  '(mouse-yank-at-point t)
  '(nrepl-popup-stacktraces nil)
+ '(nrepl-server-command "lein trampoline repl :headless")
  '(org-babel-load-languages (quote ((R . t) (emacs-lisp . t) (clojure . t) (sh . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
