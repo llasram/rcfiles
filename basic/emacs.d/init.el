@@ -190,6 +190,9 @@
 (add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
 (add-hook 'nrepl-mode-hook 'my/paredit-mode-on)
 
+;; For... lesser modes
+(add-hook 'puppet-mode-hook 'autopair-on)
+
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
 (defun my/ido-extra-keys ()
   "Add personal keybindings for ido."
