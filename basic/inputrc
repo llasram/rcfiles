@@ -3,3 +3,7 @@ set input-meta on
 set output-meta on
 set completion-ignore-case on
 "\M-h": backward-kill-word
+$if Bash
+  Space: magic-space
+$endif
+"\M-s": menu-complete
