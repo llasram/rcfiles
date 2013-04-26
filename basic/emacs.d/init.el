@@ -108,6 +108,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
+(add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 
 ;;
 ;; General configuration
@@ -297,3 +298,9 @@
 (eval-after-load 'ob-clojure
   '(progn
      (require 'llasram-clojure-ob)))
+
+(eval-after-load 'octave-mod
+  '(progn
+     (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
+(add-hook 'octave-mode-hook 'my/whitespace-mode-on)
+(add-hook 'octave-mode-hook 'autopair-on)
