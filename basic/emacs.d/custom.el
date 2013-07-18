@@ -4,11 +4,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(abbrev-mode t t)
+ '(ac-ignore-case nil)
+ '(ac-use-fuzzy nil)
+ '(ac-use-menu-map t)
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
  '(browse-url-browser-function (quote browse-url-xdg-open))
  '(canlock-password "30a32630624cdac50341667c89e7e01a9713a094")
  '(column-number-mode t)
- '(diminished-minor-modes (quote ((paredit-mode . "") (eldoc-mode . "") (whitespace-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (hs-minor-mode . "") (abbrev-mode . ""))))
+ '(diminished-minor-modes (quote ((hs-minor-mode . "") (whitespace-mode . "") (eldoc-mode . "") (paredit-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (abbrev-mode . "") (yas-minor-mode . ""))))
  '(erc-auto-query (quote bury))
  '(erc-fill-column 45)
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
@@ -28,6 +31,7 @@
  '(inhibit-startup-screen t)
  '(kill-whole-line t)
  '(mail-user-agent (quote gnus-user-agent))
+ '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
  '(message-send-mail-function (quote message-smtpmail-send-it))
  '(message-signature "Marshall Bockrath-Vandegrift <llasram@damballa.com>
@@ -93,7 +97,8 @@ Damballa Staff Software Engineer | 518.859.4559m")
  '(user-full-name "Marshall Bockrath-Vandegrift")
  '(user-mail-address "llasram@damballa.com")
  '(whitespace-action (quote (auto-cleanup)))
- '(whitespace-style (quote (face trailing lines-tail space-before-tab indentation space-after-tab tab-mark))))
+ '(whitespace-style (quote (face trailing lines-tail space-before-tab indentation space-after-tab tab-mark)))
+ '(x-gtk-use-system-tooltips nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

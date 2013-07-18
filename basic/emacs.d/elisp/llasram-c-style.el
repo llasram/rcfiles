@@ -14,6 +14,46 @@
         0))))
 
 (c-add-style
+ "java"
+ '((c-basic-offset . 4)
+   (c-comment-only-line-offset . (0 . 0))
+   ;; the following preserves Javadoc starter lines
+   (c-offsets-alist . ((inline-open . 0)
+                       (topmost-intro-cont    . +)
+                       (statement-block-intro . +)
+                       (knr-argdecl-intro     . 5)
+                       (substatement-open     . +)
+                       (substatement-label    . +)
+                       (label                 . +)
+                       (statement-case-open   . +)
+                       (statement-cont        . +)
+                       (arglist-intro  . c-lineup-arglist-intro-after-paren)
+                       (arglist-close  . c-lineup-arglist)
+                       (access-label   . 0)
+                       (inher-cont     . c-lineup-java-inher)
+                       (func-decl-cont . c-lineup-java-throws)
+                       (statement-block-intro . +)
+                       (defun-block-intro . +)))
+   (c-hanging-braces-alist . ((defun-open after)
+                              (defun-close before after)
+                              (class-open after)
+                              (class-close before after)
+                              (namespace-open after)
+                              (inline-open after)
+                              (inline-close before after)
+                              (block-open after)
+                              (block-close . c-snug-do-while)
+                              (extern-lang-open after)
+                              (extern-lang-close after)
+                              (statement-case-open after)
+                              (substatement-open after)))))
+
+(c-add-style
+ "java/apache"
+ '("java"
+   (c-basic-offset . 2)))
+
+(c-add-style
  "llasram/java"
  '((c-basic-offset . 4)
    (fill-column . 80)

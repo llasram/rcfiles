@@ -11,7 +11,7 @@
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
         markdown-mode muse nrepl nrepl-ritz paredit pos-tip puppet-mode gnus
-        typopunct))
+        typopunct yasnippet))
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -25,6 +25,7 @@
 ;; Upstream extensions
 
 ;; Misc
+(require 'assoc)
 (require 'saveplace)
 (require 'uniquify)
 
@@ -43,6 +44,10 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (ac-flyspell-workaround)
+(define-key ac-completing-map "\t" 'ac-complete)
+(define-key ac-completing-map [tab] 'ac-complete)
+(define-key ac-completing-map "\r" 'ac-complete)
+(define-key ac-completing-map [return] 'ac-complete)
 
 ;; Autopair
 (require 'autopair)
@@ -90,6 +95,7 @@
 (require 'flyspell-everywhere)
 
 ;; Diminish after everything else is loaded
+(require 'yasnippet)
 (require 'paredit)
 (require 'eldoc)
 (require 'whitespace)
@@ -248,10 +254,6 @@
               #'my/autopair-extra-newlines))
   (autopair-on))
 
-(add-hook 'java-mode-hook 'my/java-mode-style)
-(defun my/java-mode-style ()
-  (c-set-style "llasram/java"))
-
 (eval-after-load 'ruby-mode
   '(progn
      (require 'ruby-electric)
@@ -304,3 +306,11 @@
      (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'octave-mode-hook 'my/whitespace-mode-on)
 (add-hook 'octave-mode-hook 'autopair-on)
+
+;; Setup emacs-eclim (mostly) just for Java
+(require 'eclim)
+(require 'eclimd)
+(global-eclim-mode)
+(require 'ac-emacs-eclim-source)
+(add-hook 'java-mode-hook 'ac-emacs-eclim-java-setup)
+(add-hook 'java-mode-hook 'yas-minor-mode)
