@@ -11,3 +11,5 @@
 	default = current
 [pull]
 	rebase = true
+[diff]
+        algorithm = patience
