@@ -40,6 +40,8 @@
     (PUT 1)
     (DELETE 1)
     (while-let 1)
-    (task-reducer 0)))
+    (task-reducer 0)
+    (conf/assoc! 1)
+    (assoc! 1)))
 
 (provide 'llasram-clojure-indent)
