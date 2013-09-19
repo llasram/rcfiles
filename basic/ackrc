@@ -1,6 +1,16 @@
 --color-match=blue
 --color-filename=magenta
+--ignore-dir
+.virtualenv
+--ignore-dir
+.oryx
+--ignore-dir
+.redenv
+--ignore-dir
+build
 --type-set
 clojure=.clj
 --type-set
 puppet=.pp
+--type-set
+csv=.csv
