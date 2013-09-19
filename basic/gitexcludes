@@ -10,3 +10,4 @@
 *.jar
 /.redenv/
 /.oryx/
+nohup.out
