@@ -218,6 +218,8 @@
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
 (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
+(add-hook 'nrepl-file-loaded-hook 'ac-nrepl-setup)
+
 (defadvice nrepl-emit-into-color-buffer
   (after my/nrepl-fit-stacktrace (buffer value) activate)
   (tight-fit-window-to-buffer (get-buffer-window buffer)))
