@@ -50,6 +50,10 @@ add_hook('caret_mode_disable_hook', caret_clear_mark_selection);
 //
 // Key bindings
 
+modifiers.M = new modifier(
+    function (event) { return event.metaKey; },
+    function (event) { event.metaKey = true; });
+
 undefine_key(content_buffer_normal_keymap, "C-h");
 undefine_key(default_global_keymap, "C-h");
 undefine_key(sequence_help_keymap, "C-h");
@@ -62,6 +66,11 @@ define_key(default_global_keymap, "C-t C-c", "caret-mode");
 define_key(content_buffer_text_keymap, "C-t C-c", "caret-mode");
 define_key(caret_keymap, "M-w", "llasram/caret-copy");
 define_key(caret_keymap, "C-g", "caret-mode");
+
+define_key(default_global_keymap, "M-<", "cmd_scrollTop");
+define_key(content_buffer_normal_keymap, "M-<", "cmd_scrollTop");
+define_key(default_global_keymap, "home", "cmd_scrollTop");
+define_key(content_buffer_normal_keymap, "home", "cmd_scrollTop");
 
 define_key(text_keymap, "C-h", "cmd_deleteCharBackward");
 define_key(text_keymap, "M-h", "cmd_deleteWordBackward");
