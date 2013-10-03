@@ -11,3 +11,4 @@
 /.redenv/
 /.oryx/
 nohup.out
+.nrepl-port
