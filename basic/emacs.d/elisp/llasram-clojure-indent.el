@@ -39,6 +39,8 @@
     (POST 1)
     (PUT 1)
     (DELETE 1)
+    (context 1)
+    (routing 1)
     (while-let 1)
     (task-reducer 0)
     (conf/assoc! 1)
