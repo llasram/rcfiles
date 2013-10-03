@@ -123,13 +123,12 @@ function alias_webjump(alias, name) {
   var orig = webjumps[name];
   var wj = {};
   for (var key in orig) {
+    if (!orig.hasOwnProperty(key)) continue;
     wj[key] = orig[key];
   }
   wj.key = alias;
   webjumps[alias] = wj;
 }
-
-add_delicious_webjumps("llasram");
 
 define_webjump("amazon", "http://www.amazon.com/exec/obidos/external-search/?field-keywords=%s&mode=blended");
 define_webjump("mw", "http://www.merriam-webster.com/dictionary/%s");
