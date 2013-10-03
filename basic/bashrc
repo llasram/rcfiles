@@ -76,7 +76,7 @@ alias hh='ls -l'
 
 # Options for greppings
 alias grep='grep --color=auto'
-alias ag='ag --color-match=34 --color-path=35'
+alias ag="ag --color-match=34 --color-path=35 --pager=$PAGER"
 
 # Utility functions
 quiet() {
