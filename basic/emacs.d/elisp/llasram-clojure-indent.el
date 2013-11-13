@@ -33,6 +33,7 @@
     (lc/create-default 1)
     (recuring 1)
     (compile-if 1)
+    (compile-when 1)
     (table-descriptor 1)
     (column-descriptor 1)
     (GET 1)
@@ -44,6 +45,7 @@
     (while-let 1)
     (task-reducer 0)
     (conf/assoc! 1)
-    (assoc! 1)))
+    (assoc! 1)
+    (if-not-let 1)))
 
 (provide 'llasram-clojure-indent)

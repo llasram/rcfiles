@@ -115,6 +115,7 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
+(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 
 ;;
 ;; General configuration
