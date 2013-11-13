@@ -100,6 +100,18 @@
 (require 'eldoc)
 (require 'whitespace)
 (require 'hideshow)
+
+(setq diminished-minor-modes
+      '((hs-minor-mode . "")
+        (abbrev-mode . "")
+        (eldoc-mode . "")
+        (paredit-mode . "")
+        (autopair-mode . "")
+        (auto-complete-mode . "")
+        (typopunct-mode . "")
+        (flyspell-mode . "")
+        (yas-minor-mode . "")
+        (whitespace-mode . "")))
 (require 'diminish)
 
 ;; Mode mapping

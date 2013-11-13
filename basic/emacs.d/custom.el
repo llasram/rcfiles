@@ -14,7 +14,6 @@
  '(cider-repl-pop-to-buffer-on-connect nil)
  '(cider-server-command "lein trampoline repl :headless")
  '(column-number-mode t)
- '(diminished-minor-modes (quote ((hs-minor-mode . "") (whitespace-mode . "") (eldoc-mode . "") (paredit-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (abbrev-mode . "") (yas-minor-mode . ""))))
  '(erc-auto-query (quote bury))
  '(erc-fill-column 45)
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
