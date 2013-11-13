@@ -171,6 +171,15 @@
      (define-key xterm-function-map "\e[1;9F" [M-end])
      (define-key xterm-function-map "\e[1;9H" [M-home])))
 
+(defun my/coding-on ()
+  (font-lock-mode 1)
+  (whitespace-mode 1))
+(add-hook 'emacs-lisp-mode-hook 'my/coding-on)
+(add-hook 'clojure-mode-hook 'my/coding-on)
+(add-hook 'c-mode-common-hook 'my/coding-on)
+(add-hook 'puppet-mode-hook 'my/coding-on)
+(add-hook 'org-mode-hook 'my/coding-on)
+
 (eval-after-load 'clojure-mode
   '(progn
      (define-key clojure-mode-map "\C-m" 'paredit-newline)
@@ -244,13 +253,6 @@
   (let ((window (get-buffer-window cider-error-buffer)))
     (when window (delete-window window))))
 
-(defun my/whitespace-mode-on () (font-lock-mode 1) (whitespace-mode 1))
-(add-hook 'emacs-lisp-mode-hook 'my/whitespace-mode-on)
-(add-hook 'clojure-mode-hook 'my/whitespace-mode-on)
-(add-hook 'c-mode-common-hook 'my/whitespace-mode-on)
-(add-hook 'puppet-mode-hook 'my/whitespace-mode-on)
-(add-hook 'org-mode-hook 'my/whitespace-mode-on)
-
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
   (c-toggle-auto-hungry-state t)
@@ -266,7 +268,7 @@
      (define-key ruby-mode-map "\C-m" 'ruby-electric-return)))
 (defun my/ruby-electric-on () (ruby-electric-mode 1))
 (add-hook 'ruby-mode-hook 'my/ruby-electric-on)
-(add-hook 'ruby-mode-hook 'my/whitespace-mode-on)
+(add-hook 'ruby-mode-hook 'my/coding-on)
 (add-hook 'ruby-mode-hook 'autopair-on)
 (defadvice ruby-electric-bar
   (around my/ruby-electric-rebar activate)
@@ -292,7 +294,7 @@
      (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
      (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)))
-(add-hook 'ess-mode-hook 'my/whitespace-mode-on)
+(add-hook 'ess-mode-hook 'my/coding-on)
 (add-hook 'ess-mode-hook 'autopair-on)
 
 (defadvice ess-load-file
@@ -310,7 +312,7 @@
 (eval-after-load 'octave-mod
   '(progn
      (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
-(add-hook 'octave-mode-hook 'my/whitespace-mode-on)
+(add-hook 'octave-mode-hook 'my/coding-on)
 (add-hook 'octave-mode-hook 'autopair-on)
 
 ;; Setup emacs-eclim (mostly) just for Java
