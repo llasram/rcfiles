@@ -21,6 +21,7 @@
  '(erc-prompt ">")
  '(erc-query-display (quote buffer))
  '(erc-spelling-mode t)
+ '(fill-column 80)
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
