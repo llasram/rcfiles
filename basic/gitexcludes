@@ -12,3 +12,4 @@
 /.oryx/
 nohup.out
 .nrepl-port
+.dir-locals.el
