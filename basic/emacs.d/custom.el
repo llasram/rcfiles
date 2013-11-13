@@ -10,6 +10,9 @@
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
  '(browse-url-browser-function (quote browse-url-xdg-open))
  '(canlock-password "30a32630624cdac50341667c89e7e01a9713a094")
+ '(cider-history-file "~/.cidr-history")
+ '(cider-repl-pop-to-buffer-on-connect nil)
+ '(cider-server-command "lein trampoline repl :headless")
  '(column-number-mode t)
  '(diminished-minor-modes (quote ((hs-minor-mode . "") (whitespace-mode . "") (eldoc-mode . "") (paredit-mode . "") (autopair-mode . "") (auto-complete-mode . "") (typopunct-mode . "") (flyspell-mode . "") (abbrev-mode . "") (yas-minor-mode . ""))))
  '(erc-auto-query (quote bury))
@@ -105,4 +108,4 @@ Damballa Staff Software Engineer | 518.859.4559m")
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(cider-warning-highlight-face ((t (:inherit nil :underline (:color "dark orange" :style wave))))))

@@ -10,7 +10,7 @@
 
 (mapc 'my/package-install-maybe
       '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse nrepl nrepl-ritz paredit pos-tip puppet-mode gnus
+        markdown-mode muse cider paredit pos-tip puppet-mode gnus
         typopunct yasnippet))
 
 (put 'downcase-region 'disabled nil)
@@ -195,7 +195,7 @@
 (add-hook 'clojure-mode-hook 'my/paredit-mode-on)
 (add-hook 'lisp-mode-hook 'my/paredit-mode-on)
 (add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
-(add-hook 'nrepl-mode-hook 'my/paredit-mode-on)
+(add-hook 'cider-repl-mode-hook 'my/paredit-mode-on)
 
 ;; For... lesser modes
 (add-hook 'puppet-mode-hook 'autopair-on)
@@ -216,28 +216,30 @@
     'paredit-close-round))
 (defun my/eldoc-mode-on () (eldoc-mode 1))
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+(add-hook 'cidr-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
-(add-hook 'nrepl-file-loaded-hook 'ac-nrepl-setup)
+(add-hook 'cider-file-loaded-hook 'ac-nrepl-setup)
 
-(defadvice nrepl-emit-into-color-buffer
-  (after my/nrepl-fit-stacktrace (buffer value) activate)
-  (tight-fit-window-to-buffer (get-buffer-window buffer)))
+;; Is this one still necessary?  Bugs out doc+compile-error
+;;
+;; (defadvice cider-emit-into-color-buffer
+;;   (after my/cider-fit-stacktrace (buffer value) activate)
+;;   (tight-fit-window-to-buffer (get-buffer-window buffer)))
 
-(defadvice nrepl-emit-into-popup-buffer
-  (around my/nrepl-fit-docs-etc (buffer value) activate)
+(defadvice cider-emit-into-popup-buffer
+  (around my/cider-fit-docs-etc (buffer value) activate)
   (with-current-buffer buffer
     (goto-char (point-max))
     ad-do-it
     (tight-fit-window-to-buffer)))
 
-(defadvice nrepl-doc
-  (around my/nrepl-doc-other-window activate)
+(defadvice cider-doc
+  (around my/cider-doc-other-window activate)
   (save-selected-window ad-do-it))
 
-(defadvice nrepl-load-file
-  (before my/nrepl-load-success-cleanup activate)
-  (let ((window (get-buffer-window nrepl-error-buffer)))
+(defadvice cider-load-file
+  (before my/cider-load-success-cleanup activate)
+  (let ((window (get-buffer-window cider-error-buffer)))
     (when window (delete-window window))))
 
 (defun my/whitespace-mode-on () (font-lock-mode 1) (whitespace-mode 1))
