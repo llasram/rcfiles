@@ -38,8 +38,6 @@
  '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
  '(message-send-mail-function (quote message-smtpmail-send-it))
- '(message-signature "Marshall Bockrath-Vandegrift <llasram@damballa.com>
-Damballa Staff Software Engineer | 518.859.4559m")
  '(mouse-yank-at-point t)
  '(nrepl-history-file "~/.nrepl-history")
  '(nrepl-popup-stacktraces nil)
