@@ -173,7 +173,8 @@
 
 (eval-after-load 'clojure-mode
   '(progn
-     (define-key clojure-mode-map "\C-m" 'paredit-newline)))
+     (define-key clojure-mode-map "\C-m" 'paredit-newline)
+     (require 'clojure-test-mode)))
 
 (defun my/describe-function ()
   (interactive)
