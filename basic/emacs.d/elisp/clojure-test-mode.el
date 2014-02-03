@@ -4,9 +4,9 @@
 
 ;; Author: Phil Hagelberg <technomancy@gmail.com>
 ;; URL: http://emacswiki.org/cgi-bin/wiki/ClojureTestMode
-;; Version: 2.1.0
+;; Version: 3.0.0
 ;; Keywords: languages, lisp, test
-;; Package-Requires: ((clojure-mode "1.7") (cider "0.3.0"))
+;; Package-Requires: ((clojure-mode "1.7") (cider "0.4.0"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -95,6 +95,11 @@
 ;; 2.0.0 2012-12-29
 ;;  * Replace slime with nrepl.el
 
+;; 3.0.0 2013-12-27
+;;  * Replace nrepl.el with cider
+;;  * Improve clojure-test-maybe-enable heuristic
+;;  * Obsolete clojure-test-jump-to-implementation in favour of other libs
+
 ;;; TODO:
 
 ;; * Prefix arg to jump-to-impl should open in other window
@@ -154,11 +159,6 @@
 
 ;; Support Functions
 
-(defun clojure-test-nrepl-connected-p ()
-  (condition-case nil
-      (nrepl-current-connection-buffer)
-    (error nil)))
-
 (defun clojure-test-make-handler (callback)
   (lexical-let ((buffer (current-buffer))
                 (callback callback))
@@ -166,9 +166,9 @@
                                  (lambda (buffer value)
                                    (funcall callback buffer value))
                                  (lambda (buffer value)
-                                   (cider-emit-interactive-output value))
+                                   (cider-repl-emit-interactive-output value))
                                  (lambda (buffer err)
-                                   (cider-emit-interactive-output err))
+                                   (cider-repl-emit-interactive-output err))
                                  '())))
 
 (defun clojure-test-eval (string &optional handler)
@@ -179,7 +179,7 @@
 
 (defun clojure-test-load-reporting ()
   "Redefine the test-is report function to store results in metadata."
-  (when (clojure-test-nrepl-connected-p)
+  (when (cider-connected-p)
     (nrepl-send-string-sync
      "(ns clojure.test.mode
         (:use [clojure.test :only [file-position *testing-vars* *test-out*
@@ -490,7 +490,10 @@ Clojure src file for the given test namespace.")
   "Jump from test file to implementation."
   (interactive)
   (find-file (funcall clojure-test-implementation-for-fn
-                      (clojure-find-package))))
+                      (clojure-find-ns))))
+
+(make-obsolete 'clojure-test-jump-to-implementation
+               "use projectile or toggle.el instead." "3.0.0")
 
 (defvar clojure-test-mode-map
   (let ((map (make-sparse-keymap)))
@@ -513,7 +516,7 @@ Clojure src file for the given test namespace.")
 
 \\{clojure-test-mode-map}"
   nil " Test" clojure-test-mode-map
-  (when (clojure-test-nrepl-connected-p)
+  (when (cider-connected-p)
     (clojure-test-load-reporting)))
 
 (add-hook 'nrepl-connected-hook 'clojure-test-load-reporting)
