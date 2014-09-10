@@ -13,3 +13,6 @@
 nohup.out
 .nrepl-port
 .dir-locals.el
+.virtualenv
+.redenv
+*.egg-info
