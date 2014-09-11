@@ -4,15 +4,6 @@
 (require 'package)
 (package-initialize)
 
-(defun my/package-install-maybe (package)
-  (when (not (package-installed-p package))
-    (package-install package)))
-
-(mapc 'my/package-install-maybe
-      '(ac-nrepl autopair clojure-mode find-file-in-repository magit
-        markdown-mode muse cider paredit pos-tip puppet-mode gnus
-        typopunct yasnippet))
-
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -38,16 +29,6 @@
 (add-hook 'muse-mode-hook 'my/text-editing-setup)
 (defun my/text-editing-setup ()
   (typopunct-mode 1))
-
-;; Autocomplete
-(require 'pos-tip)
-(require 'auto-complete-config)
-(ac-config-default)
-(ac-flyspell-workaround)
-(define-key ac-completing-map "\t" 'ac-complete)
-(define-key ac-completing-map [tab] 'ac-complete)
-(define-key ac-completing-map "\r" 'ac-complete)
-(define-key ac-completing-map [return] 'ac-complete)
 
 ;; Autopair
 (require 'autopair)
@@ -101,18 +82,17 @@
 (require 'whitespace)
 (require 'hideshow)
 
-(setq diminished-minor-modes
-      '((hs-minor-mode . "")
-        (abbrev-mode . "")
-        (eldoc-mode . "")
-        (paredit-mode . "")
-        (autopair-mode . "")
-        (auto-complete-mode . "")
-        (typopunct-mode . "")
-        (flyspell-mode . "")
-        (yas-minor-mode . "")
-        (whitespace-mode . "")))
 (require 'diminish)
+(mapc 'diminish
+      '(hs-minor-mode
+        abbrev-mode
+        eldoc-mode
+        paredit-mode
+        autopair-mode
+        typopunct-mode
+        flyspell-mode
+        yas-minor-mode
+        whitespace-mode))
 
 ;; Mode mapping
 
@@ -194,8 +174,7 @@
 
 (eval-after-load 'clojure-mode
   '(progn
-     (define-key clojure-mode-map "\C-m" 'paredit-newline)
-     (require 'clojure-test-mode)))
+     (define-key clojure-mode-map "\C-m" 'paredit-newline)))
 
 (defun my/describe-function ()
   (interactive)
@@ -241,20 +220,12 @@
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
 (add-hook 'cidr-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
-(add-hook 'cider-file-loaded-hook 'ac-nrepl-setup)
-
-;; Is this one still necessary?  Bugs out doc+compile-error
-;;
-;; (defadvice cider-emit-into-color-buffer
-;;   (after my/cider-fit-stacktrace (buffer value) activate)
-;;   (tight-fit-window-to-buffer (get-buffer-window buffer)))
-
-(defadvice cider-emit-into-popup-buffer
+(defadvice cider-popup-buffer-display
   (around my/cider-fit-docs-etc (buffer value) activate)
   (with-current-buffer buffer
-    (goto-char (point-max))
     ad-do-it
-    (tight-fit-window-to-buffer)))
+    (tight-fit-window-to-buffer)
+    (goto-char (1- (point-max)))))
 
 (defadvice cider-doc
   (around my/cider-doc-other-window activate)
@@ -317,20 +288,9 @@
   '(progn
      (define-key org-mode-map (kbd "M-h") 'backward-kill-word)
      (define-key org-mode-map (kbd "RET") 'org-return-indent)))
-(eval-after-load 'ob-clojure
-  '(progn
-     (require 'llasram-clojure-ob)))
 
 (eval-after-load 'octave-mod
   '(progn
      (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'octave-mode-hook 'my/coding-on)
 (add-hook 'octave-mode-hook 'autopair-on)
-
-;; Setup emacs-eclim (mostly) just for Java
-(require 'eclim)
-(require 'eclimd)
-(global-eclim-mode)
-(require 'ac-emacs-eclim-source)
-(add-hook 'java-mode-hook 'ac-emacs-eclim-java-setup)
-(add-hook 'java-mode-hook 'yas-minor-mode)

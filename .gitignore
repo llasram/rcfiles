@@ -2,6 +2,7 @@
 /basic/emacs.d/auto-save-list
 /basic/emacs.d/swank
 /basic/emacs.d/elpa
+/basic/emacs.d/elpa.*
 /basic/emacs.d/ac-comphist.dat
 /basic/emacs.d/url
 /basic/emacs.d/tramp
