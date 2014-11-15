@@ -225,7 +225,7 @@
   (with-current-buffer buffer
     ad-do-it
     (tight-fit-window-to-buffer)
-    (goto-char (1- (point-max)))))
+    (goto-char (point-min))))
 
 (defadvice cider-doc
   (around my/cider-doc-other-window activate)
