@@ -45,11 +45,11 @@
 
 ;; browse-kill-ring
 (require 'browse-kill-ring)
-(defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
-  "If last action was not a yank, run `browse-kill-ring' instead."
-  (if (not (eq last-command 'yank))
-      (browse-kill-ring)
-    ad-do-it))
+;; (defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
+;;   "If last action was not a yank, run `browse-kill-ring' instead."
+;;   (if (not (eq last-command 'yank))
+;;       (browse-kill-ring)
+;;     ad-do-it))
 
 ;; gnus
 (require 'gnus)
@@ -119,10 +119,10 @@
 (global-set-key "\C-h" 'generic-hungry-backspace)
 (global-set-key [delete] 'generic-hungry-delete)
 (global-set-key "\C-d" 'generic-hungry-delete)
-(defadvice autopair-mode
-  (after my/autopair-ctr-h activate)
-  (let ((map (aget autopair-emulation-alist t)))
-    (when map (define-key map (kbd "C-h") 'autopair-backspace))))
+;; (defadvice autopair-mode
+;;   (after my/autopair-ctr-h activate)
+;;   (let ((map (aget autopair-emulation-alist t)))
+;;     (when map (define-key map (kbd "C-h") 'autopair-backspace))))
 
 (global-set-key "\M-h" 'backward-kill-word)
 (global-unset-key "\C-z")
@@ -184,7 +184,7 @@
       (command-execute 'describe-function))))
 
 (define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-d") 'my/describe-function)
+(define-key emacs-lisp-mode-map (kbd "C-c C-d C-d") 'my/describe-function)
 (define-key emacs-lisp-mode-map "\C-m" 'newline-and-indent)
 
 (eval-after-load 'paredit
@@ -220,21 +220,22 @@
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
 (add-hook 'cidr-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
-(defadvice cider-popup-buffer-display
-  (around my/cider-fit-docs-etc (buffer value) activate)
-  (with-current-buffer buffer
-    ad-do-it
-    (tight-fit-window-to-buffer)
-    (goto-char (point-min))))
+(defun my/cider-fit-docs (&rest args)
+  (when (get-buffer-window cider-doc-buffer)
+    (with-current-buffer cider-doc-buffer
+      (tight-fit-window-to-buffer)
+      (goto-char (point-min)))))
+(advice-add 'cider-doc :after #'my/cider-fit-docs)
 
-(defadvice cider-doc
-  (around my/cider-doc-other-window activate)
-  (save-selected-window ad-do-it))
+(defun my/cider-doc-other-window (f &rest args)
+  (save-selected-window (apply f args)))
+(advice-add 'cider-doc :around #'my/cider-doc-other-window)
+(advice-add 'cider-test-render-report :around #'my/cider-doc-other-window)
 
-(defadvice cider-load-file
-  (before my/cider-load-success-cleanup activate)
+(defun my/cider-load-success-cleanup (&rest args)
   (let ((window (get-buffer-window cider-error-buffer)))
     (when window (delete-window window))))
+(advice-add 'cider-load-file :before #'my/cider-load-success-cleanup)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
@@ -253,11 +254,11 @@
 (add-hook 'ruby-mode-hook 'my/ruby-electric-on)
 (add-hook 'ruby-mode-hook 'my/coding-on)
 (add-hook 'ruby-mode-hook 'autopair-on)
-(defadvice ruby-electric-bar
-  (around my/ruby-electric-rebar activate)
-  (if (looking-at (string last-command-event))
-      (forward-char 1)
-    ad-do-it))
+;; (defadvice ruby-electric-bar
+;;   (around my/ruby-electric-rebar activate)
+;;   (if (looking-at (string last-command-event))
+;;       (forward-char 1)
+;;     ad-do-it))
 
 (eval-after-load 'python
   '(progn
@@ -280,9 +281,9 @@
 (add-hook 'ess-mode-hook 'my/coding-on)
 (add-hook 'ess-mode-hook 'autopair-on)
 
-(defadvice ess-load-file
-  (around my/ess-load-file-no-switch activate)
-  (save-excursion ad-do-it))
+;; (defadvice ess-load-file
+;;   (around my/ess-load-file-no-switch activate)
+;;   (save-excursion ad-do-it))
 
 (eval-after-load 'org
   '(progn
