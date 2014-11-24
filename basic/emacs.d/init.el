@@ -147,7 +147,7 @@
 (global-set-key (kbd "C-x C-f") 'find-file-in-repository)
 (global-set-key (kbd "C-x f") 'find-file)
 
-(global-set-key (kbd "C-c g") 'goto-line)
+(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c w") 'woman)
 (global-set-key (kbd "C-c m") 'gnus)
 
