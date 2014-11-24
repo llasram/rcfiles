@@ -8,11 +8,12 @@
 *.pyo
 *.class
 *.jar
-/.redenv/
-/.oryx/
+.virtualenv
+.redenv
+.oryx
 nohup.out
 .nrepl-port
 .dir-locals.el
-.virtualenv
-.redenv
 *.egg-info
+.RData
+.Rhistory
