@@ -171,6 +171,7 @@
 (add-hook 'c-mode-common-hook 'my/coding-on)
 (add-hook 'puppet-mode-hook 'my/coding-on)
 (add-hook 'org-mode-hook 'my/coding-on)
+(add-hook 'python-mode-hook 'my/coding-on)
 
 (eval-after-load 'clojure-mode
   '(progn
