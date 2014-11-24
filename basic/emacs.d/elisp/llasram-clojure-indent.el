@@ -46,6 +46,9 @@
     (task-reducer 0)
     (conf/assoc! 1)
     (assoc! 1)
-    (if-not-let 1)))
+    (if-not-let 1)
+    (prop/for-all 1)
+    (for-all 1)
+    (defspec 1)))
 
 (provide 'llasram-clojure-indent)
