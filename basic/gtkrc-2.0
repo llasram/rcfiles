@@ -5,3 +5,5 @@ binding "gtk-emacs-text-entry"
   bind "<alt>h" { "delete-from-cursor" (word-ends, -1) }
   bind "<alt>d" { "delete-from-cursor" (word-ends, 1) }
 }
+
+gtk-key-theme-name = "Emacs"
