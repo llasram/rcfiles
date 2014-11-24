@@ -133,7 +133,7 @@
 (global-set-key "\C-t" nil)
 (global-set-key "\C-tt" 'transpose-chars)
 (global-set-key "\C-t\C-t" 'transpose-chars)
-(global-set-key (kbd "C-t u") 'ucs-insert)
+(global-set-key (kbd "C-t u") 'insert-char)
 
 (global-unset-key "\M-%")
 (global-unset-key (kbd "C-M-%"))
