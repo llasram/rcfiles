@@ -5,17 +5,17 @@ clear mod1
 clear mod4
 clear mod5
 
+! Right thumb switches
+keysym Super_R = Alt_R
+keysym Control_R = Super_R
+
 ! Left thumb switches
 keysym BackSpace = Control_L
 keysym Delete = Meta_L
 keysym Control_L = Super_L
-keysym Alt_L = Meta_L
+keysym Alt_L = Control_R
 keysym Home = BackSpace
 keysym End = Delete
-
-! Right thumb switches
-keysym Super_R = Alt_R
-keysym Control_R = Super_R
 
 ! More typical Dvorak
 ! keysym backslash = minus underscore
