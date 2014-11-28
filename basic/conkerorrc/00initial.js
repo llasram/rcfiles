@@ -119,31 +119,9 @@ define_key(content_buffer_text_keymap, "C-S-tab", "buffer-previous");
 //
 // Webjumps
 
-function alias_webjump(alias, name) {
-  var orig = webjumps[name];
-  var wj = {};
-  for (var key in orig) {
-    if (!orig.hasOwnProperty(key)) continue;
-    wj[key] = orig[key];
-  }
-  wj.key = alias;
-  webjumps[alias] = wj;
-}
-
 define_webjump("amazon", "http://www.amazon.com/exec/obidos/external-search/?field-keywords=%s&mode=blended");
 define_webjump("mw", "http://www.merriam-webster.com/dictionary/%s");
 define_webjump("bn", "http://productsearch.barnesandnoble.com/search/results.aspx?store=EBOOK&WRD=%s");
-
-define_webjump("wb", function (url) {
-    if (url) {
-      return "http://web.archive.org/web/*/" + url;
-    } else {
-      return "javascript:window.location.href=" +
-        "'http://web.archive.org/web/*/'+window.location.href;";
-    }
-  },
-  $argument="optional"
-);
 
 define_webjump("areader", "javascript:var%20b=document.body;var%20GR________bookmarklet_domain='http://www.google.com';if(b&&!document.xmlVersion){void(z=document.createElement('script'));void(z.src='http://www.google.com/reader/ui/link-bookmarklet.js');void(b.appendChild(z));}else{}");
 
@@ -155,20 +133,14 @@ define_webjump("apocket", "javascript:(function(){var%20e=function(t,n,r,i,s){va
 
 define_webjump("apinboard", "javascript:if(document.getSelection){s=document.getSelection();}else{s='';};document.location='https://pinboard.in/add?next=same&url='+encodeURIComponent(location.href)+'&description='+encodeURIComponent(s)+'&title='+encodeURIComponent(document.title)");
 
-alias_webjump('g', 'google');
-alias_webjump('gl', 'lucky');
-alias_webjump('d', 'delicious');
-alias_webjump('wp', 'wikipedia');
-alias_webjump('a', 'amazon');
+define_webjump(
+    "wb", "http://web.archive.org/web/*/%s",
+    $alternative = ("javascript:window.location.href=" +
+                    "'http://web.archive.org/web/*/'" +
+                    "+window.location.href;"));
 
-read_url_handler_list = [read_url_make_default_webjump_handler("g")];
+define_webjump("vtdn", "https://www.virustotal.com/en/domain/%s/information/");
 
-//
-// Save passwords
-
-session_pref("signon.rememberSignons", true);
-session_pref("signon.expireMasterPassword", false);
-session_pref("signon.SignonFileName", "signons.txt");
-
-Components.classes["@mozilla.org/login-manager;1"]
-    .getService(Components.interfaces.nsILoginManager);
+webjumps.g = webjumps.google;
+webjumps.gl = webjumps.lucky;
+webjumps.a = webjumps.amazon;
