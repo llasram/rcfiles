@@ -57,46 +57,71 @@
  '(org-babel-load-languages (quote ((R . t) (emacs-lisp . t) (clojure . t) (sh . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
- '(org-structure-template-alist (quote (("s" "#+begin_src ?
+ '(org-structure-template-alist
+   (quote
+    (("s" "#+begin_src ?
 
 #+end_src" "<src lang=\"?\">
 
-</src>") ("e" "#+begin_example
+</src>")
+     ("e" "#+begin_example
 ?
 #+end_example" "<example>
 ?
-</example>") ("q" "#+begin_quote
+</example>")
+     ("q" "#+begin_quote
 ?
 #+end_quote" "<quote>
 ?
-</quote>") ("v" "#+begin_verse
+</quote>")
+     ("v" "#+begin_verse
 ?
 #+end_verse" "<verse>
 ?
-</verse>") ("v" "#+begin_verbatim
+</verse>")
+     ("v" "#+begin_verbatim
 ?
 #+end_verbatim" "<verbatim>
 ?
-</verbatim>") ("c" "#+begin_center
+</verbatim>")
+     ("c" "#+begin_center
 ?
 #+end_center" "<center>
 ?
-</center>") ("l" "#+begin_latex
+</center>")
+     ("l" "#+begin_latex
 ?
 #+end_latex" "<literal style=\"latex\">
 ?
-</literal>") ("l" "#+latex: " "<literal style=\"latex\">?</literal>") ("h" "#+begin_html
+</literal>")
+     ("l" "#+latex: " "<literal style=\"latex\">?</literal>")
+     ("h" "#+begin_html
 ?
 #+end_html" "<literal style=\"html\">
 ?
-</literal>") ("h" "#+html: " "<literal style=\"html\">?</literal>") ("a" "#+begin_ascii
+</literal>")
+     ("h" "#+html: " "<literal style=\"html\">?</literal>")
+     ("a" "#+begin_ascii
 ?
-#+end_ascii") ("a" "#+ascii: ") ("i" "#+index: ?" "#+index: ?") ("i" "#+include: %file ?" "<include file=%file markup=\"?\">"))))
+#+end_ascii")
+     ("a" "#+ascii: ")
+     ("i" "#+index: ?" "#+index: ?")
+     ("i" "#+include: %file ?" "<include file=%file markup=\"?\">"))))
  '(package-archive-enable-alist nil)
  '(package-archive-exclude-alist nil)
- '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))))
+ '(package-archives
+   (quote
+    (("gnu" . "http://elpa.gnu.org/packages/")
+     ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))))
  '(ruby-electric-expand-delimiters-list (quote (124)))
- '(safe-local-variable-values (quote ((eval put-clojure-indent (quote c-for) (quote defun)) (eval\. (whitespace-mode -1)) (encoding . utf-8))))
+ '(safe-local-variable-values
+   (quote
+    ((eval put-clojure-indent
+           (quote c-for)
+           (quote defun))
+     (eval\.
+      (whitespace-mode -1))
+     (encoding . utf-8))))
  '(save-abbrevs (quote silently))
  '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
@@ -111,7 +136,9 @@
  '(user-full-name "Marshall Bockrath-Vandegrift")
  '(user-mail-address "llasram@damballa.com")
  '(whitespace-action (quote (auto-cleanup)))
- '(whitespace-style (quote (face trailing lines-tail space-before-tab indentation space-after-tab tab-mark)))
+ '(whitespace-style
+   (quote
+    (face trailing lines-tail space-before-tab indentation space-after-tab tab-mark)))
  '(x-gtk-use-system-tooltips nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
