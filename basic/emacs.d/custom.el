@@ -21,7 +21,14 @@
  '(column-number-mode t)
  '(erc-auto-query (quote bury))
  '(erc-fill-column 45)
- '(erc-hide-list (quote ("JOIN" "PART" "QUIT")))
+ '(erc-hide-list nil)
+ '(erc-insert-post-hook
+   (quote
+    (erc-truncate-buffer erc-make-read-only erc-track-modified-channels)))
+ '(erc-lurker-hide-list (quote ("JOIN" "NICK" "PART" "QUIT")))
+ '(erc-modules
+   (quote
+    (completion hl-nicks netsplit fill button match track readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)))
  '(erc-prompt ">")
  '(erc-query-display (quote buffer))
  '(erc-spelling-mode t)
