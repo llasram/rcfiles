@@ -129,7 +129,7 @@ alias comitor="~/ws/comitor/comitor.rb > ~/tmp/comics.html \
 
 # Prompt
 __my_git_ps1() {
-    __git_ps1 2>/dev/null | sed -r -e 's, *\((.*)\),\1,'
+    __git_ps1 2>/dev/null | sed -e 's, *(\(.*\)),\1,'
 }
 
 __git_status() {
