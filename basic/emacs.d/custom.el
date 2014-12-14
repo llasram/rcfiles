@@ -114,7 +114,8 @@
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))))
+     ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+     ("marmalade" . "http://marmalade-repo.org/packages/"))))
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote

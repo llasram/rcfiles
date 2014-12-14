@@ -3,6 +3,15 @@
 
 (require 'package)
 (package-initialize)
+(unless (file-exists-p package-user-dir)
+  (package-refresh-contents))
+(dolist (package '(ag autopair browse-kill-ring cider clojure-mode
+                   clojure-mode-extra-font-locking company diminish ess
+                   find-file-in-repository git-gutter-fringe htmlize julia-mode
+                   magit markdown-mode mmm-mode muse org paredit puppet-mode
+                   scala-mode2 typopunct yasnippet))
+  (unless (package-installed-p package)
+    (package-install package)))
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -54,10 +63,6 @@
 ;; gnus
 (require 'gnus)
 (require 'message)
-(require 'bbdb)
-(bbdb-initialize 'gnus 'message)
-(bbdb-insinuate-gnus)
-(bbdb-insinuate-message)
 (add-hook 'message-mode-hook 'llasram/message-mode-hook)
 (defun llasram/message-mode-hook ()
   (setq fill-column 72))
