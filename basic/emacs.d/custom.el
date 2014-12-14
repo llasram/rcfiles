@@ -45,6 +45,7 @@
  '(ido-use-filename-at-point (quote guess))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(ispell-program-name "aspell")
  '(kill-whole-line t)
  '(mail-user-agent (quote gnus-user-agent))
  '(max-specpdl-size 2600)
