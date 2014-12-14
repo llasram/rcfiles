@@ -36,6 +36,8 @@
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
+ '(fringe-mode (quote (2 . 8)) nil (fringe))
+ '(git-gutter:hide-gutter t)
  '(global-git-gutter-mode t)
  '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))

@@ -7,7 +7,7 @@
   (package-refresh-contents))
 (dolist (package '(ag autopair browse-kill-ring cider clojure-mode
                    clojure-mode-extra-font-locking company diminish ess
-                   find-file-in-repository git-gutter-fringe htmlize julia-mode
+                   find-file-in-repository git-gutter htmlize julia-mode
                    magit markdown-mode mmm-mode muse org paredit puppet-mode
                    scala-mode2 typopunct yasnippet))
   (unless (package-installed-p package)
@@ -68,7 +68,7 @@
   (setq fill-column 72))
 
 ;; git-gutter
-(require 'git-gutter-fringe)
+(require 'git-gutter)
 (global-git-gutter-mode)
 
 ;;
