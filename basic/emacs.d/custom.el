@@ -58,6 +58,7 @@
  '(org-babel-load-languages (quote ((R . t) (emacs-lisp . t) (clojure . t) (sh . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
+ '(org-log-done (quote time))
  '(org-structure-template-alist
    (quote
     (("s" "#+begin_src ?

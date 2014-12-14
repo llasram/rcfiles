@@ -296,6 +296,8 @@
   '(progn
      (define-key org-mode-map (kbd "M-h") 'backward-kill-word)
      (define-key org-mode-map (kbd "RET") 'org-return-indent)))
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
 
 (eval-after-load 'octave-mod
   '(progn
