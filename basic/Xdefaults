@@ -9,3 +9,5 @@ XTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
 UXTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
 XTerm*fontSize: 9
 UXTerm*fontSize: 9
+XTerm*termName: xterm-256color
+UXTerm*termName: xterm-256color
