@@ -36,6 +36,7 @@
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
+ '(global-git-gutter-mode t)
  '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
@@ -145,4 +146,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-warning-highlight-face ((t (:inherit nil :underline (:color "dark orange" :style wave))))))
+ '(cider-warning-highlight-face ((t (:inherit nil :underline (:color "dark orange" :style wave)))))
+ '(git-gutter:added ((t (:foreground "green" :inverse-video t :weight bold))))
+ '(git-gutter:deleted ((t (:foreground "red" :inverse-video t :weight bold))))
+ '(git-gutter:modified ((t (:foreground "magenta" :inverse-video t :weight bold)))))

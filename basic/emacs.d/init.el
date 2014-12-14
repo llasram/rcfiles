@@ -62,6 +62,10 @@
 (defun llasram/message-mode-hook ()
   (setq fill-column 72))
 
+;; git-gutter
+(require 'git-gutter-fringe)
+(global-git-gutter-mode)
+
 ;;
 ;; Local custom extensions
 
@@ -92,7 +96,9 @@
         typopunct-mode
         flyspell-mode
         yas-minor-mode
-        whitespace-mode))
+        whitespace-mode
+        git-gutter-mode
+        ))
 
 ;; Mode mapping
 
