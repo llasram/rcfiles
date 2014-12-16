@@ -90,6 +90,7 @@
 (require 'eldoc)
 (require 'whitespace)
 (require 'hideshow)
+(require 'magit)
 
 (require 'diminish)
 (mapc 'diminish
@@ -103,6 +104,7 @@
         yas-minor-mode
         whitespace-mode
         git-gutter-mode
+        magit-auto-revert-mode
         ))
 
 ;; Mode mapping
