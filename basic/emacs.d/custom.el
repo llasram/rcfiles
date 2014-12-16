@@ -49,6 +49,7 @@
  '(inhibit-startup-screen t)
  '(ispell-program-name "aspell")
  '(kill-whole-line t)
+ '(magit-diff-options (quote ("--patience")))
  '(mail-user-agent (quote gnus-user-agent))
  '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
