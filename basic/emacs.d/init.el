@@ -5,7 +5,7 @@
 (package-initialize)
 (unless (file-exists-p package-user-dir)
   (package-refresh-contents))
-(dolist (package '(ag autopair browse-kill-ring cider clojure-mode
+(dolist (package '(ace-jump-mode ag autopair browse-kill-ring cider clojure-mode
                    clojure-mode-extra-font-locking company diminish ess
                    find-file-in-repository git-gutter htmlize julia-mode
                    magit markdown-mode mmm-mode muse org paredit puppet-mode
@@ -143,10 +143,13 @@
 (global-set-key [M-insert] 'overwrite-mode)
 (global-set-key "\C-x\C-b" 'switch-to-buffer)
 
-(global-set-key "\C-t" nil)
-(global-set-key "\C-tt" 'transpose-chars)
-(global-set-key "\C-t\C-t" 'transpose-chars)
+(global-set-key (kbd "C-t") nil)
+(global-set-key (kbd "C-t t") 'transpose-chars)
+(global-set-key (kbd "C-t C-t") 'transpose-chars)
+(global-set-key (kbd "C-t M-t") 'transpose-words)
 (global-set-key (kbd "C-t u") 'insert-char)
+
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
 (global-unset-key "\M-%")
 (global-unset-key (kbd "C-M-%"))
@@ -160,7 +163,14 @@
 (global-set-key (kbd "C-x C-f") 'find-file-in-repository)
 (global-set-key (kbd "C-x f") 'find-file)
 
-(global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-c g") nil)
+(global-set-key (kbd "C-c g g") 'magit-status)
+(global-set-key (kbd "C-c g d") 'git-gutter:popup-hunk)
+(global-set-key (kbd "C-c g n") 'git-gutter:next-hunk)
+(global-set-key (kbd "C-c g p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-c g r") 'git-gutter:revert-hunk)
+(global-set-key (kbd "C-c g s") 'git-gutter:stage-hunk)
+
 (global-set-key (kbd "C-c w") 'woman)
 (global-set-key (kbd "C-c m") 'gnus)
 
