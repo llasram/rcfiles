@@ -121,6 +121,7 @@
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 
 ;;
 ;; General configuration
@@ -254,7 +255,6 @@
 (defun my/cider-doc-other-window (f &rest args)
   (save-selected-window (apply f args)))
 (advice-add 'cider-doc :around #'my/cider-doc-other-window)
-(advice-add 'cider-test-render-report :around #'my/cider-doc-other-window)
 
 (defun my/cider-load-success-cleanup (&rest args)
   (let ((window (get-buffer-window cider-error-buffer)))
@@ -321,3 +321,9 @@
      (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'octave-mode-hook 'my/coding-on)
 (add-hook 'octave-mode-hook 'autopair-on)
+
+(eval-after-load 'rust-mode
+  '(progn
+     (define-key rust-mode-map (kbd "RET") 'newline-and-indent)))
+(add-hook 'rust-mode-hook 'my/coding-on)
+(add-hook 'rust-mode-hook 'autopair-on)

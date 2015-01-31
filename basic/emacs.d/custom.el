@@ -133,6 +133,7 @@
  '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote smtpmail-send-it))
+ '(server-raise-frame nil)
  '(show-paren-mode t)
  '(tab-width 8)
  '(temp-buffer-max-height (lambda (buffer) (/ (- (frame-height) 2) 3)))

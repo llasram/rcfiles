@@ -45,10 +45,10 @@ source_exists() {
   [[ -f "$1" ]] && source "$1"
 }
 source_exists /etc/bash_completion
-source_exists /usr/share/autojump/autojump.sh
 for path in /usr/local/etc/bash_completion.d/*; do
     source_exists "$path"
 done
+source_exists /usr/share/autojump/autojump.sh
 
 # Convenient when navigating around files and directories
 ls_or_cmd() {
