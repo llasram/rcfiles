@@ -197,6 +197,9 @@
 (add-hook 'org-mode-hook 'my/coding-on)
 (add-hook 'python-mode-hook 'my/coding-on)
 
+(defun my/preserve-selected-window (f &rest args)
+  (save-selected-window (apply f args)))
+
 (eval-after-load 'clojure-mode
   '(progn
      (define-key clojure-mode-map "\C-m" 'paredit-newline)))
@@ -288,9 +291,7 @@
   '(progn
      (define-key python-mode-map "\C-m" 'newline-and-indent)))
 
-(autoload 'ess-mode "ess" "" t nil)
-(autoload 'R "ess" "" t nil)
-(eval-after-load "ess"
+(eval-after-load "ess-site"
   '(progn
      (require 'ess-inf)
      (require 'ess-mode)
@@ -304,10 +305,7 @@
      (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)))
 (add-hook 'ess-mode-hook 'my/coding-on)
 (add-hook 'ess-mode-hook 'autopair-on)
-
-;; (defadvice ess-load-file
-;;   (around my/ess-load-file-no-switch activate)
-;;   (save-excursion ad-do-it))
+(advice-add 'ess-load-file :around #'my/preserve-selected-window)
 
 (eval-after-load 'org
   '(progn
@@ -327,3 +325,6 @@
      (define-key rust-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'rust-mode-hook 'my/coding-on)
 (add-hook 'rust-mode-hook 'autopair-on)
+
+(add-hook 'j-mode 'my/coding-on)
+(advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
