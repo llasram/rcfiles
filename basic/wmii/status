@@ -1,0 +1,7 @@
+#! /bin/bash
+
+echo -n \
+    $(mpc -f '%position%. %title%' current) \
+    '|' $(uptime | sed 's/.*://; s/,//g') \
+    '|' $(acpi -b 2>&1 | head -n1 | grep -Eo '[0-9]+%') \
+    '|' $(date)
