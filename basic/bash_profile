@@ -5,10 +5,15 @@
 # Load general bash configuration
 [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 
+# Load gpg-agent-info
+for file in "$HOME/.gnupg/gpg-agent-info-"*; do
+    [ -f "$file" ] && source "$file"
+done
+
 # Run keychain, unless doing ssh auth forwarding
 if [ "x$SSH_AUTH_FORWARD" = "x" ]; then
     # Configure
-    keychain_options="--agents ssh --ignore-missing -q"
+    keychain_options="--agents ssh,gpg --ignore-missing -q"
     keychain_keys="identity id_rsa id_dsa 74E31689"
 
     # Load keychain
