@@ -13,3 +13,5 @@
 	rebase = true
 [diff]
         algorithm = patience
+[rebase]
+        autosquash = true
