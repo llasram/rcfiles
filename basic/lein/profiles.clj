@@ -4,6 +4,6 @@
             [lein-difftest "2.0.0"]
             [org.clojars.briprowe/lein-s3-repo "0.1.1"]
             [lein-hadoop-cluster "0.1.4"]
-            [cider/cider-nrepl "0.8.1"]]
+            [cider/cider-nrepl "0.9.1"]]
   :dependencies [[alembic "0.2.1"]
                  [criterium "0.4.3"]]}}
