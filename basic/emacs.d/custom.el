@@ -14,6 +14,7 @@
  '(cider-auto-select-error-buffer nil)
  '(cider-history-file "~/.cidr-history")
  '(cider-lein-parameters "trampoline repl :headless")
+ '(cider-prompt-for-symbol nil)
  '(cider-repl-history-file "/home/llasram/.cider-history")
  '(cider-repl-pop-to-buffer-on-connect nil)
  '(cider-repl-use-clojure-font-lock t)
