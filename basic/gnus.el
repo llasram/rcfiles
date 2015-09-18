@@ -4,7 +4,8 @@
       '(nnfolder ""))
 
 (setq gnus-secondary-select-methods
-      '((nntp "news.gmane.org")))
+      '((nntp "news.gmane.org")
+        (nnimap "imap.gmail.com")))
 
 (setq gnus-message-archive-method
       '(nnfolder ""))
