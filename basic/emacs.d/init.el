@@ -202,6 +202,7 @@
 
 (eval-after-load 'clojure-mode
   '(progn
+     (require 'cider)
      (define-key clojure-mode-map "\C-m" 'paredit-newline)))
 
 (defun my/describe-function ()
@@ -247,6 +248,7 @@
 (defun my/eldoc-mode-on () (eldoc-mode 1))
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
 (add-hook 'cidr-repl-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook #'eldoc-mode)
 
 (defun my/cider-fit-docs (&rest args)
   (when (get-buffer-window cider-doc-buffer)
@@ -263,6 +265,11 @@
   (let ((window (get-buffer-window cider-error-buffer)))
     (when window (delete-window window))))
 (advice-add 'cider-load-file :before #'my/cider-load-success-cleanup)
+
+(defun my/cider-restore-git-gutter (&rest args)
+  (git-gutter:update-all-windows))
+(advice-add 'cider-test-clear-highlights :after #'my/cider-restore-git-gutter)
+(advice-add 'cider-test-render-report :after #'my/cider-restore-git-gutter)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()

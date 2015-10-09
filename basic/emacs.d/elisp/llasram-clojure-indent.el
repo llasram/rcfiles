@@ -3,7 +3,11 @@
 
 (defun my/extra-clojure-indent ()
   (define-clojure-indent
+    (mfn 1)
     (symbol-macrolet 1)
+    (assoc 1)
+    (-> 0)
+    (->> 0)
     (doto-let 1)
     (assert-args 1)
     (case-expr 1)
