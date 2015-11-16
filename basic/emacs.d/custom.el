@@ -21,7 +21,7 @@
  '(cider-server-command "lein trampoline repl :headless")
  '(column-number-mode t)
  '(erc-auto-query (quote bury))
- '(erc-fill-column 45)
+ '(erc-fill-column 43)
  '(erc-hide-list nil)
  '(erc-insert-post-hook
    (quote
@@ -61,10 +61,21 @@
  '(nrepl-popup-stacktraces nil)
  '(nrepl-server-command "lein trampoline repl :headless")
  '(org-adapt-indentation nil)
- '(org-babel-load-languages (quote ((R . t) (emacs-lisp . t) (clojure . t) (sh . t))))
+ '(org-babel-load-languages
+   (quote
+    ((R . t)
+     (emacs-lisp . t)
+     (clojure . t)
+     (sh . t)
+     (python . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-log-done (quote time))
+ '(org-src-fontify-natively t)
  '(org-structure-template-alist
    (quote
     (("s" "#+begin_src ?

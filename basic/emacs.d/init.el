@@ -104,7 +104,6 @@
         yas-minor-mode
         whitespace-mode
         git-gutter-mode
-        magit-auto-revert-mode
         ))
 
 ;; Mode mapping
