@@ -1,8 +1,12 @@
 #! /bin/bash
 
+xrandr --dpi 144
+setxkbmap -option ctrl:nocaps
 xmodmap ~/.Xmodmap
-xscreensaver -nosplash &
 gnome-settings-daemon &
-xrdb ~/.Xdefaults
+xrdb -merge ~/.Xdefaults
+xscreensaver -nosplash &
 
-exec wmii
+while true; do
+    wmii
+done

@@ -1,13 +1,16 @@
-Emacs*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
+Emacs*FontBackend: xft
+Emacs*font: Source Code Pro-11.3
 XTerm*metaSendsEscape: true
 UXTerm*metaSendsEscape: true
 XTerm*background: black
 UXTerm*background: white
 XTerm*foreground: white
 UXTerm*foreground: black
-XTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
-UXTerm*font: -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
-XTerm*fontSize: 9
-UXTerm*fontSize: 9
+XTerm*faceName: Source Code Pro-11.3:style=Light:hintstyle=hintfull
+UXTerm*faceName: Source Code Pro-11.3:style=Light:hintstyle=hintfull
 XTerm*termName: xterm-256color
 UXTerm*termName: xterm-256color
+Xft.antialias:	1
+Xft.hinting: 1
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
