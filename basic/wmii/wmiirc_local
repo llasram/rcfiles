@@ -8,18 +8,20 @@ export RIGHT=s
 
 export WMII_NORMCOLORS='#4D4E4F #DDDDAA #FFFFCC'
 export WMII_FOCUSCOLORS='#FFFFFF #248047 #147027'
+export WMII_FONT='-misc-fixed-medium-r-normal--*-130-*-*-c-*-iso10646-1'
 
 set_client_width() {
     pixels=$1
     client=$(wmiir read /client/sel/ctl | head -n1)
     column=$(wmiir read /tag/sel/index | fgrep $client | awk '{print$1}')
     width=$(wmiir read /tag/sel/index | grep "^# $column " | awk '{print$4}')
+    last=$(wmiir read /tag/sel/index | grep -v '^#' | tail -n1 | awk '{print$1}')
     diff=$(( $pixels - $width ))
-    wmiir xwrite /tag/sel/ctl "grow client $client right ${diff}px"
+    dir=$(if [ "x$column" = "x$last" ]; then echo left; else echo right; fi)
+    wmiir xwrite /tag/sel/ctl "grow client $client $dir ${diff}px"
 }
 
-local_events() {
-    cat <<'!'
+wi_events <<'!'
 KeyGroup Misc
 Key $MODKEY-x
 	mpc pause; xscreensaver-command -lock
@@ -30,20 +32,29 @@ Key F11
 Key F12
         setxkbmap -option ctrl:nocaps us; xmodmap ~/.Xmodmap-kinesis; xset b off
 Key $MODKEY-8
-        set_client_width 486
+        set_client_width 750
 Key $MODKEY-9
-        set_client_width 533
+        set_client_width 920
 Key $MODKEY-g
-        set_client_width 300
+        set_client_width 420
 Key $MODKEY-semicolon
         mpc toggle
 Key $MODKEY-q
         mpc prev
 Key $MODKEY-j
         mpc next
+Key XF86MonBrightnessUp
+	xbacklight -inc 5
+Key XF86MonBrightnessDown
+	xbacklight -dec 5
+Key XF86AudioMute
+	amixer -q -D pulse sset Master toggle
+Key XF86AudioLowerVolume
+	amixer -q -D pulse sset Master 2%-
+Key XF86AudioRaiseVolume
+	amixer -q -D pulse sset Master 2%+
 !
-}
 
 status() {
-    $HOME/bin/status
+	echo -n label $($HOME/.wmii/status)
 }
