@@ -1,9 +1,8 @@
 {:user
  {:plugins [[lein-pprint "1.1.1"]
-            [lein-ancient "0.5.5"]
+            [lein-ancient "0.6.8"]
             [lein-difftest "2.0.0"]
-            [org.clojars.briprowe/lein-s3-repo "0.1.1"]
-            [lein-hadoop-cluster "0.1.4"]
+            [lein-hadoop-cluster "0.1.5"]
             [cider/cider-nrepl "0.9.1"]]
-  :dependencies [[alembic "0.2.1"]
+  :dependencies [[alembic "0.3.2"]
                  [criterium "0.4.3"]]}}
