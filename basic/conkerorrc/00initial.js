@@ -20,6 +20,9 @@ url_completion_use_history = true;
 session_pref('browser.history_expire_days', 7);
 session_pref('browser.history_expire_days_min', 5);
 url_remoting_fn = load_url_in_new_buffer;
+session_pref("font.minimum-size.x-western", 16);
+session_pref("font.name.serif.x-western", "TeX Gyre Pagella");
+session_pref("font.name.sans-serif.x-western", "DejaVu Sans Book");
 
 //
 // Commands
@@ -144,3 +147,19 @@ define_webjump("vtdn", "https://www.virustotal.com/en/domain/%s/information/");
 webjumps.g = webjumps.google;
 webjumps.gl = webjumps.lucky;
 webjumps.a = webjumps.amazon;
+
+// Extension glue
+interactive(
+    "ublock", "Open uBlock dashboard in a new buffer",
+    function (I) {
+        var ublock_branch;
+        if ("@ublock0/content-policy;1" in Cc) {
+            ublock_branch = "ublock0";
+        } else if ("@ublock/content-policy;1" in Cc) {
+            ublock_branch = "ublock";
+        } else {
+            throw interactive_error("uBlock not found");
+        }
+        load_url_in_new_buffer("chrome://"+ublock_branch+"/content/dashboard.html");
+    }
+);
