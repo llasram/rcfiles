@@ -4,9 +4,13 @@
 (setq mc/cmds-to-run-for-all
       '(
         beginning-of-buffer
+        downcase-region
         generic-hungry-backspace
+        generic-hungry-delete
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        handle-switch-frame
+        yank-rectangle
         ))

@@ -186,8 +186,8 @@ __schroot_status() {
 __docker_status() {
     local status
     if [[ -e /proc/1/cgroup ]]; then
-        local docker=$(grep -Eo 'docker-.{12}' /proc/1/cgroup \
-                              | head -n1 | cut -d- -f2)
+        local docker=$(grep -Eo 'docker[-/].{12}' /proc/1/cgroup \
+                              | head -n1 | cut -c8-)
         if [[ "x$docker" != "x" ]]; then
             status=" docker:\033[36m${docker}\033[0m"
         fi

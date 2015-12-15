@@ -52,6 +52,7 @@
  '(j-console-cmd "ijconsole")
  '(kill-whole-line t)
  '(magit-diff-options (quote ("--patience")))
+ '(magit-push-always-verify nil)
  '(mail-user-agent (quote gnus-user-agent))
  '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
@@ -61,6 +62,7 @@
  '(nrepl-popup-stacktraces nil)
  '(nrepl-server-command "lein trampoline repl :headless")
  '(org-adapt-indentation nil)
+ '(org-babel-clojure-backend (quote cider))
  '(org-babel-load-languages
    (quote
     ((R . t)

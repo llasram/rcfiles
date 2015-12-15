@@ -1,3 +1,9 @@
+;;; init -- Personal initialization
+
+;;; Commentary:
+
+;;; Code:
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -9,7 +15,8 @@
                    clojure-mode-extra-font-locking company diminish ess
                    find-file-in-repository git-gutter htmlize julia-mode
                    magit markdown-mode mmm-mode muse org paredit puppet-mode
-                   scala-mode2 typopunct yasnippet))
+                   scala-mode2 typopunct flycheck erc-hl-nicks yaml-mode
+                   toml-mode))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -70,12 +77,14 @@
 ;; git-gutter
 (require 'git-gutter)
 (global-git-gutter-mode)
+(add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
 
 ;;
 ;; Local custom extensions
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
+(require 'llasram-autoloads)
 (require 'hungry)
 (require 'isearch-initial)
 (require 'tight-fit)
@@ -120,7 +129,6 @@
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 
 ;;
 ;; General configuration
@@ -328,9 +336,25 @@
 
 (eval-after-load 'rust-mode
   '(progn
+     (require 'flycheck-rust)
+     (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
      (define-key rust-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'rust-mode-hook 'my/coding-on)
 (add-hook 'rust-mode-hook 'autopair-on)
+(defun my/rust-whitespace () (setq-local whitespace-line-column 99))
+(add-hook 'rust-mode-hook 'my/rust-whitespace)
 
 (add-hook 'j-mode 'my/coding-on)
 (advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; erc (non-customizable)
+(setq erc-autojoin-channels-alist
+      '(("freenode.net" "#clojure" "#leiningen")
+        ("mozilla.org" "#rust")
+        ("damballa" "#rnd" "#bugfarmers" "#cspfarmers" "#itops"
+                    "#threatresearch" "#research")))
+
+(provide 'init)
+;;; init.el ends here
