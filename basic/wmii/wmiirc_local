@@ -25,12 +25,6 @@ wi_events <<'!'
 KeyGroup Misc
 Key $MODKEY-x
 	mpc pause; xscreensaver-command -lock
-Key F10
-        setxkbmap -option ctrl:nocaps us
-Key F11
-        setxkbmap -option ctrl:nocaps dvorak; xmodmap ~/.Xmodmap-thinkpad; xset b off
-Key F12
-        setxkbmap -option ctrl:nocaps us; xmodmap ~/.Xmodmap-kinesis; xset b off
 Key $MODKEY-8
         set_client_width 750
 Key $MODKEY-9

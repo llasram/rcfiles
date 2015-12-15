@@ -138,7 +138,9 @@
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
-    ((eval put-clojure-indent
+    ((whitespace-mode)
+     (whitespace-line-column . 99)
+     (eval put-clojure-indent
            (quote c-for)
            (quote defun))
      (eval\.

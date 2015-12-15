@@ -7,3 +7,13 @@ binding "gtk-emacs-text-entry"
 }
 
 gtk-key-theme-name = "Emacs"
+
+style "noscrollbars" {
+  GtkScrollbar::slider-width=0
+  GtkScrollbar::trough-border=0
+  GtkScrollbar::has-backward-stepper=0
+  GtkScrollbar::has-forward-stepper=0
+  GtkScrollbar::has-secondary-backward-stepper=0
+  GtkScrollbar::has-secondary-forward-stepper=0
+}
+widget "MozillaGtkWidget.*" style "noscrollbars"

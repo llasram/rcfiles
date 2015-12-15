@@ -1,13 +1,13 @@
 Emacs*FontBackend: xft
-Emacs*font: Source Code Pro-11.3
+Emacs*font: Source Code Pro-8
 XTerm*metaSendsEscape: true
 UXTerm*metaSendsEscape: true
 XTerm*background: black
 UXTerm*background: white
 XTerm*foreground: white
 UXTerm*foreground: black
-XTerm*faceName: Source Code Pro-11.3:style=Light:hintstyle=hintfull
-UXTerm*faceName: Source Code Pro-11.3:style=Light:hintstyle=hintfull
+XTerm*faceName: Source Code Pro-8:style=Light:hintstyle=hintfull
+UXTerm*faceName: Source Code Pro-8:style=Light:hintstyle=hintfull
 XTerm*termName: xterm-256color
 UXTerm*termName: xterm-256color
 Xft.antialias:	1

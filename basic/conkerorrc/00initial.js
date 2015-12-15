@@ -20,12 +20,15 @@ url_completion_use_history = true;
 session_pref('browser.history_expire_days', 7);
 session_pref('browser.history_expire_days_min', 5);
 url_remoting_fn = load_url_in_new_buffer;
-session_pref("font.minimum-size.x-western", 16);
+session_pref("font.minimum-size.x-western", 11);
 session_pref("font.name.serif.x-western", "TeX Gyre Pagella");
 session_pref("font.name.sans-serif.x-western", "DejaVu Sans Book");
+session_pref("layout.css.devPixelsPerPx", "1.41");
 
 //
 // Commands
+
+interactive("llasram/noop", null, function (I) {});
 
 interactive("llasram/follow", null,
     alternates(follow, follow_new_buffer, follow_new_buffer_background),
@@ -56,6 +59,8 @@ add_hook('caret_mode_disable_hook', caret_clear_mark_selection);
 modifiers.M = new modifier(
     function (event) { return event.metaKey; },
     function (event) { event.metaKey = true; });
+
+define_key(default_global_keymap, "M-meta", "llasram/noop");
 
 undefine_key(content_buffer_normal_keymap, "C-h");
 undefine_key(default_global_keymap, "C-h");

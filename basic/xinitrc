@@ -1,6 +1,5 @@
 #! /bin/bash
 
-xrandr --dpi 144
 setxkbmap -option ctrl:nocaps
 xmodmap ~/.Xmodmap
 gnome-settings-daemon &
