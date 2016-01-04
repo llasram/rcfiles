@@ -14,6 +14,7 @@ add_path "/usr/local/sbin"
 for path in ~/.gem/*/*/bin /opt/*/bin /opt/*/*/bin; do
     [ -d "$path" ] && add_path "$path"
 done
+add_path "$HOME/.cargo/bin"
 add_path "$HOME/bin"
 
 # If not running interactively, don't do anything else
