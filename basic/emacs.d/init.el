@@ -11,12 +11,13 @@
 (package-initialize)
 (unless (file-exists-p package-user-dir)
   (package-refresh-contents))
-(dolist (package '(ace-jump-mode ag autopair browse-kill-ring cider clojure-mode
+(dolist (package '(ace-jump-mode ag browse-kill-ring cider clojure-mode
                    clojure-mode-extra-font-locking company diminish ess
                    find-file-in-repository git-gutter htmlize julia-mode
-                   magit markdown-mode mmm-mode muse org paredit puppet-mode
+                   magit markdown-mode mmm-mode muse paredit puppet-mode
                    scala-mode2 typopunct flycheck erc-hl-nicks yaml-mode
-                   toml-mode))
+                   toml-mode company-math org-plus-contrib racer rust-mode
+                   stan-mode))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -44,34 +45,23 @@
 (add-hook 'text-mode-hook 'my/text-editing-setup)
 (add-hook 'muse-mode-hook 'my/text-editing-setup)
 (defun my/text-editing-setup ()
+  "Enable minor modes etc for text-editing."
   (typopunct-mode 1))
-
-;; Autopair
-(require 'autopair)
-(setq autopair-blink nil)
-(defun my/autopair-extra-newlines (action pair pos-before)
-  (when (not (eq (point) (1+ pos-before)))
-    (cond ((eq 'opening action)
-           (save-excursion
-             (insert-char ?\n 1)
-             (indent-according-to-mode)))
-          ((and (eq 'closing action)
-                (looking-at (format "\n\\s *%c" last-input-event)))
-           (replace-match "")))))
 
 ;; browse-kill-ring
 (require 'browse-kill-ring)
-;; (defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
-;;   "If last action was not a yank, run `browse-kill-ring' instead."
-;;   (if (not (eq last-command 'yank))
-;;       (browse-kill-ring)
-;;     ad-do-it))
+(defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
+  "If last action was not a yank, run `browse-kill-ring' instead."
+  (if (not (eq last-command 'yank))
+      (browse-kill-ring)
+    ad-do-it))
 
 ;; gnus
 (require 'gnus)
 (require 'message)
 (add-hook 'message-mode-hook 'llasram/message-mode-hook)
 (defun llasram/message-mode-hook ()
+  "Setup buffer for mode."
   (setq fill-column 72))
 
 ;; git-gutter
@@ -100,6 +90,7 @@
 (require 'whitespace)
 (require 'hideshow)
 (require 'magit)
+(require 'company)
 
 (require 'diminish)
 (mapc 'diminish
@@ -107,12 +98,13 @@
         abbrev-mode
         eldoc-mode
         paredit-mode
-        autopair-mode
         typopunct-mode
         flyspell-mode
         yas-minor-mode
         whitespace-mode
         git-gutter-mode
+        company-mode
+        global-company-mode
         ))
 
 ;; Mode mapping
@@ -140,10 +132,6 @@
 (global-set-key "\C-h" 'generic-hungry-backspace)
 (global-set-key [delete] 'generic-hungry-delete)
 (global-set-key "\C-d" 'generic-hungry-delete)
-;; (defadvice autopair-mode
-;;   (after my/autopair-ctr-h activate)
-;;   (let ((map (aget autopair-emulation-alist t)))
-;;     (when map (define-key map (kbd "C-h") 'autopair-backspace))))
 
 (global-set-key "\M-h" 'backward-kill-word)
 (global-unset-key "\C-z")
@@ -195,24 +183,54 @@
      (define-key xterm-function-map "\e[1;9H" [M-home])))
 
 (defun my/coding-on ()
+  "Enable minor modes etc for all code-editing buffers."
   (font-lock-mode 1)
   (whitespace-mode 1))
-(add-hook 'emacs-lisp-mode-hook 'my/coding-on)
-(add-hook 'clojure-mode-hook 'my/coding-on)
 (add-hook 'c-mode-common-hook 'my/coding-on)
 (add-hook 'puppet-mode-hook 'my/coding-on)
 (add-hook 'org-mode-hook 'my/coding-on)
 (add-hook 'python-mode-hook 'my/coding-on)
 
+(defun my/paredit-mode-on ()
+  "Force-enable `paredit-mode'."
+  (paredit-mode 1))
+(add-hook 'emacs-lisp-mode-hook 'my/paredit-mode-on)
+(add-hook 'lisp-mode-hook 'my/paredit-mode-on)
+(add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
+
+(eval-after-load 'eldoc
+  '(eldoc-add-command
+    'paredit-backward-delete
+    'paredit-close-round
+    'electric-pair-delete-pair))
+(defun my/eldoc-mode-on ()
+  "Force-enable `eldoc-mode'."
+  (eldoc-mode 1))
+
 (defun my/preserve-selected-window (f &rest args)
+  "Function version of `save-selected-window'.
+Argument F is a function to invoke and optional ARGS any
+arguments to `apply' that function to."
   (save-selected-window (apply f args)))
+
+(defun my/comint-empty-buffer ()
+  "Truncate a comint buffer to empty."
+  (interactive)
+  (let ((comint-buffer-maximum-size 0))
+    (comint-truncate-buffer)))
 
 (eval-after-load 'clojure-mode
   '(progn
      (require 'cider)
      (define-key clojure-mode-map "\C-m" 'paredit-newline)))
+(add-hook 'clojure-mode-hook 'my/coding-on)
+(add-hook 'clojure-mode-hook 'my/paredit-mode-on)
+(add-hook 'cider-repl-mode-hook 'my/paredit-mode-on)
+(add-hook 'cidr-repl-mode-hook 'my/eldoc-mode-on)
+(add-hook 'cider-mode-hook 'my/eldoc-mode-on)
 
 (defun my/describe-function ()
+  "Personal variant of `describe-function'."
   (interactive)
   (let ((fn (function-called-at-point)))
     (if fn
@@ -222,22 +240,15 @@
 (define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
 (define-key emacs-lisp-mode-map (kbd "C-c C-d C-d") 'my/describe-function)
 (define-key emacs-lisp-mode-map "\C-m" 'newline-and-indent)
+(add-hook 'emacs-lisp-mode-hook 'my/coding-on)
+(add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
 
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map "\C-h" 'paredit-backward-delete)
      (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)))
 
-(defun my/paredit-mode-on () (paredit-mode 1))
-(add-hook 'emacs-lisp-mode-hook 'my/paredit-mode-on)
-(add-hook 'clojure-mode-hook 'my/paredit-mode-on)
-(add-hook 'lisp-mode-hook 'my/paredit-mode-on)
-(add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
-(add-hook 'cider-repl-mode-hook 'my/paredit-mode-on)
-
 ;; For... lesser modes
-(add-hook 'puppet-mode-hook 'autopair-on)
-
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
 (defun my/ido-extra-keys ()
   "Add personal keybindings for ido."
@@ -248,58 +259,46 @@
   (define-key ido-completion-map "\C-b" 'ido-prev-match)
   (define-key ido-completion-map " "    'ido-exit-minibuffer))
 
-(eval-after-load 'eldoc
-  '(eldoc-add-command
-    'paredit-backward-delete
-    'paredit-close-round))
-(defun my/eldoc-mode-on () (eldoc-mode 1))
-(add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
-(add-hook 'cidr-repl-mode-hook 'cider-turn-on-eldoc-mode)
-(add-hook 'cider-mode-hook #'eldoc-mode)
-
 (defun my/cider-fit-docs (&rest args)
+  "Advice function for `cider-doc' to fit window to documentation.
+ARGS are as for `cider-doc'."
   (when (get-buffer-window cider-doc-buffer)
     (with-current-buffer cider-doc-buffer
       (tight-fit-window-to-buffer)
       (goto-char (point-min)))))
-(advice-add 'cider-doc :after #'my/cider-fit-docs)
-
-(defun my/cider-doc-other-window (f &rest args)
-  (save-selected-window (apply f args)))
-(advice-add 'cider-doc :around #'my/cider-doc-other-window)
 
 (defun my/cider-load-success-cleanup (&rest args)
+  "Advice function for `cider-load-file' to clear errors on successful load.
+ARGS are as for `cider-load-file'."
   (let ((window (get-buffer-window cider-error-buffer)))
     (when window (delete-window window))))
+
 (advice-add 'cider-load-file :before #'my/cider-load-success-cleanup)
+(advice-add 'cider-doc :after #'my/cider-fit-docs)
+(advice-add 'cider-doc :around #'my/preserve-selected-window)
 
 (defun my/cider-restore-git-gutter (&rest args)
+  "Advice function for updating the git gutter.
+ARGS are as per the arguments to the advised functions."
   (git-gutter:update-all-windows))
 (advice-add 'cider-test-clear-highlights :after #'my/cider-restore-git-gutter)
 (advice-add 'cider-test-render-report :after #'my/cider-restore-git-gutter)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
+  "Common mode hook for C modes."
   (c-toggle-auto-hungry-state t)
-  (define-key c-mode-base-map "\C-m" 'c-context-line-break)
-  (setq autopair-handle-action-fns
-        (list #'autopair-default-handle-action
-              #'my/autopair-extra-newlines))
-  (autopair-on))
+  (define-key c-mode-base-map "\C-m" 'c-context-line-break))
 
 (eval-after-load 'ruby-mode
   '(progn
      (require 'ruby-electric)
      (define-key ruby-mode-map "\C-m" 'ruby-electric-return)))
-(defun my/ruby-electric-on () (ruby-electric-mode 1))
+(defun my/ruby-electric-on ()
+  "Force on Ruby electric key bindings."
+  (ruby-electric-mode 1))
 (add-hook 'ruby-mode-hook 'my/ruby-electric-on)
 (add-hook 'ruby-mode-hook 'my/coding-on)
-(add-hook 'ruby-mode-hook 'autopair-on)
-;; (defadvice ruby-electric-bar
-;;   (around my/ruby-electric-rebar activate)
-;;   (if (looking-at (string last-command-event))
-;;       (forward-char 1)
-;;     ad-do-it))
 
 (eval-after-load 'python
   '(progn
@@ -314,11 +313,12 @@
   '(progn
      (define-key inferior-ess-mode-map (kbd "C-c M-o") 'ess-truncate-buffer)
      (define-key inferior-ess-mode-map (kbd "C-c C-d") 'ess-help)
+     (define-key inferior-ess-mode-map (kbd "_") 'self-insert-command)
      (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
-     (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)))
+     (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)
+     (define-key ess-mode-map (kbd "_") 'self-insert-command)))
 (add-hook 'ess-mode-hook 'my/coding-on)
-(add-hook 'ess-mode-hook 'autopair-on)
 (advice-add 'ess-load-file :around #'my/preserve-selected-window)
 
 (eval-after-load 'org
@@ -327,12 +327,17 @@
      (define-key org-mode-map (kbd "RET") 'org-return-indent)))
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-(eval-after-load 'octave-mod
+(eval-after-load 'octave
   '(progn
-     (define-key octave-mode-map (kbd "RET") 'newline-and-indent)))
+     (define-key octave-mode-map (kbd "RET") 'newline-and-indent)
+     (define-key octave-mode-map (kbd "C-h") nil)
+     (define-key inferior-octave-mode-map (kbd "C-h") nil)
+     (define-key inferior-octave-mode-map
+       (kbd "C-c M-o") 'my/comint-empty-buffer)))
 (add-hook 'octave-mode-hook 'my/coding-on)
-(add-hook 'octave-mode-hook 'autopair-on)
+(add-hook 'octave-mode-hook 'my/eldoc-mode-on)
 
 (eval-after-load 'rust-mode
   '(progn
@@ -340,12 +345,28 @@
      (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
      (define-key rust-mode-map (kbd "RET") 'newline-and-indent)))
 (add-hook 'rust-mode-hook 'my/coding-on)
-(add-hook 'rust-mode-hook 'autopair-on)
-(defun my/rust-whitespace () (setq-local whitespace-line-column 99))
+(defun my/rust-whitespace ()
+  "Set whitespace to Rust style maximum 99 columns."
+  (setq-local whitespace-line-column 99))
 (add-hook 'rust-mode-hook 'my/rust-whitespace)
+(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'racer-mode-hook 'my/eldoc-mode-on)
 
 (add-hook 'j-mode 'my/coding-on)
 (advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
+
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "C-h") nil)
+     (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)))
+(add-hook 'after-init-hook #'global-company-mode)
+
+(eval-after-load 'elec-pair
+  '(progn
+     (let ((item (cdadr electric-pair-mode-map)))
+       (define-key electric-pair-mode-map (kbd "C-h") item)
+       (define-key electric-pair-mode-map (kbd "C-d") item))))
+(add-hook 'after-init-hook #'electric-pair-mode)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 

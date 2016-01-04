@@ -20,6 +20,14 @@
  '(cider-repl-use-clojure-font-lock t)
  '(cider-server-command "lein trampoline repl :headless")
  '(column-number-mode t)
+ '(company-backends
+   (quote
+    (company-math-symbols-unicode company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
+                                  (company-dabbrev-code company-gtags company-etags company-keywords)
+                                  company-oddmuse company-files company-dabbrev)))
+ '(company-minimum-prefix-length 2)
+ '(company-tooltip-align-annotations t)
+ '(eldoc-idle-delay 0)
  '(erc-auto-query (quote bury))
  '(erc-fill-column 43)
  '(erc-hide-list nil)
@@ -39,6 +47,7 @@
  '(flyspell-use-global-abbrev-table-p t)
  '(fringe-mode (quote (2 . 8)) nil (fringe))
  '(git-gutter:hide-gutter t)
+ '(global-company-mode t)
  '(global-git-gutter-mode t)
  '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))
@@ -69,7 +78,8 @@
      (emacs-lisp . t)
      (clojure . t)
      (sh . t)
-     (python . t))))
+     (python . t)
+     (octave . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
  '(org-format-latex-options
@@ -78,6 +88,8 @@
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-log-done (quote time))
  '(org-src-fontify-natively t)
+ '(org-startup-with-inline-images t)
+ '(org-startup-with-latex-preview t)
  '(org-structure-template-alist
    (quote
     (("s" "#+begin_src ?
@@ -133,8 +145,10 @@
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-     ("marmalade" . "http://marmalade-repo.org/packages/"))))
+     ("melpa-stable" . "https://stable.melpa.org/packages/")
+     ("marmalade" . "http://marmalade-repo.org/packages/")
+     ("org" . "http://orgmode.org/elpa/"))))
+ '(racer-rust-src-path "~/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
@@ -152,6 +166,8 @@
  '(send-mail-function (quote smtpmail-send-it))
  '(server-raise-frame nil)
  '(show-paren-mode t)
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 587)
  '(tab-width 8)
  '(temp-buffer-max-height (lambda (buffer) (/ (- (frame-height) 2) 3)))
  '(temp-buffer-resize-mode t)

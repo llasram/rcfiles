@@ -3,10 +3,13 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        autopair-insert-opening
+        autopair-skip-close-maybe
         beginning-of-buffer
         downcase-region
         generic-hungry-backspace
         generic-hungry-delete
+        kill-region
         ))
 
 (setq mc/cmds-to-run-once
