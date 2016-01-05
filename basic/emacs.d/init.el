@@ -333,7 +333,9 @@ ARGS are as per the arguments to the advised functions."
   '(progn
      (define-key octave-mode-map (kbd "RET") 'newline-and-indent)
      (define-key octave-mode-map (kbd "C-h") nil)
+     (define-key octave-mode-map (kbd "C-c C-d") 'octave-help)
      (define-key inferior-octave-mode-map (kbd "C-h") nil)
+     (define-key inferior-octave-mode-map (kbd "C-c C-d") 'octave-help)
      (define-key inferior-octave-mode-map
        (kbd "C-c M-o") 'my/comint-empty-buffer)))
 (add-hook 'octave-mode-hook 'my/coding-on)

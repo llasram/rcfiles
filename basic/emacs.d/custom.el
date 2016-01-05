@@ -28,6 +28,8 @@
  '(company-minimum-prefix-length 2)
  '(company-tooltip-align-annotations t)
  '(eldoc-idle-delay 0)
+ '(electric-indent-mode t)
+ '(electric-layout-mode t)
  '(erc-auto-query (quote bury))
  '(erc-fill-column 43)
  '(erc-hide-list nil)
