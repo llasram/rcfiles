@@ -65,6 +65,9 @@
  '(magit-diff-options (quote ("--patience")))
  '(magit-push-always-verify nil)
  '(mail-user-agent (quote gnus-user-agent))
+ '(matlab-functions-have-end t)
+ '(matlab-shell-command "/opt/mathworks/matlab/bin/matlab")
+ '(matlab-shell-command-switches (quote ("-nodesktop" "-nosplash")))
  '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
  '(message-send-mail-function (quote message-smtpmail-send-it))
@@ -154,7 +157,9 @@
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
-    ((whitespace-mode)
+    ((whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark)
+     (ess-bugs-chains . 1)
+     (whitespace-mode)
      (whitespace-line-column . 99)
      (eval put-clojure-indent
            (quote c-for)

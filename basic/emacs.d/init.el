@@ -119,7 +119,6 @@
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
-(add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 
 ;;
@@ -308,6 +307,8 @@ ARGS are as per the arguments to the advised functions."
   '(progn
      (require 'ess-inf)
      (require 'ess-mode)
+     (require 'ess-bugs-d)
+     (require 'ess-jags-d)
      (require 'llasram-ess)))
 (eval-after-load 'llasram-ess
   '(progn
@@ -317,9 +318,11 @@ ARGS are as per the arguments to the advised functions."
      (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
      (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)
-     (define-key ess-mode-map (kbd "_") 'self-insert-command)))
+     (define-key ess-mode-map (kbd "_") 'self-insert-command)
+     (define-key ess-bugs-mode-map (kbd "_") 'self-insert-command)))
 (add-hook 'ess-mode-hook 'my/coding-on)
 (advice-add 'ess-load-file :around #'my/preserve-selected-window)
+(require 'ess-site) ;; hacky, but easy
 
 (eval-after-load 'org
   '(progn
@@ -328,6 +331,37 @@ ARGS are as per the arguments to the advised functions."
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+(defun my/matlab-electric ()
+  "Setup electric rules for MATLAB code."
+  (setq-local electric-indent-chars (cons ?\; electric-indent-chars))
+  (setq-local electric-layout-rules '((?\; . after)))
+  (setq-local electric-pair-pairs '((?\; . after))))
+
+(eval-after-load 'matlab-mode
+  '(progn
+     (define-key matlab-mode-map (kbd "C-h") nil)
+     (define-key matlab-mode-map (kbd "C-c h") nil)
+     (define-key matlab-mode-map
+       (kbd "C-c C-d") 'matlab-view-current-word-doc-in-another-buffer)
+     (define-key matlab-mode-map
+       (kbd "M-.") 'matlab-jump-to-definition-of-word-at-cursor)
+     (define-key matlab-shell-mode-map (kbd "C-h") nil)
+     (define-key matlab-shell-mode-map (kbd "C-c h") nil)
+     (define-key matlab-shell-mode-map (kbd "TAB") 'company-complete)
+     (define-key matlab-shell-mode-map
+       (kbd "C-c M-o") 'my/comint-empty-buffer)
+     (define-key matlab-shell-mode-map
+       (kbd "C-c C-d") 'matlab-view-current-word-doc-in-another-buffer)
+     (define-key matlab-shell-mode-map
+       (kbd "M-.") 'matlab-jump-to-definition-of-word-at-cursor)
+     (defun matlab-do-functions-have-end-p () t)))
+(add-hook 'matlab-mode-hook 'my/coding-on)
+(add-hook 'matlab-mode-hook 'my/eldoc-mode-on)
+(add-hook 'matlab-mode-hook 'my/matlab-electric)
+(add-hook 'matlab-shell-mode-hook 'my/eldoc-mode-on)
+(advice-add 'matlab-view-current-word-doc-in-another-buffer
+            :around #'my/preserve-selected-window)
 
 (eval-after-load 'octave
   '(progn
@@ -340,6 +374,14 @@ ARGS are as per the arguments to the advised functions."
        (kbd "C-c M-o") 'my/comint-empty-buffer)))
 (add-hook 'octave-mode-hook 'my/coding-on)
 (add-hook 'octave-mode-hook 'my/eldoc-mode-on)
+
+(if (file-accessible-directory-p "~/ws/matlab-mode")
+    (progn
+      (add-to-list 'load-path "~/ws/matlab-mode")
+      (add-to-list 'auto-mode-alist '("\\.m$" . matlab-mode))
+      (autoload 'matlab-mode "matlab-mode" "" t)
+      (autoload 'matlab-shell "matlab-mode" "" t))
+  (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode)))
 
 (eval-after-load 'rust-mode
   '(progn

@@ -7,9 +7,15 @@
         autopair-skip-close-maybe
         beginning-of-buffer
         downcase-region
+        ess-smart-comma
         generic-hungry-backspace
         generic-hungry-delete
         kill-region
+        org-beginning-of-line
+        org-end-of-line
+        org-force-self-insert
+        org-self-insert-command
+        org-yank
         ))
 
 (setq mc/cmds-to-run-once
