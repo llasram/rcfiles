@@ -20,6 +20,8 @@
  '(cider-repl-use-clojure-font-lock t)
  '(cider-server-command "lein trampoline repl :headless")
  '(column-number-mode t)
+ '(comint-move-point-for-output (quote this))
+ '(comint-scroll-to-bottom-on-input (quote this))
  '(company-backends
    (quote
     (company-math-symbols-unicode company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
@@ -91,6 +93,19 @@
    (quote
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-latex-listings (quote minted))
+ '(org-latex-minted-langs
+   (quote
+    ((emacs-lisp "common-lisp")
+     (cc "c++")
+     (cperl "perl")
+     (shell-script "bash")
+     (caml "ocaml")
+     (ess-jags "jags"))))
+ '(org-latex-pdf-process
+   (quote
+    ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+ '(org-latex-prefer-user-labels t)
  '(org-log-done (quote time))
  '(org-src-fontify-natively t)
  '(org-startup-with-inline-images t)
@@ -157,7 +172,8 @@
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
-    ((whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark)
+    ((org-latex-prefer-user-labels . t)
+     (whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark)
      (ess-bugs-chains . 1)
      (whitespace-mode)
      (whitespace-line-column . 99)
