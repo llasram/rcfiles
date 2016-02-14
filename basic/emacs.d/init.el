@@ -218,10 +218,15 @@ arguments to `apply' that function to."
   (let ((comint-buffer-maximum-size 0))
     (comint-truncate-buffer)))
 
+(eval-after-load 'comint
+  '(progn
+     (define-key comint-mode-map (kbd "C-c o") 'my/comint-empty-buffer)))
+
 (eval-after-load 'clojure-mode
   '(progn
      (require 'cider)
-     (define-key clojure-mode-map "\C-m" 'paredit-newline)))
+     (define-key clojure-mode-map "\C-m" 'paredit-newline)
+     (define-key cider-repl-mode-map (kbd "C-c o") 'cider-repl-clear-buffer)))
 (add-hook 'clojure-mode-hook 'my/coding-on)
 (add-hook 'clojure-mode-hook 'my/paredit-mode-on)
 (add-hook 'cider-repl-mode-hook 'my/paredit-mode-on)
@@ -312,7 +317,6 @@ ARGS are as per the arguments to the advised functions."
      (require 'llasram-ess)))
 (eval-after-load 'llasram-ess
   '(progn
-     (define-key inferior-ess-mode-map (kbd "C-c M-o") 'ess-truncate-buffer)
      (define-key inferior-ess-mode-map (kbd "C-c C-d") 'ess-help)
      (define-key inferior-ess-mode-map (kbd "_") 'self-insert-command)
      (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
@@ -350,8 +354,6 @@ ARGS are as per the arguments to the advised functions."
      (define-key matlab-shell-mode-map (kbd "C-c h") nil)
      (define-key matlab-shell-mode-map (kbd "TAB") 'company-complete)
      (define-key matlab-shell-mode-map
-       (kbd "C-c M-o") 'my/comint-empty-buffer)
-     (define-key matlab-shell-mode-map
        (kbd "C-c C-d") 'matlab-view-current-word-doc-in-another-buffer)
      (define-key matlab-shell-mode-map
        (kbd "M-.") 'matlab-jump-to-definition-of-word-at-cursor)
@@ -369,9 +371,7 @@ ARGS are as per the arguments to the advised functions."
      (define-key octave-mode-map (kbd "C-h") nil)
      (define-key octave-mode-map (kbd "C-c C-d") 'octave-help)
      (define-key inferior-octave-mode-map (kbd "C-h") nil)
-     (define-key inferior-octave-mode-map (kbd "C-c C-d") 'octave-help)
-     (define-key inferior-octave-mode-map
-       (kbd "C-c M-o") 'my/comint-empty-buffer)))
+     (define-key inferior-octave-mode-map (kbd "C-c C-d") 'octave-help)))
 (add-hook 'octave-mode-hook 'my/coding-on)
 (add-hook 'octave-mode-hook 'my/eldoc-mode-on)
 
