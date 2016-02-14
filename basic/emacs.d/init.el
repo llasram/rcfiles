@@ -250,7 +250,9 @@ arguments to `apply' that function to."
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map "\C-h" 'paredit-backward-delete)
-     (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)))
+     (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)
+     (define-key paredit-mode-map "\M-{" 'paredit-wrap-curly)
+     (define-key paredit-mode-map "\M-[" 'paredit-wrap-square)))
 
 ;; For... lesser modes
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
