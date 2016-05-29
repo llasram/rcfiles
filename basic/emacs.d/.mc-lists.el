@@ -6,6 +6,10 @@
         autopair-insert-opening
         autopair-skip-close-maybe
         beginning-of-buffer
+        c-electric-paren
+        c-electric-semi&comma
+        c-indent-line-or-region
+        c-indent-new-comment-line
         downcase-region
         ess-smart-comma
         generic-hungry-backspace

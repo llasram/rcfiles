@@ -17,7 +17,7 @@
                    magit markdown-mode mmm-mode muse paredit puppet-mode
                    scala-mode2 typopunct flycheck erc-hl-nicks yaml-mode
                    toml-mode company-math org-plus-contrib racer rust-mode
-                   stan-mode))
+                   stan-mode elpy))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -220,7 +220,9 @@ arguments to `apply' that function to."
 
 (eval-after-load 'comint
   '(progn
-     (define-key comint-mode-map (kbd "C-c o") 'my/comint-empty-buffer)))
+     (define-key comint-mode-map (kbd "C-c o") 'my/comint-empty-buffer)
+     (define-key comint-mode-map (kbd "C-c r")
+       'comint-history-isearch-backward)))
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -309,6 +311,7 @@ ARGS are as per the arguments to the advised functions."
 (eval-after-load 'python
   '(progn
      (define-key python-mode-map "\C-m" 'newline-and-indent)))
+(elpy-enable)
 
 (eval-after-load "ess-site"
   '(progn
@@ -328,6 +331,7 @@ ARGS are as per the arguments to the advised functions."
      (define-key ess-bugs-mode-map (kbd "_") 'self-insert-command)))
 (add-hook 'ess-mode-hook 'my/coding-on)
 (advice-add 'ess-load-file :around #'my/preserve-selected-window)
+(advice-add 'ess-help :around #'my/preserve-selected-window)
 (require 'ess-site) ;; hacky, but easy
 
 (eval-after-load 'org
@@ -337,6 +341,10 @@ ARGS are as per the arguments to the advised functions."
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+(defun my/run-write-file-functions (&rest args)
+  "Run the `write-file-functions' hook, ignoring ARGS."
+  (run-hooks 'write-file-functions))
+(advice-add 'org-edit-src-save :before #'my/run-write-file-functions)
 
 (defun my/matlab-electric ()
   "Setup electric rules for MATLAB code."

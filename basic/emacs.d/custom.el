@@ -24,14 +24,18 @@
  '(comint-scroll-to-bottom-on-input (quote this))
  '(company-backends
    (quote
-    (company-math-symbols-unicode company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
-                                  (company-dabbrev-code company-gtags company-etags company-keywords)
-                                  company-oddmuse company-files company-dabbrev)))
+    (company-nxml company-css company-eclim company-semantic company-clang company-xcode company-ropemacs company-cmake company-capf
+                  (company-dabbrev-code company-gtags company-etags company-keywords)
+                  company-oddmuse company-files)))
  '(company-minimum-prefix-length 2)
  '(company-tooltip-align-annotations t)
  '(eldoc-idle-delay 0)
  '(electric-indent-mode t)
  '(electric-layout-mode t)
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-sane-defaults)))
+ '(elpy-rpc-backend "jedi")
  '(erc-auto-query (quote bury))
  '(erc-fill-column 43)
  '(erc-hide-list nil)
@@ -45,6 +49,7 @@
  '(erc-prompt ">")
  '(erc-query-display (quote buffer))
  '(erc-spelling-mode t)
+ '(ess-default-style (quote RStudio))
  '(fill-column 80)
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
@@ -101,7 +106,9 @@
      (cperl "perl")
      (shell-script "bash")
      (caml "ocaml")
-     (ess-jags "jags"))))
+     (ess-jags "jags")
+     (ess-bugs "bugs")
+     (ipython "python"))))
  '(org-latex-pdf-process
    (quote
     ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
@@ -168,7 +175,7 @@
      ("melpa-stable" . "https://stable.melpa.org/packages/")
      ("marmalade" . "http://marmalade-repo.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
- '(racer-rust-src-path "~/ws/rust/src/")
+ '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
@@ -199,6 +206,7 @@
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
  '(user-full-name "Marshall Bockrath-Vandegrift")
  '(user-mail-address "llasram@damballa.com")
+ '(warning-suppress-types (quote ((undo discard-info))))
  '(whitespace-action (quote (auto-cleanup)))
  '(whitespace-style
    (quote
