@@ -6,11 +6,11 @@ XTerm*background: black
 UXTerm*background: white
 XTerm*foreground: white
 UXTerm*foreground: black
-XTerm*faceName: Source Code Pro-8:style=Light:hintstyle=hintfull
-UXTerm*faceName: Source Code Pro-8:style=Light:hintstyle=hintfull
+XTerm*faceName: xft:Source Code Pro-8
+UXTerm*faceName: xft:Source Code Pro-8
 XTerm*termName: xterm-256color
 UXTerm*termName: xterm-256color
-Xft.antialias:	1
-Xft.hinting: 1
+Xft.antialias: true
+Xft.hinting: true
 Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
