@@ -225,4 +225,6 @@
  '(git-gutter:deleted ((t (:foreground "red" :inverse-video t :weight bold))))
  '(git-gutter:modified ((t (:foreground "magenta" :inverse-video t :weight bold))))
  '(gnu-apl-default ((t (:family "APL385 Unicode Regular"))) t)
- '(j-adverb-face ((t (:foreground "green4")))))
+ '(j-adverb-face ((t (:foreground "forest green"))))
+ '(j-conjunction-face ((t (:foreground "dark cyan"))))
+ '(j-verb-face ((t (:foreground "Blue1")))))
