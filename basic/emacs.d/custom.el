@@ -15,6 +15,7 @@
  '(cider-history-file "~/.cidr-history")
  '(cider-lein-parameters "trampoline repl :headless")
  '(cider-prompt-for-symbol nil)
+ '(cider-repl-display-help-banner nil)
  '(cider-repl-history-file "/home/llasram/.cider-history")
  '(cider-repl-pop-to-buffer-on-connect nil)
  '(cider-repl-use-clojure-font-lock t)
@@ -29,6 +30,7 @@
                   company-oddmuse company-files)))
  '(company-minimum-prefix-length 2)
  '(company-tooltip-align-annotations t)
+ '(edit-server-new-frame nil)
  '(eldoc-idle-delay 0)
  '(electric-indent-mode t)
  '(electric-layout-mode t)
@@ -51,6 +53,7 @@
  '(erc-spelling-mode t)
  '(ess-default-style (quote RStudio))
  '(fill-column 80)
+ '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
@@ -175,7 +178,7 @@
      ("melpa-stable" . "https://stable.melpa.org/packages/")
      ("marmalade" . "http://marmalade-repo.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
- '(racer-rust-src-path "/home/llasram/ws/rust/src/")
+ '(racer-rust-src-path "~/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote

@@ -429,7 +429,7 @@ ARGS are as per the arguments to the advised functions."
       '(("freenode.net" "#clojure" "#leiningen")
         ("mozilla.org" "#rust")
         ("damballa" "#rnd" "#bugfarmers" "#cspfarmers" "#itops"
-                    "#threatresearch" "#research")))
+                    "#threatresearch" "#research" "#watercooler")))
 
 (provide 'init)
 ;;; init.el ends here

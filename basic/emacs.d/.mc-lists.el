@@ -12,18 +12,25 @@
         c-indent-new-comment-line
         downcase-region
         ess-smart-comma
+        dabbrev-expand
+        downcase-region
+        forward-sexp
         generic-hungry-backspace
         generic-hungry-delete
         kill-region
+        mark-sexp
         org-beginning-of-line
         org-end-of-line
         org-force-self-insert
         org-self-insert-command
         org-yank
+        paredit-doublequote
+        paredit-forward-slurp-sexp
         ))
 
 (setq mc/cmds-to-run-once
       '(
         handle-switch-frame
+        org-cycle
         yank-rectangle
         ))
