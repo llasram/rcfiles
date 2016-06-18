@@ -132,6 +132,9 @@ alias comitor="~/ws/comitor/comitor.rb > ~/tmp/comics.html \
                  && conkeror ~/tmp/comics.html"
 
 
+# Python startup, for history and tab-completion
+export PYTHONSTARTUP=$HOME/.pystartup
+
 # Prompt
 __my_git_ps1() {
     __git_ps1 2>/dev/null | sed -e 's, *(\(.*\)),\1,'
