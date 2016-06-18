@@ -1,1 +1,5 @@
 options(width=99)
+utils::assignInNamespace(
+  "q", ns="base", function(save="no", status=0, runLast=TRUE) {
+    .Internal(quit(save, status, runLast))
+  })
