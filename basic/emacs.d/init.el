@@ -15,9 +15,9 @@
                    clojure-mode-extra-font-locking company diminish ess
                    find-file-in-repository git-gutter htmlize julia-mode
                    magit markdown-mode mmm-mode muse paredit puppet-mode
-                   scala-mode2 typopunct flycheck erc-hl-nicks yaml-mode
+                   typopunct flycheck erc-hl-nicks yaml-mode
                    toml-mode company-math org-plus-contrib racer rust-mode
-                   stan-mode elpy))
+                   stan-mode elpy ensime))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -63,6 +63,18 @@
 (defun llasram/message-mode-hook ()
   "Setup buffer for mode."
   (setq fill-column 72))
+(add-hook 'gnus-started-hook 'my/gnus-started-hook)
+(defun my/gnus-started-hook ()
+  "Setup Gnus the way I like it."
+  (gnus-topic-mode 1)
+  (gnus-group-list-all-groups))
+
+;; bbdb
+(require 'bbdb-loaddefs)
+(require 'bbdb)
+(bbdb-initialize 'gnus 'message)
+(bbdb-mua-auto-update-init 'gnus 'message)
+(define-key gnus-summary-mode-map (kbd ";") 'bbdb-mua-edit-field)
 
 ;; git-gutter
 (require 'git-gutter)
@@ -82,6 +94,7 @@
 (require 'muse-platyblog)
 (require 'llasram-clojure-indent)
 (require 'flyspell-everywhere)
+(require 'llasram-misc)
 
 ;; Diminish after everything else is loaded
 (require 'yasnippet)
@@ -181,6 +194,11 @@
      (define-key xterm-function-map "\e[1;9F" [M-end])
      (define-key xterm-function-map "\e[1;9H" [M-home])))
 
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(defun my/disable-flycheck-mode ()
+  "Disable flycheck mode"
+  (flycheck-mode -1))
+
 (defun my/coding-on ()
   "Enable minor modes etc for all code-editing buffers."
   (font-lock-mode 1)
@@ -189,6 +207,7 @@
 (add-hook 'puppet-mode-hook 'my/coding-on)
 (add-hook 'org-mode-hook 'my/coding-on)
 (add-hook 'python-mode-hook 'my/coding-on)
+(add-hook 'TeX-mode-hook 'my/coding-on) ; Close enough
 
 (defun my/paredit-mode-on ()
   "Force-enable `paredit-mode'."
@@ -409,6 +428,24 @@ ARGS are as per the arguments to the advised functions."
 (add-hook 'j-mode 'my/coding-on)
 (advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
 
+(eval-after-load 'ensime-mode
+  '(progn
+     (define-key ensime-mode-map (kbd "M-n") nil)
+     (define-key ensime-mode-map (kbd "C-c ! n") 'ensime-forward-note)
+     (define-key ensime-mode-map (kbd "M-p") nil)
+     (define-key ensime-mode-map (kbd "C-c ! p") 'ensime-backward-note)))
+(eval-after-load 'cc-mode
+  '(progn
+     (define-key java-mode-map (kbd "M-,") 'ensime-pop-find-definition-stack)))
+(add-hook 'scala-mode-hook 'my/coding-on)
+(add-hook 'scala-mode-hook 'ensime-mode)
+(add-hook 'scala-mode-hook 'my/disable-flycheck-mode)
+(defun my/scala-whitespace ()
+  "Set whitespace to Scala style maximum 99 columns."
+  (setq-local whitespace-line-column 99))
+(add-hook 'scala-mode-hook 'my/scala-whitespace)
+(add-hook 'c-mode-common-hook 'my/scala-whitespace)
+
 (eval-after-load 'company
   '(progn
      (define-key company-active-map (kbd "C-h") nil)
@@ -421,8 +458,6 @@ ARGS are as per the arguments to the advised functions."
        (define-key electric-pair-mode-map (kbd "C-h") item)
        (define-key electric-pair-mode-map (kbd "C-d") item))))
 (add-hook 'after-init-hook #'electric-pair-mode)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; erc (non-customizable)
 (setq erc-autojoin-channels-alist

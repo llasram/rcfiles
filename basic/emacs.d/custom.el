@@ -8,6 +8,10 @@
  '(ac-use-fuzzy nil)
  '(ac-use-menu-map t)
  '(backup-directory-alist (quote ((".*" . "~/.backup"))))
+ '(bbdb-message-all-addresses t)
+ '(bbdb-mua-pop-up-window-size 2)
+ '(bbdb-pop-up-layout (quote one-line))
+ '(bbdb-pop-up-window-size 2)
  '(browse-url-browser-function (quote browse-url-xdg-open))
  '(canlock-password "30a32630624cdac50341667c89e7e01a9713a094")
  '(cider-auto-jump-to-error t)
@@ -15,7 +19,6 @@
  '(cider-history-file "~/.cidr-history")
  '(cider-lein-parameters "trampoline repl :headless")
  '(cider-prompt-for-symbol nil)
- '(cider-repl-display-help-banner nil)
  '(cider-repl-history-file "/home/llasram/.cider-history")
  '(cider-repl-pop-to-buffer-on-connect nil)
  '(cider-repl-use-clojure-font-lock t)
@@ -30,7 +33,6 @@
                   company-oddmuse company-files)))
  '(company-minimum-prefix-length 2)
  '(company-tooltip-align-annotations t)
- '(edit-server-new-frame nil)
  '(eldoc-idle-delay 0)
  '(electric-indent-mode t)
  '(electric-layout-mode t)
@@ -38,6 +40,7 @@
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
+ '(ensime-implicit-gutter-icons nil)
  '(erc-auto-query (quote bury))
  '(erc-fill-column 43)
  '(erc-hide-list nil)
@@ -53,7 +56,6 @@
  '(erc-spelling-mode t)
  '(ess-default-style (quote RStudio))
  '(fill-column 80)
- '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(flyspell-abbrev-p t)
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
@@ -61,6 +63,7 @@
  '(git-gutter:hide-gutter t)
  '(global-company-mode t)
  '(global-git-gutter-mode t)
+ '(gnus-gcc-mark-as-read t)
  '(gnus-message-archive-group "nnml:sent")
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
@@ -80,7 +83,11 @@
  '(matlab-shell-command-switches (quote ("-nodesktop" "-nosplash")))
  '(max-specpdl-size 2600)
  '(menu-bar-mode nil)
+ '(message-alternative-emails nil)
+ '(message-dont-reply-to-names "\\(llasram\\|mbockrath\\)@")
  '(message-send-mail-function (quote message-smtpmail-send-it))
+ '(mml2015-encrypt-to-self t)
+ '(mml2015-signers (quote ("69ABB985")))
  '(mouse-yank-at-point t)
  '(nrepl-history-file "~/.nrepl-history")
  '(nrepl-popup-stacktraces nil)
@@ -94,13 +101,51 @@
      (clojure . t)
      (sh . t)
      (python . t)
-     (octave . t))))
+     (octave . t)
+     (ipython . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-babel-evaluate nil)
  '(org-format-latex-options
    (quote
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-latex-classes
+   (quote
+    (("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[11pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("letter" "\\documentclass[11pt]{letter}"))))
+ '(org-latex-default-packages-alist
+   (quote
+    (("T1" "fontenc" t)
+     ("AUTO" "inputenc" t)
+     ("" "fixltx2e" nil)
+     ("" "graphicx" t)
+     ("" "grffile" t)
+     ("" "longtable" nil)
+     ("" "wrapfig" nil)
+     ("" "rotating" nil)
+     ("normalem" "ulem" t)
+     ("" "amsmath" t)
+     ("" "textcomp" t)
+     ("" "amssymb" t)
+     ("" "capt-of" nil)
+     ("" "hyperref" nil))))
  '(org-latex-listings (quote minted))
  '(org-latex-minted-langs
    (quote
@@ -112,6 +157,7 @@
      (ess-jags "jags")
      (ess-bugs "bugs")
      (ipython "python"))))
+ '(org-latex-packages-alist (quote (("" "lmodern" nil) ("" "mathtools" nil))))
  '(org-latex-pdf-process
    (quote
     ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
@@ -178,7 +224,8 @@
      ("melpa-stable" . "https://stable.melpa.org/packages/")
      ("marmalade" . "http://marmalade-repo.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
- '(racer-rust-src-path "~/ws/rust/src/")
+ '(racer-cmd "~/.cargo/bin/racer")
+ '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
@@ -208,7 +255,7 @@
  '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
  '(user-full-name "Marshall Bockrath-Vandegrift")
- '(user-mail-address "llasram@damballa.com")
+ '(user-mail-address "llasram@gmail.com")
  '(warning-suppress-types (quote ((undo discard-info))))
  '(whitespace-action (quote (auto-cleanup)))
  '(whitespace-style
@@ -227,4 +274,5 @@
  '(gnu-apl-default ((t (:family "APL385 Unicode Regular"))) t)
  '(j-adverb-face ((t (:foreground "forest green"))))
  '(j-conjunction-face ((t (:foreground "dark cyan"))))
- '(j-verb-face ((t (:foreground "Blue1")))))
+ '(j-verb-face ((t (:foreground "Blue1"))))
+ '(preview-reference-face ((t (:height 112)))))
