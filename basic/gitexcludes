@@ -17,3 +17,5 @@ nohup.out
 *.egg-info
 .RData
 .Rhistory
+.ensime
+.ensime_cache/
