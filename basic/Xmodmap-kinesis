@@ -8,6 +8,7 @@ clear mod5
 ! Right thumb switches
 keysym Super_R = Alt_R
 keysym Control_R = Super_R
+keysym Alt_R = Super_R
 
 ! Left thumb switches
 keysym BackSpace = Control_L
@@ -18,8 +19,10 @@ keysym Home = BackSpace
 keysym End = Delete
 
 ! More typical Dvorak
-! keysym backslash = minus underscore
-! keysym minus = backslash bar
+keysym backslash = minus underscore
+keysym minus = backslash bar
+keysym equal = grave asciitilde
+keycode 94 = equal plus
 
 ! Twiddle > grave
 ! keysym grave = asciitilde grave

@@ -10,13 +10,14 @@
         c-electric-semi&comma
         c-indent-line-or-region
         c-indent-new-comment-line
-        downcase-region
-        ess-smart-comma
         dabbrev-expand
         downcase-region
+        downcase-region
+        ess-smart-comma
         forward-sexp
         generic-hungry-backspace
         generic-hungry-delete
+        indent-for-tab-command
         kill-region
         mark-sexp
         org-beginning-of-line
@@ -26,6 +27,7 @@
         org-yank
         paredit-doublequote
         paredit-forward-slurp-sexp
+        search-forward
         ))
 
 (setq mc/cmds-to-run-once

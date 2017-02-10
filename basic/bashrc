@@ -1,8 +1,20 @@
 #! /bin/bash
 
+# Load gpg-agent-info
+for file in "$HOME/.gnupg/gpg-agent-info-"* $HOME/.gpg-agent-info; do
+    [ -f "$file" ] && source "$file" && export GPG_AGENT_INFO
+done
+
+# Load keychain-managed ssh/gpg agent info
+if [[ -z $SSH_AUTH_FORWARD ]]; then
+    for file in "$HOME/.keychain/${HOSTNAME}-sh"*; do
+        [[ -f $file ]] && source "$file"
+    done
+fi
+
 # Add a few additional path entries
 add_path() {
-    if [ "x$PATH" = "x" ]; then
+    if [[ -z $PATH ]]; then
         export PATH="$1"
     elif ! echo "$PATH" | tr ':' '\n' | grep -Fxq "$1"; then
         export PATH="$1:$PATH"
@@ -31,8 +43,9 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # For setting history length see HISTSIZE and HISTFILESIZE
-HISTSIZE=10000
-HISTFILESIZE=200000
+export HISTSIZE=10000
+export HISTFILESIZE=200000
+export HISTCONTROL=ignoreboth:erasedups
 
 # Check the window size after each command and, if necessary, update
 # the values of LINES and COLUMNS.
@@ -41,6 +54,9 @@ shopt -s checkwinsize
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar >/dev/null 2>&1
+
+# OMG why would anyone want the default behavior for C-s?
+stty -ixon
 
 # Pull in external definitions when available
 source_exists() {
@@ -80,7 +96,7 @@ alias h='ls'
 alias hh='ls -l'
 
 # Options for greppings
-alias grep='grep --color=auto'
+alias grep='grep -E --color=auto'
 alias ag="ag --color-match=34 --color-path=35 --pager=$PAGER"
 
 # Utility functions
@@ -158,7 +174,7 @@ __git_status() {
 
 __ruby_status() {
     local status
-    if [[ "x$GEM_HOME" != "x" ]]; then
+    if [[ -n $GEM_HOME ]]; then
         status=$(basename "$GEM_HOME")
         if [[ "$status" == .* ]]; then
             status=$(basename "$(dirname "$GEM_HOME")")
@@ -170,7 +186,7 @@ __ruby_status() {
 
 __python_status() {
     local status
-    if [[ "x$VIRTUAL_ENV" != "x" ]]; then
+    if [[ -n $VIRTUAL_ENV ]]; then
         status=$(basename "$VIRTUAL_ENV")
         if [[ "$status" == .* ]]; then
             status=$(basename "$(dirname "$VIRTUAL_ENV")")
@@ -182,7 +198,7 @@ __python_status() {
 
 __schroot_status() {
     local status
-    if [[ "x$SCHROOT_CHROOT_NAME" != "x" ]]; then
+    if [[ -n $SCHROOT_CHROOT_NAME ]]; then
         status=" schroot:\033[36m${SCHROOT_CHROOT_NAME}\033[0m"
     fi
     echo "$status"
@@ -202,7 +218,7 @@ __docker_status() {
 
 __hadoop_status() {
     local status
-    if [[ "x$HADOOP_CONF_DIR" != "x" ]]; then
+    if [[ -n $HADOOP_CONF_DIR ]]; then
         status=$(basename "$HADOOP_CONF_DIR")
         status=" hadoop:\033[36m${status:5}\033[0m"
     fi
@@ -223,7 +239,7 @@ prompt_command() {
 
     # Assemble complete prompt
     PS1="\n"
-    [[ "x$TERM" = "xscreen" ]] \
+    [[ $TERM = screen ]] \
         && PS1="${PS1}\033k\033\134@\\h\n\033[1A"
     PS1="${PS1}${exit_status} \\h:\033[34m\\w\033[0m"
     PS1="${PS1}$(__git_status)"

@@ -16,7 +16,7 @@
                    find-file-in-repository git-gutter htmlize julia-mode
                    magit markdown-mode mmm-mode muse paredit puppet-mode
                    typopunct flycheck erc-hl-nicks yaml-mode
-                   toml-mode company-math org-plus-contrib racer rust-mode
+                   toml-mode company-math org racer rust-mode
                    stan-mode elpy ensime))
   (unless (package-installed-p package)
     (package-install package)))
@@ -46,6 +46,7 @@
 (add-hook 'muse-mode-hook 'my/text-editing-setup)
 (defun my/text-editing-setup ()
   "Enable minor modes etc for text-editing."
+  (auto-fill-mode 1)
   (typopunct-mode 1))
 
 ;; browse-kill-ring
@@ -95,6 +96,7 @@
 (require 'llasram-clojure-indent)
 (require 'flyspell-everywhere)
 (require 'llasram-misc)
+(require 'smarterquote)
 
 ;; Diminish after everything else is loaded
 (require 'yasnippet)
@@ -196,7 +198,7 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my/disable-flycheck-mode ()
-  "Disable flycheck mode"
+  "Disable flycheck mode."
   (flycheck-mode -1))
 
 (defun my/coding-on ()
@@ -347,6 +349,9 @@ ARGS are as per the arguments to the advised functions."
      (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
      (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)
      (define-key ess-mode-map (kbd "_") 'self-insert-command)
+     (define-key ess-mode-map (kbd "C-c h") nil)
+     (define-key ess-help-mode-map (kbd "C-c h") nil)
+     (define-key ess-noweb-minor-mode-map (kbd "C-c h") nil)
      (define-key ess-bugs-mode-map (kbd "_") 'self-insert-command)))
 (add-hook 'ess-mode-hook 'my/coding-on)
 (advice-add 'ess-load-file :around #'my/preserve-selected-window)
@@ -458,6 +463,53 @@ ARGS are as per the arguments to the advised functions."
        (define-key electric-pair-mode-map (kbd "C-h") item)
        (define-key electric-pair-mode-map (kbd "C-d") item))))
 (add-hook 'after-init-hook #'electric-pair-mode)
+
+
+(defun TeX-command-default--maybe-compile (orig-fun &rest args)
+  "If there's a Makefile, make the default command `compile'."
+  (if (file-exists-p "Makefile")
+      "Compile"
+    (apply orig-fun args)))
+(advice-add 'TeX-command-default :around
+            #'TeX-command-default--maybe-compile)
+
+(defadvice electric-pair-post-self-insert-function
+    (around single-electricity activate)
+  "If current command is an electric brace command, do nothing."
+  (if (not (eq this-command 'LaTeX-insert-left-brace))
+      ad-do-it))
+
+(defadvice LaTeX-common-initialization
+    (after electric-pair-anyway activate)
+  "Re-enable electric-pair-mode."
+  (set (make-local-variable 'electric-pair-mode) t))
+
+(defadvice TeX-insert-dollar
+    (around skip-close-math activate)
+  "If point is before the end of a math section, skip it."
+  (if (cond ((not (texmathp))
+             t)
+            ((and (eq (preceding-char) ?\$)
+                  (eq (following-char) ?\$))
+             (backward-char)
+             (delete-char 2)
+             (insert "\\[\\]")
+             (backward-char 2)
+             nil)
+            ((and (not (eq (preceding-char) ?\$))
+                  (eq (following-char) ?\$))
+             (forward-char)
+             nil)
+            ((< (point) (+ 2 (point-min)))
+             t)
+            ((or (and (not (string= (buffer-substring (- (point) 2) (point)) "\\["))
+                      (string= (buffer-substring (point) (+ (point) 2)) "\\]"))
+                 (and (not (string= (buffer-substring (- (point) 2) (point)) "\\("))
+                      (string= (buffer-substring (point) (+ (point) 2)) "\\)")))
+             (forward-char 2)
+             nil)
+            (t t))
+      ad-do-it))
 
 ;; erc (non-customizable)
 (setq erc-autojoin-channels-alist

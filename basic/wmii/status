@@ -4,4 +4,4 @@ echo -n \
     $(mpc -f '%position%. %title%' current) \
     '|' $(uptime | sed 's/.*://; s/,//g') \
     '|' $(acpi -b 2>&1 | grep -Eo '[0-9]+%' | paste -d' ' -s) \
-    '|' $(date)
+    '|' $(env TZ=America/New_York date)

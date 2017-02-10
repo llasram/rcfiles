@@ -15,7 +15,7 @@ set_client_width() {
     client=$(wmiir read /client/sel/ctl | head -n1)
     column=$(wmiir read /tag/sel/index | fgrep $client | awk '{print$1}')
     width=$(wmiir read /tag/sel/index | grep "^# $column " | awk '{print$4}')
-    last=$(wmiir read /tag/sel/index | grep -v '^#' | tail -n1 | awk '{print$1}')
+    last=$(wmiir read /tag/sel/index | grep -v '^[#~]' | tail -n1 | awk '{print$1}')
     diff=$(( $pixels - $width ))
     dir=$(if [ "x$column" = "x$last" ]; then echo left; else echo right; fi)
     wmiir xwrite /tag/sel/ctl "grow client $client $dir ${diff}px"
@@ -42,11 +42,15 @@ Key XF86MonBrightnessUp
 Key XF86MonBrightnessDown
 	xbacklight -dec 5
 Key XF86AudioMute
-	amixer -q -D pulse sset Master toggle
+	amixer -q sset Master toggle
 Key XF86AudioLowerVolume
-	amixer -q -D pulse sset Master 2%-
+	amixer -q sset Master 2%-
 Key XF86AudioRaiseVolume
-	amixer -q -D pulse sset Master 2%+
+	amixer -q sset Master 2%+
+Key XF86LaunchA
+	setxkbmap -option ctrl:nocaps dvorak; xmodmap ~/.Xmodmap
+Key XF86Explorer
+	setxkbmap -option ctrl:nocaps us; xmodmap ~/.Xmodmap-kinesis
 !
 
 status() {
