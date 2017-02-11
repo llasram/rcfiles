@@ -309,6 +309,8 @@
  '(tool-bar-mode nil)
  '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
+ '(use-package-always-ensure t)
+ '(use-package-always-pin "melpa-stable")
  '(user-full-name "Marshall Bockrath-Vandegrift")
  '(user-mail-address "llasram@gmail.com")
  '(warning-suppress-types (quote ((undo discard-info))))

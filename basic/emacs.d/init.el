@@ -9,17 +9,16 @@
 
 (require 'package)
 (package-initialize)
-(unless (file-exists-p package-user-dir)
-  (package-refresh-contents))
-(dolist (package '(ace-jump-mode ag browse-kill-ring cider clojure-mode
-                   clojure-mode-extra-font-locking company diminish ess
-                   find-file-in-repository git-gutter htmlize julia-mode
-                   magit markdown-mode mmm-mode muse paredit puppet-mode
-                   typopunct flycheck erc-hl-nicks yaml-mode
-                   toml-mode company-math org racer rust-mode
-                   stan-mode elpy ensime))
-  (unless (package-installed-p package)
-    (package-install package)))
+(let ((have-use-package (package-installed-p 'use-package))
+      (have-bind-key (package-installed-p 'bind-key)))
+  (unless (and have-use-package have-bind-key)
+    (package-refresh-contents)
+    (unless have-use-package (package-install 'use-package))
+    (unless have-bind-key (package-install 'bind-key))))
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -27,35 +26,45 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
-(server-start)
-
-;;
-;; Upstream extensions
-
-;; Misc
-(require 'assoc)
-(require 'saveplace)
-(require 'uniquify)
-
-;; Text editing
-(require 'flyspell)
-(define-key flyspell-mode-map (kbd "M-TAB") nil)
-(require 'typopunct)
-(add-hook 'markdown-mode-hook 'my/text-editing-setup)
-(add-hook 'text-mode-hook 'my/text-editing-setup)
-(add-hook 'muse-mode-hook 'my/text-editing-setup)
 (defun my/text-editing-setup ()
   "Enable minor modes etc for text-editing."
-  (auto-fill-mode 1)
-  (typopunct-mode 1))
+  (turn-on-auto-fill)
+  (turn-on-typopunct))
+(add-hook 'text-mode-hook 'my/text-editing-setup)
 
-;; browse-kill-ring
-(require 'browse-kill-ring)
-(defadvice yank-pop (around kill-ring-browse-maybe (arg) activate)
-  "If last action was not a yank, run `browse-kill-ring' instead."
-  (if (not (eq last-command 'yank))
-      (browse-kill-ring)
-    ad-do-it))
+(use-package server
+  :if window-system
+  :init (add-hook 'after-init-hook 'server-start t))
+
+(use-package flyspell
+  :commands flyspell-mode flyspell-prog-mode
+  :diminish flyspell-mode
+  :bind (:map flyspell-mode-map
+              ("M-TAB" . nil)))
+
+(use-package flyspell-everywhere
+  :ensure nil
+  :load-path "elisp")
+
+(use-package typopunct
+  :commands typopunct-mode turn-on-typopunct-mode
+  :diminish typopunct-mode
+  :init (defun turn-on-typopunct ()
+          (typopunct-mode 1)))
+
+(use-package markdown-mode
+  :mode "\\.md\\'" "\\.markdown\\'"
+  :init (add-hook 'markdown-mode-hook 'my/text-editing-setup))
+
+(use-package browse-kill-ring
+  :commands browse-kill-ring
+  :init
+  (defun yank-pop--browse-kill-ring (f &rest args)
+    "If last action was not a yank, run `browse-kill-ring' instead."
+    (if (not (eq last-command 'yank))
+        (browse-kill-ring)
+      (apply f args)))
+  (advice-add 'yank-pop :around #'yank-pop--browse-kill-ring))
 
 ;; gnus
 (require 'gnus)
@@ -94,7 +103,6 @@
 (require 'llasram-c-style)
 (require 'muse-platyblog)
 (require 'llasram-clojure-indent)
-(require 'flyspell-everywhere)
 (require 'llasram-misc)
 (require 'smarterquote)
 
@@ -131,8 +139,8 @@
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 (add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 
