@@ -4,8 +4,9 @@
 
 ;;; Code:
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(eval-and-compile
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file))
 
 (require 'package)
 (package-initialize)
@@ -26,18 +27,14 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
-(defun my/text-editing-setup ()
-  "Enable minor modes etc for text-editing."
-  (turn-on-auto-fill)
-  (turn-on-typopunct))
-(add-hook 'text-mode-hook 'my/text-editing-setup)
-
 (use-package server
   :if window-system
+  :commands server-start
   :init (add-hook 'after-init-hook 'server-start t))
 
 (use-package flyspell
   :commands flyspell-mode flyspell-prog-mode
+            turn-on-flyspell turn-off-flyspell
   :diminish flyspell-mode
   :bind (:map flyspell-mode-map
               ("M-TAB" . nil)))
@@ -47,17 +44,28 @@
   :load-path "elisp")
 
 (use-package typopunct
-  :commands typopunct-mode turn-on-typopunct-mode
+  :commands typopunct-mode turn-on-typopunct
+  :functions typopunct-insert-single-quotation-mark
   :diminish typopunct-mode
-  :init (defun turn-on-typopunct ()
-          (typopunct-mode 1)))
+  :init (add-hook 'text-mode-hook 'turn-on-typopunct)
+  :config (defun turn-on-typopunct ()
+            (typopunct-mode 1)))
+
+(use-package simple
+  :ensure nil
+  :commands auto-fill-mode turn-on-auto-fill
+  :diminish auto-fill-function
+  :init (add-hook 'text-mode-hook 'turn-on-auto-fill))
 
 (use-package markdown-mode
   :mode "\\.md\\'" "\\.markdown\\'"
-  :init (add-hook 'markdown-mode-hook 'my/text-editing-setup))
+  :init
+  (add-hook 'markdown-mode-hook 'turn-on-auto-fill)
+  (add-hook 'markdown-mode-hook 'turn-on-typopunct))
 
 (use-package browse-kill-ring
   :commands browse-kill-ring
+  :functions yank-pop--browse-kill-ring
   :init
   (defun yank-pop--browse-kill-ring (f &rest args)
     "If last action was not a yank, run `browse-kill-ring' instead."
@@ -66,68 +74,164 @@
       (apply f args)))
   (advice-add 'yank-pop :around #'yank-pop--browse-kill-ring))
 
-;; gnus
-(require 'gnus)
-(require 'message)
-(add-hook 'message-mode-hook 'llasram/message-mode-hook)
-(defun llasram/message-mode-hook ()
-  "Setup buffer for mode."
-  (setq fill-column 72))
-(add-hook 'gnus-started-hook 'my/gnus-started-hook)
-(defun my/gnus-started-hook ()
-  "Setup Gnus the way I like it."
-  (gnus-topic-mode 1)
-  (gnus-group-list-all-groups))
+(use-package gnus
+  :bind (("C-c m" . gnus)
+         :map gnus-summary-mode-map
+         (";" . bbdb-mua-edit-field))
+  :functions gnus-topic-mode gnus-group-list-all-groups
+  :config
+  (bbdb-initialize 'gnus 'message)
+  (bbdb-mua-auto-update-init 'gnus 'message)
 
-;; bbdb
-(require 'bbdb-loaddefs)
-(require 'bbdb)
-(bbdb-initialize 'gnus 'message)
-(bbdb-mua-auto-update-init 'gnus 'message)
-(define-key gnus-summary-mode-map (kbd ";") 'bbdb-mua-edit-field)
+  (defun my/gnus-started-hook ()
+    (gnus-topic-mode 1)
+    (gnus-group-list-all-groups))
+  (add-hook 'gnus-started-hook 'my/gnus-started-hook)
 
-;; git-gutter
-(require 'git-gutter)
-(global-git-gutter-mode)
-(add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
+  (defun my/message-mode-hook ()
+    "Setup buffer for mode."
+    (setq fill-column 72))
+  (add-hook 'message-mode-hook 'my/message-mode-hook))
+
+(use-package bbdb
+  :pin melpa
+  :commands bbdb-initialize bbdb-mua-auto-update-init)
+
+(use-package git-gutter
+  :demand t
+  :diminish git-gutter-mode
+  :bind (("C-c g d" . git-gutter:popup-hunk)
+         ("C-c g n" . git-gutter:next-hunk)
+         ("C-c g p" . git-gutter:previous-hunk)
+         ("C-c g r" . git-gutter:revert-hunk)
+         ("C-c g s" . git-gutter:stage-hunk))
+  :functions global-git-gutter-mode
+  :config
+  (add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
+  (global-git-gutter-mode))
+
+(use-package magit
+  :bind (("C-c g g" . magit-status)))
+
+(use-package hungry
+  :ensure nil
+  :load-path "elisp"
+  :commands generic-hungry-delete-advice
+  :functions generic-hungry-code-at-point-p
+  :bind (([backspace] . generic-hungry-backspace)
+         ("C-h" . generic-hungry-backspace)
+         ([delete] . generic-hungry-delete)
+         ("C-d" . generic-hungry-delete)))
+
+(use-package paredit
+  :commands paredit-mode turn-on-paredit
+  :functions paredit-backward-delete--hungry paredit-forward-delete--hungry
+  :diminish paredit-mode
+  :bind (:map paredit-mode-map
+         ("C-h" . paredit-backward-delete)
+         ("M-h" . paredit-backward-kill-word)
+         ("M-{" . paredit-wrap-curly)
+         ("M-[" . paredit-wrap-square))
+  :config
+  (defun turn-on-paredit () (paredit-mode 1))
+  (generic-hungry-delete-advice paredit-backward-delete skip-chars-backward)
+  (generic-hungry-delete-advice paredit-forward-delete skip-chars-forward))
+
+(use-package font-lock
+  :ensure nil
+  :commands turn-on-font-lock)
+
+(use-package whitespace
+  :diminish whitespace-mode
+  :commands turn-on-whitespace-mode
+  :config (defun turn-on-whitespace-mode () (whitespace-mode 1)))
+
+(use-package tight-fit
+  :ensure nil
+  :load-path "elisp"
+  :commands tight-fit-window-to-buffer)
+
+(use-package isearch-initial :ensure nil :load-path "elisp")
+(use-package llasram-c-style :ensure nil :load-path "elisp")
+(use-package llasram-misc :ensure nil :load-path "elisp")
+
+(use-package elec-pair
+  :commands electric-pair-mode
+  :functions electric-pair-post-self-insert-function--single
+  :init (add-hook 'after-init-hook 'electric-pair-mode)
+  :config
+  (let ((item (cdadr electric-pair-mode-map)))
+    (define-key electric-pair-mode-map (kbd "C-h") item)
+    (define-key electric-pair-mode-map (kbd "C-d") item))
+
+  (defun electric-pair-post-self-insert-function--single (f &rest args)
+    "If current command is an electric brace command, do nothing."
+    (unless (eq this-command 'LaTeX-insert-left-brace)
+      (apply f args)))
+  (advice-add 'electric-pair-post-self-insert-function :around
+              #'electric-pair-post-self-insert-function--single))
+
+(use-package tex
+  :ensure auctex
+  :mode ("\\.tex\\'" . LaTeX-mode)
+  :functions typopunct-insert-single-quotation-mark--texmathp
+             TeX-command-default--maybe-compile
+             LaTeX-common-initialization--electric-pair
+  :config
+  (defun typopunct-insert-single-quotation-mark--texmathp (f &rest args)
+    (if (and (or (eq major-mode 'latex-mode)
+                 (eq major-mode 'tex-mode))
+             (texmathp))
+        (insert ?\')
+      (apply f args)))
+  (advice-add 'typopunct-insert-single-quotation-mark :around
+              #'typopunct-insert-single-quotation-mark--texmathp)
+
+  (defun TeX-command-default--maybe-compile (f &rest args)
+    (if (file-exists-p "Makefile")
+        "Compile"
+      (apply f args)))
+  (advice-add 'TeX-command-default :around
+              #'TeX-command-default--maybe-compile)
+
+  (defun LaTeX-common-initialization--electric-pair ()
+    "Re-enable electric-pair-mode."
+    (setq-local electric-pair-mode t))
+  (advice-add 'LaTeX-common-initialization :after
+              #'LaTeX-common-initialization--electric-pair)
+
+  (add-hook 'TeX-mode-hook 'turn-on-font-lock)
+  (add-hook 'TeX-mode-hook 'turn-on-whitespace-mode))
+
+(use-package abbrev
+  :ensure nil
+  :diminish abbrev-mode
+  :config
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
+
+(use-package hideshow
+  :diminish hs-minor-mode)
+
+(use-package company
+  :diminish company-mode
+  :commands global-company-mode
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :bind (:map company-active-map
+         ("C-h" . nil)
+         ("C-d" . company-show-doc-buffer)))
 
 ;;
 ;; Local custom extensions
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
-(require 'llasram-autoloads)
-(require 'hungry)
-(require 'isearch-initial)
-(require 'tight-fit)
-(require 'llasram-c-style)
-(require 'muse-platyblog)
-(require 'llasram-clojure-indent)
-(require 'llasram-misc)
-(require 'smarterquote)
-
 ;; Diminish after everything else is loaded
-(require 'yasnippet)
-(require 'paredit)
 (require 'eldoc)
-(require 'whitespace)
 (require 'hideshow)
-(require 'magit)
-(require 'company)
 
-(require 'diminish)
 (mapc 'diminish
-      '(hs-minor-mode
-        abbrev-mode
-        eldoc-mode
-        paredit-mode
-        typopunct-mode
-        flyspell-mode
-        yas-minor-mode
-        whitespace-mode
-        git-gutter-mode
-        company-mode
-        global-company-mode
+      '(eldoc-mode
         ))
 
 ;; Mode mapping
@@ -139,21 +243,14 @@
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
-;(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-;(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
-(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
+
 
 ;;
 ;; General configuration
 
 (global-set-key "\C-ch" help-map)
 (global-set-key (kbd "C-x C-n") nil)
-
-(global-set-key [backspace] 'generic-hungry-backspace)
-(global-set-key "\C-h" 'generic-hungry-backspace)
-(global-set-key [delete] 'generic-hungry-delete)
-(global-set-key "\C-d" 'generic-hungry-delete)
 
 (global-set-key "\M-h" 'backward-kill-word)
 (global-unset-key "\C-z")
@@ -181,16 +278,7 @@
 (global-set-key (kbd "C-x C-f") 'find-file-in-repository)
 (global-set-key (kbd "C-x f") 'find-file)
 
-(global-set-key (kbd "C-c g") nil)
-(global-set-key (kbd "C-c g g") 'magit-status)
-(global-set-key (kbd "C-c g d") 'git-gutter:popup-hunk)
-(global-set-key (kbd "C-c g n") 'git-gutter:next-hunk)
-(global-set-key (kbd "C-c g p") 'git-gutter:previous-hunk)
-(global-set-key (kbd "C-c g r") 'git-gutter:revert-hunk)
-(global-set-key (kbd "C-c g s") 'git-gutter:stage-hunk)
-
 (global-set-key (kbd "C-c w") 'woman)
-(global-set-key (kbd "C-c m") 'gnus)
 
 (global-set-key (kbd "C-c f") 'font-lock-fontify-buffer)
 
@@ -217,7 +305,6 @@
 (add-hook 'puppet-mode-hook 'my/coding-on)
 (add-hook 'org-mode-hook 'my/coding-on)
 (add-hook 'python-mode-hook 'my/coding-on)
-(add-hook 'TeX-mode-hook 'my/coding-on) ; Close enough
 
 (defun my/paredit-mode-on ()
   "Force-enable `paredit-mode'."
@@ -253,17 +340,6 @@ arguments to `apply' that function to."
      (define-key comint-mode-map (kbd "C-c r")
        'comint-history-isearch-backward)))
 
-(eval-after-load 'clojure-mode
-  '(progn
-     (require 'cider)
-     (define-key clojure-mode-map "\C-m" 'paredit-newline)
-     (define-key cider-repl-mode-map (kbd "C-c o") 'cider-repl-clear-buffer)))
-(add-hook 'clojure-mode-hook 'my/coding-on)
-(add-hook 'clojure-mode-hook 'my/paredit-mode-on)
-(add-hook 'cider-repl-mode-hook 'my/paredit-mode-on)
-(add-hook 'cidr-repl-mode-hook 'my/eldoc-mode-on)
-(add-hook 'cider-mode-hook 'my/eldoc-mode-on)
-
 (defun my/describe-function ()
   "Personal variant of `describe-function'."
   (interactive)
@@ -273,17 +349,10 @@ arguments to `apply' that function to."
       (command-execute 'describe-function))))
 
 (define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-d C-d") 'my/describe-function)
+(define-key emacs-lisp-mode-map (kbd "C-c C-d") 'my/describe-function)
 (define-key emacs-lisp-mode-map "\C-m" 'newline-and-indent)
 (add-hook 'emacs-lisp-mode-hook 'my/coding-on)
 (add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
-
-(eval-after-load 'paredit
-  '(progn
-     (define-key paredit-mode-map "\C-h" 'paredit-backward-delete)
-     (define-key paredit-mode-map "\M-h" 'paredit-backward-kill-word)
-     (define-key paredit-mode-map "\M-{" 'paredit-wrap-curly)
-     (define-key paredit-mode-map "\M-[" 'paredit-wrap-square)))
 
 ;; For... lesser modes
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
@@ -295,31 +364,6 @@ arguments to `apply' that function to."
   (define-key ido-completion-map "\C-p" 'ido-prev-match)
   (define-key ido-completion-map "\C-b" 'ido-prev-match)
   (define-key ido-completion-map " "    'ido-exit-minibuffer))
-
-(defun my/cider-fit-docs (&rest args)
-  "Advice function for `cider-doc' to fit window to documentation.
-ARGS are as for `cider-doc'."
-  (when (get-buffer-window cider-doc-buffer)
-    (with-current-buffer cider-doc-buffer
-      (tight-fit-window-to-buffer)
-      (goto-char (point-min)))))
-
-(defun my/cider-load-success-cleanup (&rest args)
-  "Advice function for `cider-load-file' to clear errors on successful load.
-ARGS are as for `cider-load-file'."
-  (let ((window (get-buffer-window cider-error-buffer)))
-    (when window (delete-window window))))
-
-(advice-add 'cider-load-file :before #'my/cider-load-success-cleanup)
-(advice-add 'cider-doc :after #'my/cider-fit-docs)
-(advice-add 'cider-doc :around #'my/preserve-selected-window)
-
-(defun my/cider-restore-git-gutter (&rest args)
-  "Advice function for updating the git gutter.
-ARGS are as per the arguments to the advised functions."
-  (git-gutter:update-all-windows))
-(advice-add 'cider-test-clear-highlights :after #'my/cider-restore-git-gutter)
-(advice-add 'cider-test-render-report :after #'my/cider-restore-git-gutter)
 
 (add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
 (defun my/c-common-sane-defaults ()
@@ -378,53 +422,6 @@ ARGS are as per the arguments to the advised functions."
   (run-hooks 'write-file-functions))
 (advice-add 'org-edit-src-save :before #'my/run-write-file-functions)
 
-(defun my/matlab-electric ()
-  "Setup electric rules for MATLAB code."
-  (setq-local electric-indent-chars (cons ?\; electric-indent-chars))
-  (setq-local electric-layout-rules '((?\; . after)))
-  (setq-local electric-pair-pairs '((?\; . after))))
-
-(eval-after-load 'matlab-mode
-  '(progn
-     (define-key matlab-mode-map (kbd "C-h") nil)
-     (define-key matlab-mode-map (kbd "C-c h") nil)
-     (define-key matlab-mode-map
-       (kbd "C-c C-d") 'matlab-view-current-word-doc-in-another-buffer)
-     (define-key matlab-mode-map
-       (kbd "M-.") 'matlab-jump-to-definition-of-word-at-cursor)
-     (define-key matlab-shell-mode-map (kbd "C-h") nil)
-     (define-key matlab-shell-mode-map (kbd "C-c h") nil)
-     (define-key matlab-shell-mode-map (kbd "TAB") 'company-complete)
-     (define-key matlab-shell-mode-map
-       (kbd "C-c C-d") 'matlab-view-current-word-doc-in-another-buffer)
-     (define-key matlab-shell-mode-map
-       (kbd "M-.") 'matlab-jump-to-definition-of-word-at-cursor)
-     (defun matlab-do-functions-have-end-p () t)))
-(add-hook 'matlab-mode-hook 'my/coding-on)
-(add-hook 'matlab-mode-hook 'my/eldoc-mode-on)
-(add-hook 'matlab-mode-hook 'my/matlab-electric)
-(add-hook 'matlab-shell-mode-hook 'my/eldoc-mode-on)
-(advice-add 'matlab-view-current-word-doc-in-another-buffer
-            :around #'my/preserve-selected-window)
-
-(eval-after-load 'octave
-  '(progn
-     (define-key octave-mode-map (kbd "RET") 'newline-and-indent)
-     (define-key octave-mode-map (kbd "C-h") nil)
-     (define-key octave-mode-map (kbd "C-c C-d") 'octave-help)
-     (define-key inferior-octave-mode-map (kbd "C-h") nil)
-     (define-key inferior-octave-mode-map (kbd "C-c C-d") 'octave-help)))
-(add-hook 'octave-mode-hook 'my/coding-on)
-(add-hook 'octave-mode-hook 'my/eldoc-mode-on)
-
-(if (file-accessible-directory-p "~/ws/matlab-mode")
-    (progn
-      (add-to-list 'load-path "~/ws/matlab-mode")
-      (add-to-list 'auto-mode-alist '("\\.m$" . matlab-mode))
-      (autoload 'matlab-mode "matlab-mode" "" t)
-      (autoload 'matlab-shell "matlab-mode" "" t))
-  (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode)))
-
 (eval-after-load 'rust-mode
   '(progn
      (require 'flycheck-rust)
@@ -459,38 +456,7 @@ ARGS are as per the arguments to the advised functions."
 (add-hook 'scala-mode-hook 'my/scala-whitespace)
 (add-hook 'c-mode-common-hook 'my/scala-whitespace)
 
-(eval-after-load 'company
-  '(progn
-     (define-key company-active-map (kbd "C-h") nil)
-     (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)))
-(add-hook 'after-init-hook #'global-company-mode)
 
-(eval-after-load 'elec-pair
-  '(progn
-     (let ((item (cdadr electric-pair-mode-map)))
-       (define-key electric-pair-mode-map (kbd "C-h") item)
-       (define-key electric-pair-mode-map (kbd "C-d") item))))
-(add-hook 'after-init-hook #'electric-pair-mode)
-
-
-(defun TeX-command-default--maybe-compile (orig-fun &rest args)
-  "If there's a Makefile, make the default command `compile'."
-  (if (file-exists-p "Makefile")
-      "Compile"
-    (apply orig-fun args)))
-(advice-add 'TeX-command-default :around
-            #'TeX-command-default--maybe-compile)
-
-(defadvice electric-pair-post-self-insert-function
-    (around single-electricity activate)
-  "If current command is an electric brace command, do nothing."
-  (if (not (eq this-command 'LaTeX-insert-left-brace))
-      ad-do-it))
-
-(defadvice LaTeX-common-initialization
-    (after electric-pair-anyway activate)
-  "Re-enable electric-pair-mode."
-  (set (make-local-variable 'electric-pair-mode) t))
 
 (defadvice TeX-insert-dollar
     (around skip-close-math activate)
@@ -519,12 +485,6 @@ ARGS are as per the arguments to the advised functions."
             (t t))
       ad-do-it))
 
-;; erc (non-customizable)
-(setq erc-autojoin-channels-alist
-      '(("freenode.net" "#clojure" "#leiningen")
-        ("mozilla.org" "#rust")
-        ("damballa" "#rnd" "#bugfarmers" "#cspfarmers" "#itops"
-                    "#threatresearch" "#research" "#watercooler")))
-
 (provide 'init)
+
 ;;; init.el ends here

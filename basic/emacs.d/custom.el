@@ -276,8 +276,7 @@
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa-stable" . "https://stable.melpa.org/packages/")
-     ("marmalade" . "http://marmalade-repo.org/packages/")
-     ("org" . "http://orgmode.org/elpa/"))))
+     ("melpa" . "https://melpa.org/packages/"))))
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
