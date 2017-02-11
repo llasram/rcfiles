@@ -41,7 +41,8 @@
             turn-on-flyspell turn-off-flyspell
   :diminish flyspell-mode
   :bind (:map flyspell-mode-map
-         ("M-TAB" . nil)))
+         ("M-TAB" . nil)
+         ("C-." . nil)))
 
 (use-package flyspell-everywhere
   :ensure nil
@@ -160,6 +161,7 @@
 (use-package llasram-c-style :ensure nil :load-path "elisp")
 
 (use-package llasram-misc
+  :demand t
   :ensure nil
   :load-path "elisp"
   :functions my/preserve-selected-window)
@@ -381,6 +383,41 @@
   (add-hook 'org-mode-hook 'turn-on-font-lock)
   (add-hook 'org-mode-hook 'turn-on-whitespace-mode))
 
+(use-package ido
+  :config
+  (defun my/ido-extra-keys ()
+    (bind-keys :map ido-completion-map
+               ("C-h" . ido-delete-backward-updir)
+               ("C-n" . ido-next-match)
+               ("C-f" . ido-next-match)
+               ("C-p" . ido-prev-match)
+               ("C-b" . ido-prev-match)
+               ("SPC" . ido-exit-minibuffer)))
+  (add-hook 'ido-setup-hook 'my/ido-extra-keys))
+
+(use-package find-file-in-repository
+  :bind ("C-x C-f" . find-file-in-repository)
+  :init (bind-key "C-x f" 'find-file))
+
+(use-package ace-jump-mode
+  :bind ("C-." . ace-jump-mode))
+
+(use-package woman
+  :bind ("C-c w" . woman))
+
+(use-package comint
+  :ensure nil
+  :defer t
+  :bind (:map comint-mode-map
+         ("C-c o" . my/comint-empty-buffer)
+         ("C-c r" . comint-history-isearch-backward))
+  :functions comint-truncate-buffer
+  :config
+  (defun my/comint-empty-buffer ()
+    "Truncate a comint buffer to empty."
+    (interactive)
+    (let ((comint-buffer-maximum-size 0))
+      (comint-truncate-buffer))))
 
 ;; Mode mapping
 
@@ -405,8 +442,6 @@
 (global-set-key (kbd "C-t M-t") 'transpose-words)
 (global-set-key (kbd "C-t u") 'insert-char)
 
-(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-
 (global-unset-key "\M-%")
 (global-unset-key (kbd "C-M-%"))
 (global-set-key (kbd "C-t r") 'query-replace)
@@ -416,33 +451,6 @@
 (global-set-key "\C-ts" 'isearch-forward-at-point)
 (global-set-key "\C-t\C-s" 'isearch-forward-at-point)
 
-(global-set-key (kbd "C-x C-f") 'find-file-in-repository)
-(global-set-key (kbd "C-x f") 'find-file)
-
-(global-set-key (kbd "C-c w") 'woman)
-
-(defun my/comint-empty-buffer ()
-  "Truncate a comint buffer to empty."
-  (interactive)
-  (let ((comint-buffer-maximum-size 0))
-    (comint-truncate-buffer)))
-
-(eval-after-load 'comint
-  '(progn
-     (define-key comint-mode-map (kbd "C-c o") 'my/comint-empty-buffer)
-     (define-key comint-mode-map (kbd "C-c r")
-       'comint-history-isearch-backward)))
-
-;; For... lesser modes
-(add-hook 'ido-setup-hook 'my/ido-extra-keys)
-(defun my/ido-extra-keys ()
-  "Add personal keybindings for ido."
-  (define-key ido-completion-map "\C-h" 'ido-delete-backward-updir)
-  (define-key ido-completion-map "\C-n" 'ido-next-match)
-  (define-key ido-completion-map "\C-f" 'ido-next-match)
-  (define-key ido-completion-map "\C-p" 'ido-prev-match)
-  (define-key ido-completion-map "\C-b" 'ido-prev-match)
-  (define-key ido-completion-map " "    'ido-exit-minibuffer))
 
 (eval-after-load "ess-site"
   '(progn

@@ -20,3 +20,4 @@ nohup.out
 .Rhistory
 .ensime
 .ensime_cache/
+flycheck_*
