@@ -138,6 +138,8 @@
  '(message-alternative-emails nil)
  '(message-dont-reply-to-names "\\(llasram\\|mbockrath\\)@")
  '(message-send-mail-function (quote message-smtpmail-send-it))
+ '(mml-secure-openpgp-encrypt-to-self t)
+ '(mml-secure-openpgp-signers (quote ("69ABB985")))
  '(mml2015-encrypt-to-self t)
  '(mml2015-signers (quote ("69ABB985")))
  '(mouse-yank-at-point t)
@@ -272,11 +274,21 @@
      ("i" "#+include: %file ?" "<include file=%file markup=\"?\">"))))
  '(package-archive-enable-alist nil)
  '(package-archive-exclude-alist nil)
+ '(package-archive-priorities
+   (quote
+    (("melpa-stable" . 21)
+     ("marmalade" . 20)
+     ("gnu" . 10)
+     ("melpa" . 0))))
  '(package-archives
    (quote
-    (("gnu" . "http://elpa.gnu.org/packages/")
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("marmalade" . "https://marmalade-repo.org/packages/")
      ("melpa-stable" . "https://stable.melpa.org/packages/")
      ("melpa" . "https://melpa.org/packages/"))))
+ '(package-selected-packages
+   (quote
+    (flycheck-rust yaml-mode use-package typopunct toml-mode swiper stan-mode racer puppet-mode polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math clojure-mode-extra-font-locking cider cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
@@ -309,7 +321,6 @@
  '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
  '(use-package-always-ensure t)
- '(use-package-always-pin "melpa-stable")
  '(user-full-name "Marshall Bockrath-Vandegrift")
  '(user-mail-address "llasram@gmail.com")
  '(warning-suppress-types (quote ((undo discard-info))))

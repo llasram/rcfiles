@@ -94,7 +94,6 @@
   (add-hook 'message-mode-hook 'my/message-mode-hook))
 
 (use-package bbdb
-  :pin melpa
   :commands bbdb-initialize bbdb-mua-auto-update-init)
 
 (use-package git-gutter
@@ -139,7 +138,8 @@
 
 (use-package font-lock
   :ensure nil
-  :commands turn-on-font-lock)
+  :commands turn-on-font-lock
+  :bind ("C-c f" . font-lock-fontify-buffer))
 
 (use-package whitespace
   :diminish whitespace-mode
@@ -221,18 +221,15 @@
          ("C-h" . nil)
          ("C-d" . company-show-doc-buffer)))
 
-;;
-;; Local custom extensions
+(use-package eldoc
+  :commands eldoc-mode
+  :diminish eldoc-mode
+  :config
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round
+   'electric-pair-delete-pair))
 
-(add-to-list 'load-path "~/.emacs.d/elisp")
-
-;; Diminish after everything else is loaded
-(require 'eldoc)
-(require 'hideshow)
-
-(mapc 'diminish
-      '(eldoc-mode
-        ))
 
 ;; Mode mapping
 
@@ -280,8 +277,6 @@
 
 (global-set-key (kbd "C-c w") 'woman)
 
-(global-set-key (kbd "C-c f") 'font-lock-fontify-buffer)
-
 ;; Extra xterm bindings
 (eval-after-load "xterm"
   '(progn
@@ -313,15 +308,6 @@
 (add-hook 'lisp-mode-hook 'my/paredit-mode-on)
 (add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
 
-(eval-after-load 'eldoc
-  '(eldoc-add-command
-    'paredit-backward-delete
-    'paredit-close-round
-    'electric-pair-delete-pair))
-(defun my/eldoc-mode-on ()
-  "Force-enable `eldoc-mode'."
-  (eldoc-mode 1))
-
 (defun my/preserve-selected-window (f &rest args)
   "Function version of `save-selected-window'.
 Argument F is a function to invoke and optional ARGS any
@@ -352,7 +338,7 @@ arguments to `apply' that function to."
 (define-key emacs-lisp-mode-map (kbd "C-c C-d") 'my/describe-function)
 (define-key emacs-lisp-mode-map "\C-m" 'newline-and-indent)
 (add-hook 'emacs-lisp-mode-hook 'my/coding-on)
-(add-hook 'emacs-lisp-mode-hook 'my/eldoc-mode-on)
+(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 
 ;; For... lesser modes
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
@@ -433,7 +419,7 @@ arguments to `apply' that function to."
   (setq-local whitespace-line-column 99))
 (add-hook 'rust-mode-hook 'my/rust-whitespace)
 (add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'racer-mode-hook 'my/eldoc-mode-on)
+(add-hook 'racer-mode-hook 'eldoc-mode)
 
 (add-hook 'j-mode 'my/coding-on)
 (advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
