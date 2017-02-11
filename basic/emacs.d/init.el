@@ -28,15 +28,22 @@
 (put 'narrow-to-region 'disabled nil)
 
 (use-package server
+  :ensure nil
   :if window-system
   :commands server-start
   :init (add-hook 'after-init-hook 'server-start t))
 
 (use-package saveplace
+  :ensure nil
   :commands save-place-mode
   :init (add-hook 'after-init-hook 'save-place-mode))
 
+(use-package savehist
+  :commands savehist-mode
+  :init (add-hook 'after-init-hook 'savehist-mode))
+
 (use-package flyspell
+  :ensure nil
   :commands flyspell-mode flyspell-prog-mode
             turn-on-flyspell turn-off-flyspell
   :diminish flyspell-mode
@@ -167,6 +174,7 @@
   :functions my/preserve-selected-window)
 
 (use-package elec-pair
+  :ensure nil
   :commands electric-pair-mode
   :functions electric-pair-post-self-insert-function--single
   :init (add-hook 'after-init-hook 'electric-pair-mode)
@@ -222,6 +230,7 @@
       (quietly-read-abbrev-file)))
 
 (use-package hideshow
+  :ensure nil
   :diminish hs-minor-mode)
 
 (use-package company
@@ -233,6 +242,7 @@
          ("C-d" . company-show-doc-buffer)))
 
 (use-package eldoc
+  :ensure nil
   :commands eldoc-mode
   :diminish eldoc-mode
   :config
@@ -330,6 +340,7 @@
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
 
 (use-package cc-mode
+  :ensure nil
   :mode ("\\.c" . c-mode) ("\\.h" . c-mode)
         ("\\.java" . java-mode)
   :bind (:map c-mode-base-map
@@ -384,6 +395,7 @@
   (add-hook 'org-mode-hook 'turn-on-whitespace-mode))
 
 (use-package ido
+  :ensure nil
   :config
   (defun my/ido-extra-keys ()
     (bind-keys :map ido-completion-map
