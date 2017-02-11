@@ -32,12 +32,16 @@
   :commands server-start
   :init (add-hook 'after-init-hook 'server-start t))
 
+(use-package saveplace
+  :commands save-place-mode
+  :init (add-hook 'after-init-hook 'save-place-mode))
+
 (use-package flyspell
   :commands flyspell-mode flyspell-prog-mode
             turn-on-flyspell turn-off-flyspell
   :diminish flyspell-mode
   :bind (:map flyspell-mode-map
-              ("M-TAB" . nil)))
+         ("M-TAB" . nil)))
 
 (use-package flyspell-everywhere
   :ensure nil
@@ -123,7 +127,7 @@
          ("C-d" . generic-hungry-delete)))
 
 (use-package paredit
-  :commands paredit-mode turn-on-paredit
+  :commands paredit-mode
   :functions paredit-backward-delete--hungry paredit-forward-delete--hungry
   :diminish paredit-mode
   :bind (:map paredit-mode-map
@@ -132,7 +136,6 @@
          ("M-{" . paredit-wrap-curly)
          ("M-[" . paredit-wrap-square))
   :config
-  (defun turn-on-paredit () (paredit-mode 1))
   (generic-hungry-delete-advice paredit-backward-delete skip-chars-backward)
   (generic-hungry-delete-advice paredit-forward-delete skip-chars-forward))
 
@@ -143,8 +146,10 @@
 
 (use-package whitespace
   :diminish whitespace-mode
-  :commands turn-on-whitespace-mode
-  :config (defun turn-on-whitespace-mode () (whitespace-mode 1)))
+  :commands turn-on-whitespace-mode my/wide-columns
+  :config
+  (defun turn-on-whitespace-mode () (whitespace-mode 1))
+  (defun my/wide-columns () (setq-local whitespace-line-column 99)))
 
 (use-package tight-fit
   :ensure nil
@@ -153,14 +158,18 @@
 
 (use-package isearch-initial :ensure nil :load-path "elisp")
 (use-package llasram-c-style :ensure nil :load-path "elisp")
-(use-package llasram-misc :ensure nil :load-path "elisp")
+
+(use-package llasram-misc
+  :ensure nil
+  :load-path "elisp"
+  :functions my/preserve-selected-window)
 
 (use-package elec-pair
   :commands electric-pair-mode
   :functions electric-pair-post-self-insert-function--single
   :init (add-hook 'after-init-hook 'electric-pair-mode)
   :config
-  (let ((item (cdadr electric-pair-mode-map)))
+  (let ((item (cl-cdadr electric-pair-mode-map)))
     (define-key electric-pair-mode-map (kbd "C-h") item)
     (define-key electric-pair-mode-map (kbd "C-d") item))
 
@@ -230,16 +239,151 @@
    'paredit-close-round
    'electric-pair-delete-pair))
 
+(use-package ruby-electric
+  :commands ruby-electric-mode
+  :diminish ruby-electric-mode)
+
+(use-package ruby-mode
+  :mode "\\.rb\\'" "\\.gemspec\\'" "\\.rake\\'"
+        "\\(?:^\\|/\\)Rakefile\\'"
+        "\\(?:^\\|/\\)Gemfile\\'"
+        "\\(?:^\\|/\\)Guardfile\\'"
+  :interpreter "ruby"
+  :config
+  (add-hook 'ruby-mode-hook 'ruby-electric-mode)
+  (add-hook 'ruby-mode-hook 'turn-on-font-lock)
+  (add-hook 'ruby-mode-hook 'turn-on-whitespace-mode))
+
+(use-package elpy
+  :commands elpy-enable)
+
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :bind (:map python-mode-map
+         ("RET" . newline-and-indent))
+  :config
+  (add-hook 'python-mode-hook 'turn-on-font-lock)
+  (add-hook 'python-mode-hook 'turn-on-whitespace-mode)
+  (elpy-enable))
+
+(use-package puppet-mode
+  :pin melpa
+  :mode "\\.pp\'"
+  :config
+  (add-hook 'puppet-mode-hook 'turn-on-font-lock)
+  (add-hook 'puppet-mode-hook 'turn-on-whitespace-mode))
+
+(use-package flycheck
+  :commands global-flycheck-mode flycheck-mode
+  :functions turn-off-flycheck
+  :init (add-hook 'after-init-hook 'global-flycheck-mode)
+  :config
+  (defun turn-off-flycheck () (flycheck-mode -1)))
+
+(use-package toml-mode
+  :pin melpa
+  :mode "\\.toml\'")
+
+(use-package cargo
+  :pin melpa
+  :commands cargo-minor-mode
+  :diminish cargo-minor-mode)
+
+(use-package flycheck-rust
+  :pin melpa
+  :commands flycheck-rust-setup)
+
+(use-package racer
+  :pin melpa
+  :commands racer-mode
+  :diminish racer-mode
+  :config (add-hook 'racer-mode-hook 'eldoc-mode))
+
+(use-package rust-mode
+  :pin melpa
+  :mode "\\.rs\'"
+  :bind (:map rust-mode-map
+         ("RET" . newline-and-indent))
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
+  (add-hook 'rust-mode-hook 'turn-on-font-lock)
+  (add-hook 'rust-mode-hook 'my/wide-columns)
+  (add-hook 'rust-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'rust-mode-hook 'cargo-minor-mode)
+  (add-hook 'rust-mode-hook 'racer-mode))
+
+(use-package elisp-mode
+  :ensure nil
+  :mode ("\\.el\'" . emacs-lisp-mode)
+  :interpreter ("emacs" . emacs-lisp-mode)
+  :bind (:map emacs-lisp-mode-map
+         ("RET" . newline-and-indent)
+         ("C-c C-k" . eval-buffer)
+         ("C-c C-d" . my/describe-function))
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
+
+(use-package cc-mode
+  :mode ("\\.c" . c-mode) ("\\.h" . c-mode)
+        ("\\.java" . java-mode)
+  :bind (:map c-mode-base-map
+         ("RET" . c-context-line-break)
+         :map java-mode-map
+         ("M-," . ensime-pop-find-definition-stack))
+  :functions turn-on-c-auto-hungry c-toggle-auto-hungry-state
+  :config
+  (defun turn-on-c-auto-hungry () (c-toggle-auto-hungry-state t))
+  (add-hook 'c-mode-common-hook 'turn-on-font-lock)
+  (add-hook 'c-mode-common-hook 'turn-on-whitespace-mode)
+  (add-hook 'c-mode-common-hook 'turn-on-c-auto-hungry)
+  (add-hook 'java-mode-hook 'my/wide-columns))
+
+(use-package scala-mode
+  :mode "\\.scala\'"
+  :config
+  (add-hook 'scala-mode-hook 'turn-on-font-lock)
+  (add-hook 'scala-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'scala-mode-hook 'my/wide-columns)
+  (add-hook 'scala-mode-hook 'ensime-mode)
+  (add-hook 'scala-mode-hook 'turn-off-flycheck))
+
+(use-package yasnippet
+  :ensure nil
+  :commands yas-minor-mode
+  :diminish yas-minor-mode)
+
+(use-package ensime
+  :commands ensime ensime-mode ensime-pop-find-definition-stack
+  :diminish yas-minor-mode
+  :bind (:map ensime-mode-map
+         ("M-n" . nil)
+         ("C-c ! n" . ensime-forward-note)
+         ("M-p" . nil)
+         ("C-c ! p" . ensime-backward-note)))
+
+(use-package org
+  :mode ("\\.org\\'" . org-mode)
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         :map org-mode-map
+         ("M-h" . backward-kill-word)
+         ("RET" . org-return-indent))
+  :functions my/run-write-file-functions
+  :config
+  (defun my/run-write-file-functions (&rest args)
+    (run-hooks 'write-file-functions))
+  (advice-add 'org-edit-src-save :before #'my/run-write-file-functions)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images t)
+  (add-hook 'org-mode-hook 'turn-on-font-lock)
+  (add-hook 'org-mode-hook 'turn-on-whitespace-mode))
+
 
 ;; Mode mapping
 
-(add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\(?:^\\|/\\)Guardfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 (add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
 
 
@@ -287,33 +431,6 @@
      (define-key xterm-function-map "\e[1;9F" [M-end])
      (define-key xterm-function-map "\e[1;9H" [M-home])))
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(defun my/disable-flycheck-mode ()
-  "Disable flycheck mode."
-  (flycheck-mode -1))
-
-(defun my/coding-on ()
-  "Enable minor modes etc for all code-editing buffers."
-  (font-lock-mode 1)
-  (whitespace-mode 1))
-(add-hook 'c-mode-common-hook 'my/coding-on)
-(add-hook 'puppet-mode-hook 'my/coding-on)
-(add-hook 'org-mode-hook 'my/coding-on)
-(add-hook 'python-mode-hook 'my/coding-on)
-
-(defun my/paredit-mode-on ()
-  "Force-enable `paredit-mode'."
-  (paredit-mode 1))
-(add-hook 'emacs-lisp-mode-hook 'my/paredit-mode-on)
-(add-hook 'lisp-mode-hook 'my/paredit-mode-on)
-(add-hook 'lisp-interaction-mode-hook 'my/paredit-mode-on)
-
-(defun my/preserve-selected-window (f &rest args)
-  "Function version of `save-selected-window'.
-Argument F is a function to invoke and optional ARGS any
-arguments to `apply' that function to."
-  (save-selected-window (apply f args)))
-
 (defun my/comint-empty-buffer ()
   "Truncate a comint buffer to empty."
   (interactive)
@@ -326,20 +443,6 @@ arguments to `apply' that function to."
      (define-key comint-mode-map (kbd "C-c r")
        'comint-history-isearch-backward)))
 
-(defun my/describe-function ()
-  "Personal variant of `describe-function'."
-  (interactive)
-  (let ((fn (function-called-at-point)))
-    (if fn
-      (describe-function fn)
-      (command-execute 'describe-function))))
-
-(define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-d") 'my/describe-function)
-(define-key emacs-lisp-mode-map "\C-m" 'newline-and-indent)
-(add-hook 'emacs-lisp-mode-hook 'my/coding-on)
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-
 ;; For... lesser modes
 (add-hook 'ido-setup-hook 'my/ido-extra-keys)
 (defun my/ido-extra-keys ()
@@ -350,27 +453,6 @@ arguments to `apply' that function to."
   (define-key ido-completion-map "\C-p" 'ido-prev-match)
   (define-key ido-completion-map "\C-b" 'ido-prev-match)
   (define-key ido-completion-map " "    'ido-exit-minibuffer))
-
-(add-hook 'c-mode-common-hook 'my/c-common-sane-defaults)
-(defun my/c-common-sane-defaults ()
-  "Common mode hook for C modes."
-  (c-toggle-auto-hungry-state t)
-  (define-key c-mode-base-map "\C-m" 'c-context-line-break))
-
-(eval-after-load 'ruby-mode
-  '(progn
-     (require 'ruby-electric)
-     (define-key ruby-mode-map "\C-m" 'ruby-electric-return)))
-(defun my/ruby-electric-on ()
-  "Force on Ruby electric key bindings."
-  (ruby-electric-mode 1))
-(add-hook 'ruby-mode-hook 'my/ruby-electric-on)
-(add-hook 'ruby-mode-hook 'my/coding-on)
-
-(eval-after-load 'python
-  '(progn
-     (define-key python-mode-map "\C-m" 'newline-and-indent)))
-(elpy-enable)
 
 (eval-after-load "ess-site"
   '(progn
@@ -395,54 +477,6 @@ arguments to `apply' that function to."
 (advice-add 'ess-load-file :around #'my/preserve-selected-window)
 (advice-add 'ess-help :around #'my/preserve-selected-window)
 (require 'ess-site) ;; hacky, but easy
-
-(eval-after-load 'org
-  '(progn
-     (define-key org-mode-map (kbd "M-h") 'backward-kill-word)
-     (define-key org-mode-map (kbd "RET") 'org-return-indent)))
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-(defun my/run-write-file-functions (&rest args)
-  "Run the `write-file-functions' hook, ignoring ARGS."
-  (run-hooks 'write-file-functions))
-(advice-add 'org-edit-src-save :before #'my/run-write-file-functions)
-
-(eval-after-load 'rust-mode
-  '(progn
-     (require 'flycheck-rust)
-     (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
-     (define-key rust-mode-map (kbd "RET") 'newline-and-indent)))
-(add-hook 'rust-mode-hook 'my/coding-on)
-(defun my/rust-whitespace ()
-  "Set whitespace to Rust style maximum 99 columns."
-  (setq-local whitespace-line-column 99))
-(add-hook 'rust-mode-hook 'my/rust-whitespace)
-(add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'racer-mode-hook 'eldoc-mode)
-
-(add-hook 'j-mode 'my/coding-on)
-(advice-add 'j-console-execute-region :around #'my/preserve-selected-window)
-
-(eval-after-load 'ensime-mode
-  '(progn
-     (define-key ensime-mode-map (kbd "M-n") nil)
-     (define-key ensime-mode-map (kbd "C-c ! n") 'ensime-forward-note)
-     (define-key ensime-mode-map (kbd "M-p") nil)
-     (define-key ensime-mode-map (kbd "C-c ! p") 'ensime-backward-note)))
-(eval-after-load 'cc-mode
-  '(progn
-     (define-key java-mode-map (kbd "M-,") 'ensime-pop-find-definition-stack)))
-(add-hook 'scala-mode-hook 'my/coding-on)
-(add-hook 'scala-mode-hook 'ensime-mode)
-(add-hook 'scala-mode-hook 'my/disable-flycheck-mode)
-(defun my/scala-whitespace ()
-  "Set whitespace to Scala style maximum 99 columns."
-  (setq-local whitespace-line-column 99))
-(add-hook 'scala-mode-hook 'my/scala-whitespace)
-(add-hook 'c-mode-common-hook 'my/scala-whitespace)
-
-
 
 (defadvice TeX-insert-dollar
     (around skip-close-math activate)

@@ -288,7 +288,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (flycheck-rust yaml-mode use-package typopunct toml-mode swiper stan-mode racer puppet-mode polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math clojure-mode-extra-font-locking cider cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
+    (toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper stan-mode puppet-mode polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck-rust find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
