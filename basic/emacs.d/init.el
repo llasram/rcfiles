@@ -27,6 +27,30 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
+(unbind-key "C-x C-n")
+(unbind-key "C-z")
+(unbind-key "C-t")
+(unbind-key "M-%")
+(unbind-key "C-M-%")
+(unbind-key [insert])
+
+(bind-key "C-c h" help-map)
+
+(bind-keys ("M-h" . backward-kill-word)
+           ([M-insert] . overwrite-mode)
+           ("C-x C-b" . switch-to-buffer))
+
+(bind-keys ("C-t t" . transpose-chars)
+           ("C-t C-t" . transpose-chars)
+           ("C-t M-t" . transpose-words)
+           ("C-t u" . insert-char)
+           ("C-t r" . query-replace)
+           ("C-t C-r" . query-replace-regexp))
+
+(bind-keys :map isearch-mode-map
+           ("C-h" . isearch-delete-char)
+           ([backspace] . isearch-delete-char))
+
 (use-package server
   :ensure nil
   :if window-system
@@ -53,7 +77,9 @@
 
 (use-package flyspell-everywhere
   :ensure nil
-  :load-path "elisp")
+  :load-path "elisp"
+  :commands turn-on-flyspell-everywhere
+  :init (add-hook 'after-init-hook 'turn-on-flyspell-everywhere))
 
 (use-package typopunct
   :commands typopunct-mode turn-on-typopunct
@@ -171,7 +197,8 @@
   :demand t
   :ensure nil
   :load-path "elisp"
-  :commands my/preserve-selected-window)
+  :commands my/preserve-selected-window
+            TeX-insert-dollar--skip-close-math)
 
 (use-package elec-pair
   :ensure nil
@@ -197,6 +224,8 @@
              TeX-command-default--maybe-compile
              LaTeX-common-initialization--electric-pair
   :config
+  (advice-add 'TeX-insert-dollar :around #'TeX-insert-dollar--skip-close-math)
+
   (defun typopunct-insert-single-quotation-mark--texmathp (f &rest args)
     (if (and (or (eq major-mode 'latex-mode)
                  (eq major-mode 'tex-mode))
@@ -412,7 +441,8 @@
   :init (bind-key "C-x f" 'find-file))
 
 (use-package ace-jump-mode
-  :bind ("C-." . ace-jump-mode))
+  :bind ("C-." . ace-jump-mode)
+  :config (require 'cl))
 
 (use-package woman
   :bind ("C-c w" . woman))
@@ -480,59 +510,11 @@
         ("\\.Rnw" . poly-noweb+r-mode)
         ("\\.Rmd" . poly-markdown+r-mode))
 
-;;
-;; General configuration
-
-(global-set-key "\C-ch" help-map)
-(global-set-key (kbd "C-x C-n") nil)
-
-(global-set-key "\M-h" 'backward-kill-word)
-(global-unset-key "\C-z")
-(global-unset-key [insert])
-(global-set-key [M-insert] 'overwrite-mode)
-(global-set-key "\C-x\C-b" 'switch-to-buffer)
-
-(global-set-key (kbd "C-t") nil)
-(global-set-key (kbd "C-t t") 'transpose-chars)
-(global-set-key (kbd "C-t C-t") 'transpose-chars)
-(global-set-key (kbd "C-t M-t") 'transpose-words)
-(global-set-key (kbd "C-t u") 'insert-char)
-
-(global-unset-key "\M-%")
-(global-unset-key (kbd "C-M-%"))
-(global-set-key (kbd "C-t r") 'query-replace)
-(global-set-key (kbd "C-t C-r") 'query-replace-regexp)
-(define-key isearch-mode-map "\C-h" 'isearch-delete-char)
-(define-key isearch-mode-map [backspace] 'isearch-delete-char)
-(global-set-key "\C-ts" 'isearch-forward-at-point)
-(global-set-key "\C-t\C-s" 'isearch-forward-at-point)
-
-(defadvice TeX-insert-dollar
-    (around skip-close-math activate)
-  "If point is before the end of a math section, skip it."
-  (if (cond ((not (texmathp))
-             t)
-            ((and (eq (preceding-char) ?\$)
-                  (eq (following-char) ?\$))
-             (backward-char)
-             (delete-char 2)
-             (insert "\\[\\]")
-             (backward-char 2)
-             nil)
-            ((and (not (eq (preceding-char) ?\$))
-                  (eq (following-char) ?\$))
-             (forward-char)
-             nil)
-            ((< (point) (+ 2 (point-min)))
-             t)
-            ((or (and (not (string= (buffer-substring (- (point) 2) (point)) "\\["))
-                      (string= (buffer-substring (point) (+ (point) 2)) "\\]"))
-                 (and (not (string= (buffer-substring (- (point) 2) (point)) "\\("))
-                      (string= (buffer-substring (point) (+ (point) 2)) "\\)")))
-             (forward-char 2)
-             nil)
-            (t t))
-      ad-do-it))
+(use-package isearch-initial
+  :ensure nil
+  :load-path "elisp"
+  :bind ("C-t s" . isearch-forward-at-point)
+        ("C-t C-s" . isearch-forward-at-point))
 
 (provide 'init)
 

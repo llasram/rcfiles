@@ -18,7 +18,9 @@
     (flyspell-mode 1))
    ((flyspell-prog-mode)) nil))
 
-(add-hook 'font-lock-mode-hook 'flyspell-maybe-prog-mode)
+(defun turn-on-flyspell-everywhere ()
+  "Add the hook which will turn on flyspell everywhere."
+  (add-hook 'font-lock-mode-hook 'flyspell-maybe-prog-mode))
 
 (provide 'flyspell-everywhere)
 
