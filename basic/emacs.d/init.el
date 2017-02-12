@@ -51,6 +51,10 @@
            ("C-h" . isearch-delete-char)
            ([backspace] . isearch-delete-char))
 
+(use-package cl)
+
+(use-package ag)
+
 (use-package server
   :ensure nil
   :if window-system
@@ -71,6 +75,35 @@
 (use-package savehist
   :commands savehist-mode
   :init (add-hook 'after-init-hook 'savehist-mode))
+
+(use-package ido
+  :ensure nil
+  :config
+  (defun my/ido-extra-keys ()
+    (bind-keys :map ido-completion-map
+               ("C-h" . ido-delete-backward-updir)
+               ("C-n" . ido-next-match)
+               ("C-f" . ido-next-match)
+               ("C-p" . ido-prev-match)
+               ("C-b" . ido-prev-match)
+               ("SPC" . ido-exit-minibuffer)))
+  (add-hook 'ido-setup-hook 'my/ido-extra-keys))
+
+(use-package find-file-in-repository
+  :bind ("C-x C-f" . find-file-in-repository)
+  :init (bind-key "C-x f" 'find-file))
+
+(use-package ace-jump-mode
+  :bind ("C-." . ace-jump-mode))
+
+(use-package woman
+  :bind ("C-c w" . woman))
+
+(use-package isearch-initial
+  :ensure nil
+  :load-path "elisp"
+  :bind ("C-t s" . isearch-forward-at-point)
+        ("C-t C-s" . isearch-forward-at-point))
 
 (use-package flyspell
   :ensure nil
@@ -429,29 +462,8 @@
   (add-hook 'org-mode-hook 'turn-on-font-lock)
   (add-hook 'org-mode-hook 'turn-on-whitespace-mode))
 
-(use-package ido
-  :ensure nil
-  :config
-  (defun my/ido-extra-keys ()
-    (bind-keys :map ido-completion-map
-               ("C-h" . ido-delete-backward-updir)
-               ("C-n" . ido-next-match)
-               ("C-f" . ido-next-match)
-               ("C-p" . ido-prev-match)
-               ("C-b" . ido-prev-match)
-               ("SPC" . ido-exit-minibuffer)))
-  (add-hook 'ido-setup-hook 'my/ido-extra-keys))
-
-(use-package find-file-in-repository
-  :bind ("C-x C-f" . find-file-in-repository)
-  :init (bind-key "C-x f" 'find-file))
-
-(use-package ace-jump-mode
-  :bind ("C-." . ace-jump-mode)
-  :config (require 'cl))
-
-(use-package woman
-  :bind ("C-c w" . woman))
+(use-package ob-ipython
+  :defer t)
 
 (use-package comint
   :ensure nil
@@ -512,15 +524,12 @@
 
 (use-package poly-R
   :ensure polymode
-  :mode ("\\.Snw" . poly-noweb+r-mode)
-        ("\\.Rnw" . poly-noweb+r-mode)
-        ("\\.Rmd" . poly-markdown+r-mode))
+  :mode ("\\.Snw\\'" . poly-noweb+r-mode)
+        ("\\.Rnw\\'" . poly-noweb+r-mode)
+        ("\\.Rmd\\'" . poly-markdown+r-mode))
 
-(use-package isearch-initial
-  :ensure nil
-  :load-path "elisp"
-  :bind ("C-t s" . isearch-forward-at-point)
-        ("C-t C-s" . isearch-forward-at-point))
+(use-package stan-mode
+  :mode "\\.stan\\'")
 
 (provide 'init)
 
