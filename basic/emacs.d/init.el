@@ -219,10 +219,10 @@
 
 (use-package whitespace
   :diminish whitespace-mode
-  :commands turn-on-whitespace-mode my/wide-columns
+  :commands whitespace-mode
   :config
-  (defun turn-on-whitespace-mode () (whitespace-mode 1))
-  (defun my/wide-columns () (setq-local whitespace-line-column 99)))
+  (defun my/wide-columns ()
+    (setq-local whitespace-line-column 99)))
 
 (use-package tight-fit
   :ensure nil
@@ -288,7 +288,7 @@
               #'LaTeX-common-initialization--electric-pair)
 
   (add-hook 'TeX-mode-hook 'turn-on-font-lock)
-  (add-hook 'TeX-mode-hook 'turn-on-whitespace-mode))
+  (add-hook 'TeX-mode-hook 'whitespace-mode))
 
 (use-package abbrev
   :ensure nil
@@ -332,7 +332,7 @@
   :config
   (add-hook 'ruby-mode-hook 'ruby-electric-mode)
   (add-hook 'ruby-mode-hook 'turn-on-font-lock)
-  (add-hook 'ruby-mode-hook 'turn-on-whitespace-mode))
+  (add-hook 'ruby-mode-hook 'whitespace-mode))
 
 (use-package elpy
   :commands elpy-enable)
@@ -344,7 +344,7 @@
          ("RET" . newline-and-indent))
   :config
   (add-hook 'python-mode-hook 'turn-on-font-lock)
-  (add-hook 'python-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'python-mode-hook 'whitespace-mode)
   (elpy-enable))
 
 (use-package puppet-mode
@@ -352,7 +352,7 @@
   :mode "\\.pp\\'"
   :config
   (add-hook 'puppet-mode-hook 'turn-on-font-lock)
-  (add-hook 'puppet-mode-hook 'turn-on-whitespace-mode))
+  (add-hook 'puppet-mode-hook 'whitespace-mode))
 
 (use-package flycheck
   :commands global-flycheck-mode flycheck-mode
@@ -388,7 +388,7 @@
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
   (add-hook 'rust-mode-hook 'turn-on-font-lock)
-  (add-hook 'rust-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'rust-mode-hook 'whitespace-mode)
   (add-hook 'rust-mode-hook 'my/wide-columns)
   (add-hook 'rust-mode-hook 'cargo-minor-mode)
   (add-hook 'rust-mode-hook 'racer-mode))
@@ -403,7 +403,7 @@
          ("C-c C-d" . my/describe-function))
   :config
   (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'emacs-lisp-mode-hook 'whitespace-mode)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
 
@@ -419,7 +419,7 @@
   :config
   (defun turn-on-c-auto-hungry () (c-toggle-auto-hungry-state t))
   (add-hook 'c-mode-common-hook 'turn-on-font-lock)
-  (add-hook 'c-mode-common-hook 'turn-on-whitespace-mode)
+  (add-hook 'c-mode-common-hook 'whitespace-mode)
   (add-hook 'c-mode-common-hook 'turn-on-c-auto-hungry)
   (add-hook 'java-mode-hook 'my/wide-columns))
 
@@ -427,7 +427,7 @@
   :mode "\\.scala\\'"
   :config
   (add-hook 'scala-mode-hook 'turn-on-font-lock)
-  (add-hook 'scala-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'scala-mode-hook 'whitespace-mode)
   (add-hook 'scala-mode-hook 'my/wide-columns)
   (add-hook 'scala-mode-hook 'ensime-mode)
   (add-hook 'scala-mode-hook 'turn-off-flycheck))
@@ -460,7 +460,7 @@
   (advice-add 'org-edit-src-save :before #'my/run-write-file-functions)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images t)
   (add-hook 'org-mode-hook 'turn-on-font-lock)
-  (add-hook 'org-mode-hook 'turn-on-whitespace-mode))
+  (add-hook 'org-mode-hook 'whitespace-mode))
 
 (use-package ob-ipython
   :defer t)
@@ -518,7 +518,7 @@
   (require 'ess-bugs-d)
   (require 'ess-jags-d)
   (add-hook 'ess-mode-hook 'turn-on-font-lock)
-  (add-hook 'ess-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'ess-mode-hook 'whitespace-mode)
   (advice-add 'ess-load-file :around #'my/preserve-selected-window)
   (advice-add 'ess-help :around #'my/preserve-selected-window))
 
