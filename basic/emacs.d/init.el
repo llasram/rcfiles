@@ -388,8 +388,8 @@
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
   (add-hook 'rust-mode-hook 'turn-on-font-lock)
-  (add-hook 'rust-mode-hook 'my/wide-columns)
   (add-hook 'rust-mode-hook 'turn-on-whitespace-mode)
+  (add-hook 'rust-mode-hook 'my/wide-columns)
   (add-hook 'rust-mode-hook 'cargo-minor-mode)
   (add-hook 'rust-mode-hook 'racer-mode))
 
