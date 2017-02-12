@@ -57,6 +57,12 @@
   :commands server-start
   :init (add-hook 'after-init-hook 'server-start t))
 
+(use-package auto-compile
+  :commands auto-compile-on-load-mode auto-compile-on-save-mode
+  :init
+  (add-hook 'after-init-hook 'auto-compile-on-load-mode t)
+  (add-hook 'after-init-hook 'auto-compile-on-save-mode t))
+
 (use-package saveplace
   :ensure nil
   :commands save-place-mode

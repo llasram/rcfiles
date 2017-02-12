@@ -127,6 +127,7 @@
  '(ispell-program-name "aspell")
  '(j-console-cmd "ijconsole")
  '(kill-whole-line t)
+ '(load-prefer-newer t)
  '(magit-diff-options (quote ("--patience")))
  '(magit-push-always-verify nil)
  '(mail-user-agent (quote gnus-user-agent))
@@ -288,7 +289,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper stan-mode polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck-rust find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
+    (auto-compile toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper stan-mode polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck-rust find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
@@ -307,7 +308,7 @@
       (whitespace-mode -1))
      (encoding . utf-8))))
  '(save-abbrevs (quote silently))
- '(save-place t nil (saveplace))
+ '(save-place-mode t nil (saveplace))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote smtpmail-send-it))
  '(server-raise-frame nil)

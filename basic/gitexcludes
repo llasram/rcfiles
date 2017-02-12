@@ -9,6 +9,7 @@
 *.pyo
 *.class
 *.jar
+*.elc
 .virtualenv
 .redenv
 .oryx
