@@ -136,7 +136,7 @@
 
 (use-package markdown-mode
   :mode "\\.md\\'" "\\.markdown\\'"
-  :init
+  :config
   (add-hook 'markdown-mode-hook 'turn-on-auto-fill)
   (add-hook 'markdown-mode-hook 'turn-on-typopunct))
 
