@@ -349,7 +349,7 @@
 
 (use-package puppet-mode
   :pin melpa
-  :mode "\\.pp\'"
+  :mode "\\.pp\\'"
   :config
   (add-hook 'puppet-mode-hook 'turn-on-font-lock)
   (add-hook 'puppet-mode-hook 'turn-on-whitespace-mode))
@@ -363,7 +363,7 @@
 
 (use-package toml-mode
   :pin melpa
-  :mode "\\.toml\'")
+  :mode "\\.toml\\'")
 
 (use-package cargo
   :pin melpa
@@ -382,7 +382,7 @@
 
 (use-package rust-mode
   :pin melpa
-  :mode "\\.rs\'"
+  :mode "\\.rs\\'"
   :bind (:map rust-mode-map
          ("RET" . newline-and-indent))
   :config
@@ -395,7 +395,7 @@
 
 (use-package elisp-mode
   :ensure nil
-  :mode ("\\.el\'" . emacs-lisp-mode)
+  :mode ("\\.el\\'" . emacs-lisp-mode)
   :interpreter ("emacs" . emacs-lisp-mode)
   :bind (:map emacs-lisp-mode-map
          ("RET" . newline-and-indent)
@@ -424,7 +424,7 @@
   (add-hook 'java-mode-hook 'my/wide-columns))
 
 (use-package scala-mode
-  :mode "\\.scala\'"
+  :mode "\\.scala\\'"
   :config
   (add-hook 'scala-mode-hook 'turn-on-font-lock)
   (add-hook 'scala-mode-hook 'turn-on-whitespace-mode)
