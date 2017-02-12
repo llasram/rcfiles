@@ -65,8 +65,8 @@
 (use-package auto-compile
   :commands auto-compile-on-load-mode auto-compile-on-save-mode
   :init
-  (add-hook 'after-init-hook 'auto-compile-on-load-mode t)
-  (add-hook 'after-init-hook 'auto-compile-on-save-mode t))
+  (add-hook 'after-init-hook 'auto-compile-on-load-mode)
+  (add-hook 'after-init-hook 'auto-compile-on-save-mode))
 
 (use-package saveplace
   :ensure nil
@@ -76,6 +76,12 @@
 (use-package savehist
   :commands savehist-mode
   :init (add-hook 'after-init-hook 'savehist-mode))
+
+(use-package autorevert
+  :ensure nil
+  :diminish global-auto-revert-mode auto-revert-mode
+  :commands global-auto-revert-mode auto-revert-mode
+  :init (add-hook 'after-init-hook 'global-auto-revert-mode))
 
 (use-package ido
   :ensure nil
@@ -256,6 +262,42 @@
   (advice-add 'electric-pair-post-self-insert-function :around
               #'electric-pair-post-self-insert-function--single))
 
+(use-package abbrev
+  :ensure nil
+  :diminish abbrev-mode
+  :config
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
+
+(use-package hideshow
+  :ensure nil
+  :diminish hs-minor-mode)
+
+(use-package eldoc
+  :ensure nil
+  :commands eldoc-mode
+  :diminish eldoc-mode
+  :config
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round
+   'electric-pair-delete-pair))
+
+(use-package company
+  :diminish company-mode
+  :commands company-mode global-company-mode
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :bind (:map company-active-map
+         ("C-h" . nil)
+         ("C-d" . company-show-doc-buffer)))
+
+(use-package flycheck
+  :commands global-flycheck-mode flycheck-mode flycheck-add-next-checker
+  :functions turn-off-flycheck
+  :init (add-hook 'after-init-hook 'global-flycheck-mode)
+  :config
+  (defun turn-off-flycheck () (flycheck-mode -1)))
+
 (use-package tex
   :ensure auctex
   :mode ("\\.tex\\'" . LaTeX-mode)
@@ -292,35 +334,6 @@
   (add-hook 'TeX-mode-hook 'turn-on-font-lock)
   (add-hook 'TeX-mode-hook 'whitespace-mode))
 
-(use-package abbrev
-  :ensure nil
-  :diminish abbrev-mode
-  :config
-  (if (file-exists-p abbrev-file-name)
-      (quietly-read-abbrev-file)))
-
-(use-package hideshow
-  :ensure nil
-  :diminish hs-minor-mode)
-
-(use-package company
-  :diminish company-mode
-  :commands company-mode global-company-mode
-  :init (add-hook 'after-init-hook 'global-company-mode)
-  :bind (:map company-active-map
-         ("C-h" . nil)
-         ("C-d" . company-show-doc-buffer)))
-
-(use-package eldoc
-  :ensure nil
-  :commands eldoc-mode
-  :diminish eldoc-mode
-  :config
-  (eldoc-add-command
-   'paredit-backward-delete
-   'paredit-close-round
-   'electric-pair-delete-pair))
-
 (use-package ruby-electric
   :commands ruby-electric-mode
   :diminish ruby-electric-mode)
@@ -339,12 +352,20 @@
 (use-package elpy
   :commands elpy-enable)
 
+(use-package flycheck-mypy
+  :after flycheck
+  :defer t
+  :config
+  (flycheck-add-next-checker 'python-mypy 'python-flake8)
+  (setq flycheck-checkers (delete-dups (cons 'python-mypy flycheck-checkers))))
+
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :bind (:map python-mode-map
          ("RET" . newline-and-indent))
   :config
+  (require 'flycheck-mypy)
   (add-hook 'python-mode-hook 'turn-on-font-lock)
   (add-hook 'python-mode-hook 'whitespace-mode)
   (elpy-enable))
@@ -355,13 +376,6 @@
   :config
   (add-hook 'puppet-mode-hook 'turn-on-font-lock)
   (add-hook 'puppet-mode-hook 'whitespace-mode))
-
-(use-package flycheck
-  :commands global-flycheck-mode flycheck-mode
-  :functions turn-off-flycheck
-  :init (add-hook 'after-init-hook 'global-flycheck-mode)
-  :config
-  (defun turn-off-flycheck () (flycheck-mode -1)))
 
 (use-package toml-mode
   :pin melpa

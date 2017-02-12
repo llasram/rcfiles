@@ -22,3 +22,4 @@ nohup.out
 .ensime
 .ensime_cache/
 flycheck_*
+.mypy_cache/
