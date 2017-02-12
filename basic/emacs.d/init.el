@@ -171,7 +171,7 @@
   :demand t
   :ensure nil
   :load-path "elisp"
-  :functions my/preserve-selected-window)
+  :commands my/preserve-selected-window)
 
 (use-package elec-pair
   :ensure nil
@@ -431,10 +431,54 @@
     (let ((comint-buffer-maximum-size 0))
       (comint-truncate-buffer))))
 
-;; Mode mapping
+(use-package ess-site
+  :ensure ess
+  :mode ("/R/.*\\.q\\'" . R-mode)
+        ;; Having "\\.[rR]\\'" in the list prevents ESS from adding its own
+        ;; entries, which is bizarre but in this case helpful
+        ("\\.[rR]\\'" . R-mode)
+        ("\\.[rR]profile\\'" . R-mode)
+        ("NAMESPACE\\'" . R-mode)
+        ("CITATION\\'" . R-mode)
+        ("\\.[Rr]out" . R-transcript-mode)
+        ("\\.Rd\\'" . Rd-mode)
+        ("\\.[Bb][Uu][Gg]\\'" . ess-bugs-mode)
+        ("\\.[Bb][Oo][Gg]\\'" . ess-bugs-mode)
+        ("\\.[Bb][Mm][Dd]\\'" . ess-bugs-mode)
+        ("\\.[Jj][Aa][Gg]\\'" . ess-jags-mode)
+        ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
+        ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode)
+  :interpreter ("Rscript" . R-mode)
+  :bind (:map inferior-ess-mode-map
+         ("_" . self-insert-command)
+         ("C-c C-d" . ess-help)
+         :map ess-mode-map
+         ("C-c C-d" . ess-help)
+         ("C-c C-k" . ess-load-file)
+         ("M-TAB" . ess-complete-object-name)
+         ("_" . self-insert-command)
+         ("C-c h" . nil)
+         :map ess-help-mode-map
+         ("C-c h" . nil)
+         :map ess-noweb-minor-mode-map
+         ("C-c h" . nil)
+         :map ess-bugs-mode-map
+         ("_" . self-insert-command))
+  :config
+  (require 'ess-inf)
+  (require 'ess-mode)
+  (require 'ess-bugs-d)
+  (require 'ess-jags-d)
+  (add-hook 'ess-mode-hook 'turn-on-font-lock)
+  (add-hook 'ess-mode-hook 'turn-on-whitespace-mode)
+  (advice-add 'ess-load-file :around #'my/preserve-selected-window)
+  (advice-add 'ess-help :around #'my/preserve-selected-window))
 
-(add-to-list 'auto-mode-alist '("\\.R$" . ess-mode))
-
+(use-package poly-R
+  :ensure polymode
+  :mode ("\\.Snw" . poly-noweb+r-mode)
+        ("\\.Rnw" . poly-noweb+r-mode)
+        ("\\.Rmd" . poly-markdown+r-mode))
 
 ;;
 ;; General configuration
@@ -462,31 +506,6 @@
 (define-key isearch-mode-map [backspace] 'isearch-delete-char)
 (global-set-key "\C-ts" 'isearch-forward-at-point)
 (global-set-key "\C-t\C-s" 'isearch-forward-at-point)
-
-
-(eval-after-load "ess-site"
-  '(progn
-     (require 'ess-inf)
-     (require 'ess-mode)
-     (require 'ess-bugs-d)
-     (require 'ess-jags-d)
-     (require 'llasram-ess)))
-(eval-after-load 'llasram-ess
-  '(progn
-     (define-key inferior-ess-mode-map (kbd "C-c C-d") 'ess-help)
-     (define-key inferior-ess-mode-map (kbd "_") 'self-insert-command)
-     (define-key ess-mode-map (kbd "C-c C-d") 'ess-help)
-     (define-key ess-mode-map (kbd "C-c C-k") 'ess-load-file)
-     (define-key ess-mode-map (kbd "M-TAB") 'ess-complete-object-name)
-     (define-key ess-mode-map (kbd "_") 'self-insert-command)
-     (define-key ess-mode-map (kbd "C-c h") nil)
-     (define-key ess-help-mode-map (kbd "C-c h") nil)
-     (define-key ess-noweb-minor-mode-map (kbd "C-c h") nil)
-     (define-key ess-bugs-mode-map (kbd "_") 'self-insert-command)))
-(add-hook 'ess-mode-hook 'my/coding-on)
-(advice-add 'ess-load-file :around #'my/preserve-selected-window)
-(advice-add 'ess-help :around #'my/preserve-selected-window)
-(require 'ess-site) ;; hacky, but easy
 
 (defadvice TeX-insert-dollar
     (around skip-close-math activate)
