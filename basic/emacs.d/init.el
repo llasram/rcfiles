@@ -5,8 +5,9 @@
 ;;; Code:
 
 (eval-and-compile
-  (setq custom-file "~/.emacs.d/custom.el")
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file))
+(add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 
 (require 'package)
 (package-initialize)
@@ -229,15 +230,14 @@
   :load-path "elisp"
   :commands tight-fit-window-to-buffer)
 
-(use-package isearch-initial :ensure nil :load-path "elisp")
-(use-package llasram-c-style :ensure nil :load-path "elisp")
+(use-package isearch-initial
+  :ensure nil
+  :load-path "elisp")
 
-(use-package llasram-misc
-  :demand t
+(use-package llasram-commands
   :ensure nil
   :load-path "elisp"
-  :commands my/preserve-selected-window
-            TeX-insert-dollar--skip-close-math)
+  :commands rename-this-buffer-and-file)
 
 (use-package elec-pair
   :ensure nil
@@ -262,7 +262,9 @@
   :functions typopunct-insert-single-quotation-mark--texmathp
              TeX-command-default--maybe-compile
              LaTeX-common-initialization--electric-pair
+             TeX-insert-dollar--skip-close-math
   :config
+  (require 'llasram-misc)
   (advice-add 'TeX-insert-dollar :around #'TeX-insert-dollar--skip-close-math)
 
   (defun typopunct-insert-single-quotation-mark--texmathp (f &rest args)
@@ -303,7 +305,7 @@
 
 (use-package company
   :diminish company-mode
-  :commands global-company-mode
+  :commands company-mode global-company-mode
   :init (add-hook 'after-init-hook 'global-company-mode)
   :bind (:map company-active-map
          ("C-h" . nil)
@@ -400,8 +402,11 @@
   :bind (:map emacs-lisp-mode-map
          ("RET" . newline-and-indent)
          ("C-c C-k" . eval-buffer)
-         ("C-c C-d" . my/describe-function))
+         ("C-c C-d" . my/describe-symbol)
+         :map help-mode-map
+         ("C-c C-d" . my/describe-symbol))
   :config
+  (require 'llasram-misc)
   (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
   (add-hook 'emacs-lisp-mode-hook 'whitespace-mode)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
@@ -417,6 +422,7 @@
          ("M-," . ensime-pop-find-definition-stack))
   :functions turn-on-c-auto-hungry c-toggle-auto-hungry-state
   :config
+  (require 'llasram-c-style)
   (defun turn-on-c-auto-hungry () (c-toggle-auto-hungry-state t))
   (add-hook 'c-mode-common-hook 'turn-on-font-lock)
   (add-hook 'c-mode-common-hook 'whitespace-mode)
@@ -512,21 +518,27 @@
          ("C-c h" . nil)
          :map ess-bugs-mode-map
          ("_" . self-insert-command))
+  :functions my/preserve-selected-window
   :config
   (require 'ess-inf)
   (require 'ess-mode)
   (require 'ess-bugs-d)
   (require 'ess-jags-d)
+  (require 'llasram-misc)
   (add-hook 'ess-mode-hook 'turn-on-font-lock)
   (add-hook 'ess-mode-hook 'whitespace-mode)
   (advice-add 'ess-load-file :around #'my/preserve-selected-window)
   (advice-add 'ess-help :around #'my/preserve-selected-window))
 
-(use-package poly-R
-  :ensure polymode
+(use-package polymode
   :mode ("\\.Snw\\'" . poly-noweb+r-mode)
         ("\\.Rnw\\'" . poly-noweb+r-mode)
-        ("\\.Rmd\\'" . poly-markdown+r-mode))
+        ("\\.Rmd\\'" . poly-markdown+r-mode)
+        ("\\.Pnw\\'" . poly-noweb+python-mode)
+  :config
+  (require 'poly-R)
+  (require 'poly-markdown)
+  (require 'llasram-poly-python))
 
 (use-package stan-mode
   :mode "\\.stan\\'")

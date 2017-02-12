@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(require 'flyspell)
+
 (defvar flyspell-maybe-prog-mode-disable-modes
   '(fundamental-mode text-mode latex-mode tex-mode muse-mode planner-mode
     markdown-mode message-mode)
@@ -16,7 +18,7 @@
    ((minibufferp) nil)
    ((memq major-mode flyspell-maybe-prog-mode-disable-modes)
     (flyspell-mode 1))
-   ((flyspell-prog-mode)) nil))
+   (t (flyspell-prog-mode))))
 
 (defun turn-on-flyspell-everywhere ()
   "Add the hook which will turn on flyspell everywhere."
