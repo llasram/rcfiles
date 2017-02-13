@@ -366,6 +366,15 @@
   :bind (:map python-mode-map
          ("RET" . newline-and-indent))
   :config
+  (when (and (= 25 emacs-major-version) (= 1 emacs-minor-version))
+    (defun python-shell-completion-native-try ()
+      "Return non-nil if can trigger native completion."
+      (let ((python-shell-completion-native-enable t)
+            (python-shell-completion-native-output-timeout
+             python-shell-completion-native-try-output-timeout))
+        (python-shell-completion-native-get-completions
+         (get-buffer-process (current-buffer))
+         nil "_"))))
   (require 'flycheck-mypy)
   (add-hook 'python-mode-hook 'turn-on-font-lock)
   (add-hook 'python-mode-hook 'whitespace-mode)
