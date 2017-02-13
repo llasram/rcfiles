@@ -54,7 +54,8 @@
 
 (use-package cl)
 
-(use-package ag)
+(use-package ag
+  :commands ag)
 
 (use-package server
   :ensure nil
