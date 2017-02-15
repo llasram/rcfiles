@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(LaTeX-electric-left-right-brace t)
+ '(TeX-auto-save t)
  '(TeX-command-list
    (quote
     (("TeX" "%(PDF)%(tex) %(file-line-error) %(extraopts) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
@@ -50,6 +51,7 @@
      ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
      ("Compile" "make" TeX-run-compile nil t))))
  '(TeX-electric-math (quote ("$" . "$")))
+ '(TeX-parse-self t)
  '(abbrev-mode t t)
  '(ac-ignore-case nil)
  '(ac-use-fuzzy nil)
@@ -81,6 +83,7 @@
                   company-oddmuse)))
  '(company-minimum-prefix-length 2)
  '(company-tooltip-align-annotations t)
+ '(compilation-read-command nil)
  '(compilation-window-height 8)
  '(eldoc-idle-delay 0)
  '(electric-indent-mode t)

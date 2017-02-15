@@ -57,6 +57,10 @@
 (use-package ag
   :commands ag)
 
+(use-package compile
+  :ensure nil
+  :bind ("C-c c" . compile))
+
 (use-package server
   :ensure nil
   :if window-system
@@ -302,36 +306,8 @@
 (use-package tex
   :ensure auctex
   :mode ("\\.tex\\'" . LaTeX-mode)
-  :functions typopunct-insert-single-quotation-mark--texmathp
-             TeX-command-default--maybe-compile
-             LaTeX-common-initialization--electric-pair
-             TeX-insert-dollar--skip-close-math
   :config
-  (require 'llasram-misc)
-  (advice-add 'TeX-insert-dollar :around #'TeX-insert-dollar--skip-close-math)
-
-  (defun typopunct-insert-single-quotation-mark--texmathp (f &rest args)
-    (if (and (or (eq major-mode 'latex-mode)
-                 (eq major-mode 'tex-mode))
-             (texmathp))
-        (insert ?\')
-      (apply f args)))
-  (advice-add 'typopunct-insert-single-quotation-mark :around
-              #'typopunct-insert-single-quotation-mark--texmathp)
-
-  (defun TeX-command-default--maybe-compile (f &rest args)
-    (if (file-exists-p "Makefile")
-        "Compile"
-      (apply f args)))
-  (advice-add 'TeX-command-default :around
-              #'TeX-command-default--maybe-compile)
-
-  (defun LaTeX-common-initialization--electric-pair ()
-    "Re-enable electric-pair-mode."
-    (setq-local electric-pair-mode t))
-  (advice-add 'LaTeX-common-initialization :after
-              #'LaTeX-common-initialization--electric-pair)
-
+  (require 'llasram-tex)
   (add-hook 'TeX-mode-hook 'turn-on-font-lock)
   (add-hook 'TeX-mode-hook 'whitespace-mode))
 
