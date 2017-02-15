@@ -296,7 +296,10 @@
  '(ruby-electric-expand-delimiters-list (quote (124)))
  '(safe-local-variable-values
    (quote
-    ((org-babel-inline-result-wrap . "$%s$")
+    ((TeX-auto-regexp-list . LaTeX-auto-regexp-list)
+     (TeX-auto-untabify)
+     (TeX-brace-indent-level . 4)
+     (org-babel-inline-result-wrap . "$%s$")
      (org-latex-prefer-user-labels . t)
      (whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark)
      (ess-bugs-chains . 1)
