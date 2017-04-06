@@ -543,6 +543,10 @@
 (use-package stan-mode
   :mode "\\.stan\\'")
 
+(use-package lua-mode
+  :pin melpa
+  :mode "\\.lua\\'")
+
 (provide 'init)
 
 ;;; init.el ends here
