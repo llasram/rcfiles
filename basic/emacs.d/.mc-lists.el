@@ -13,6 +13,8 @@
         dabbrev-expand
         downcase-region
         downcase-region
+        electric-pair-delete-pair
+        ensime-company-complete-or-indent
         ess-smart-comma
         forward-sexp
         generic-hungry-backspace
