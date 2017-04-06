@@ -4,6 +4,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(LaTeX-electric-left-right-brace t)
+ '(LaTeX-indent-environment-list
+   (quote
+    (("verbatim" current-indentation)
+     ("verbatim*" current-indentation)
+     ("tabular" LaTeX-indent-tabular)
+     ("tabular*" LaTeX-indent-tabular)
+     ("align" LaTeX-indent-tabular)
+     ("align*" LaTeX-indent-tabular)
+     ("array" LaTeX-indent-tabular)
+     ("eqnarray" LaTeX-indent-tabular)
+     ("eqnarray*" LaTeX-indent-tabular)
+     ("displaymath")
+     ("equation")
+     ("equation*")
+     ("picture")
+     ("tabbing")
+     ("flashcard" current-indentation))))
  '(TeX-auto-save t)
  '(TeX-command-list
    (quote
@@ -293,7 +310,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (flycheck-mypy stan-mode ob-python auto-compile toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck-rust find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
+    (lua-mode puppet-mode flycheck-mypy stan-mode ob-python auto-compile toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode hy-mode htmlize git-gutter flycheck-rust find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
