@@ -1,0 +1,50 @@
+#! /bin/bash
+
+# Git post-checkout hook for automated use of directory-local git config
+# http://stackoverflow.com/a/40450106
+
+# Check for custom git-config flag, to execute hook only once on clone, not repeatedly on every checkout
+if grep -q "inferredConfig" .git/config
+then
+    exit
+fi
+
+# Automatically set Git config values from parent folders.
+echo "Infer Git configuration from directory..."
+
+# Go upwards in directory hierarchy, examine all .gitconfig files we find
+# Allows to have multiple nested .gitconfig files with different scopes
+dir=$(dirname $(pwd))
+configFiles=()
+while [[ "$dir" != "/" ]] && [[ "$dir" != "$HOME" ]]
+do
+    if [ -f "$dir/.gitconfig" ]; then
+        configFiles+=("$dir/.gitconfig")
+    fi
+    dir=$(dirname "$dir")
+done
+
+# Iterate through configFiles array in reverse order, so that more local configurations override parent ones
+for (( index=${#configFiles[@]}-1 ; index>=0 ; index-- )) ; do
+    gitconfig="${configFiles[index]}"
+
+    echo "* From $gitconfig:"
+    # Iterate over each line in found .gitconfig file
+    output=$(git config --file "$gitconfig" --list)
+    while IFS= read -r line
+    do
+        # Split line into two parts, separated by '='
+        IFS='=' read key localValue <<< "$line"
+
+        # For values that differ from the parent Git configuration, adjust the local one
+        parentValue=$(git config $key)
+        if [ "$parentValue" != "$localValue" ]
+        then
+            echo "  * $key: $localValue"
+            git config "$key" "$localValue"
+        fi
+    done <<< "$output"
+
+    # Set custom flag that we have inferred the configuration, so that future checkouts don't need to do it
+    git config user.inferredConfig 1
+done
