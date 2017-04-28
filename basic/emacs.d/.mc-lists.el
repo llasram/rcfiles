@@ -22,6 +22,7 @@
         indent-for-tab-command
         kill-region
         mark-sexp
+        markdown-cycle
         org-beginning-of-line
         org-end-of-line
         org-force-self-insert
@@ -30,6 +31,7 @@
         paredit-doublequote
         paredit-forward-slurp-sexp
         search-forward
+        typopunct-insert-typographical-dashes
         ))
 
 (setq mc/cmds-to-run-once
