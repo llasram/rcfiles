@@ -28,12 +28,15 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
+(unbind-key "C-x C-c")
 (unbind-key "C-x C-n")
 (unbind-key "C-z")
 (unbind-key "C-t")
 (unbind-key "M-%")
 (unbind-key "C-M-%")
 (unbind-key [insert])
+
+(bind-keys ("C-c z z" . save-buffers-kill-terminal))
 
 (bind-key "C-c h" help-map)
 
