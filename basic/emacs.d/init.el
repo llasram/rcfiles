@@ -196,12 +196,15 @@
          ("C-c g p" . git-gutter:previous-hunk)
          ("C-c g r" . git-gutter:revert-hunk)
          ("C-c g s" . git-gutter:stage-hunk))
-  :functions global-git-gutter-mode git-gutter--turn-on--minor-modes
+  :functions global-git-gutter-mode turn-off-git-gutter
+             git-gutter--turn-on--minor-modes
   :config
+  (defun turn-off-git-gutter () (git-gutter-mode -1))
   (defun git-gutter--turn-on--minor-modes (f &rest r)
     (when (and (buffer-file-name)
                (not (cl-some #'(lambda (m)
-                                 (memq m git-gutter:disabled-modes))
+                                 (and (symbolp m) (boundp m) (symbol-value m)
+                                      (memq m git-gutter:disabled-modes)))
                              minor-mode-list)))
       (apply f r)))
   (advice-add 'git-gutter--turn-on :around #'git-gutter--turn-on--minor-modes)
@@ -216,9 +219,12 @@
 (use-package git-timemachine
   :pin melpa
   :bind (("C-c g t" . git-timemachine-toggle))
-  :functions git-timemachine--disable-gutter
+  :functions git-timemachine--disable-gutter git-timemachine--enable-gutter
   :config
+  (defun git-timemachine--disable-gutter (&rest r) (git-gutter-mode -1))
   (defun git-timemachine--enable-gutter (&rest r) (git-gutter-mode 1))
+  (add-hook 'git-timemachine-mode-hook 'turn-off-git-gutter)
+  (advice-add 'git-timemachine :before #'git-timemachine--disable-gutter)
   (advice-add 'git-timemachine-quit :after #'git-timemachine--enable-gutter))
 
 (use-package hungry
