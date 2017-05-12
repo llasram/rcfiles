@@ -201,6 +201,9 @@
 (use-package magit
   :bind (("C-c g g" . magit-status)))
 
+(use-package git-timemachine
+  :bind (("C-c g t" . git-timemachine-toggle)))
+
 (use-package hungry
   :ensure nil
   :load-path "elisp"
@@ -450,7 +453,11 @@
          ("M-n" . nil)
          ("C-c ! n" . ensime-forward-note)
          ("M-p" . nil)
-         ("C-c ! p" . ensime-backward-note)))
+         ("C-c ! p" . ensime-backward-note))
+  :functions turn-off-ensime-mode
+  :config
+  (defun turn-off-ensime-mode () (if (boundp 'ensime-mode) (ensime-mode 0)))
+  (add-hook 'git-timemachine-mode-hook #'turn-off-ensime-mode))
 
 (use-package org
   :mode ("\\.org\\'" . org-mode)
