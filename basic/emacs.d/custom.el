@@ -133,6 +133,7 @@
  '(flyspell-issue-message-flag nil)
  '(flyspell-use-global-abbrev-table-p t)
  '(fringe-mode (quote (2 . 8)) nil (fringe))
+ '(git-gutter:disabled-modes (quote (git-timemachine-mode)))
  '(git-gutter:hide-gutter t)
  '(global-company-mode t)
  '(global-git-gutter-mode t)

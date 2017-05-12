@@ -196,17 +196,30 @@
          ("C-c g p" . git-gutter:previous-hunk)
          ("C-c g r" . git-gutter:revert-hunk)
          ("C-c g s" . git-gutter:stage-hunk))
-  :functions global-git-gutter-mode
+  :functions global-git-gutter-mode git-gutter--turn-on--minor-modes
   :config
-  (add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
+  (defun git-gutter--turn-on--minor-modes (f &rest r)
+    (when (and (buffer-file-name)
+               (not (cl-some #'(lambda (m)
+                                 (memq m git-gutter:disabled-modes))
+                             minor-mode-list)))
+      (apply f r)))
+  (advice-add 'git-gutter--turn-on :around #'git-gutter--turn-on--minor-modes)
   (global-git-gutter-mode))
 
 (use-package magit
-  :bind (("C-c g g" . magit-status)))
+  :bind (("C-c g g" . magit-status))
+  :config
+  (add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
+  (add-hook 'git-gutter:update-commands 'magit-status))
 
 (use-package git-timemachine
   :pin melpa
-  :bind (("C-c g t" . git-timemachine-toggle)))
+  :bind (("C-c g t" . git-timemachine-toggle))
+  :functions git-timemachine--disable-gutter
+  :config
+  (defun git-timemachine--enable-gutter (&rest r) (git-gutter-mode 1))
+  (advice-add 'git-timemachine-quit :after #'git-timemachine--enable-gutter))
 
 (use-package hungry
   :ensure nil
@@ -460,7 +473,9 @@
          ("C-c ! p" . ensime-backward-note))
   :functions turn-off-ensime-mode
   :config
-  (defun turn-off-ensime-mode () (if (boundp 'ensime-mode) (ensime-mode 0)))
+  (defun turn-off-ensime-mode ()
+    (if (bound-and-true-p ensime-mode)
+        (ensime-mode 0)))
   (add-hook 'git-timemachine-mode-hook #'turn-off-ensime-mode))
 
 (use-package org
