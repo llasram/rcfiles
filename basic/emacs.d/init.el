@@ -202,6 +202,7 @@
   :bind (("C-c g g" . magit-status)))
 
 (use-package git-timemachine
+  :pin melpa
   :bind (("C-c g t" . git-timemachine-toggle)))
 
 (use-package hungry
