@@ -22,3 +22,5 @@
 	helper = store
 [init]
 	templatedir = ~/.git-template
+[rerere]
+	enabled = true
