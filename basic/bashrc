@@ -115,9 +115,15 @@ nha() {
 }
 
 hc() {
-    [[ $# == 0 ]] \
-        && unset HADOOP_CONF_DIR \
-        || export HADOOP_CONF_DIR=/etc/hadoop/conf.$1
+    if [[ $# == 0 ]]; then
+        unset HADOOP_CONF_DIR
+        unset HIVE_CONF_DIR
+        unset SPARK_CONF_DIR
+    else
+        export HADOOP_CONF_DIR=/etc/hadoop/conf.$1
+        export HIVE_CONF_DIR=/etc/hive/conf.$1
+        export SPARK_CONF_DIR=/etc/spark/conf.$1
+    fi
 }
 
 dirty-files() {
