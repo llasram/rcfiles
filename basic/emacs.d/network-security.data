@@ -1,6 +1,6 @@
 (
+ (:id "sha1:85457c729378cc93c732b6a3941c8e4f9c2e60f3" :fingerprint "sha1:ab:a6:d7:6a:b3:d3:63:fa:19:0d:65:41:60:23:6e:ef:d3:2a:46:dc" :host "marmalade-repo.org:443" :conditions (:insecure :unknown-ca :invalid))
  (:id "sha1:706608f9b7fcfdea563351d49047f296d74a5a76" :fingerprint "sha1:e5:36:a4:d2:2a:16:bb:51:3c:1b:71:25:a6:b7:e0:fb:08:64:cd:d2")
  (:id "sha1:f4042fd4119d35c2287263ee10baec7bd6775b4a" :fingerprint "sha1:df:c5:9e:b5:92:ff:a8:fa:33:9f:b1:9a:a9:d1:0d:3c:0b:ce:50:d5" :host "smtp.emailsrvr.com:587" :conditions (:no-host-match))
  (:id "sha1:e5463e1fc5d1990851c94e19cedf6542bd4bfc50" :fingerprint "sha1:12:c7:ab:d3:33:c1:2c:e7:d0:c1:c2:ea:4b:00:fc:9a:86:c7:44:a0")
- (:id "sha1:85457c729378cc93c732b6a3941c8e4f9c2e60f3" :fingerprint "sha1:ab:a6:d7:6a:b3:d3:63:fa:19:0d:65:41:60:23:6e:ef:d3:2a:46:dc" :host "marmalade-repo.org:443" :conditions (:unknown-ca :invalid))
 )

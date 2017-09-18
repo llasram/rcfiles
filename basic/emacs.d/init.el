@@ -151,6 +151,8 @@
 
 (use-package markdown-mode
   :mode "\\.md\\'" "\\.markdown\\'"
+  :bind (:map markdown-mode-map
+         ("M-h" . backward-kill-word))
   :config
   (add-hook 'markdown-mode-hook 'turn-on-auto-fill)
   (add-hook 'markdown-mode-hook 'turn-on-typopunct))
@@ -323,6 +325,7 @@
          ("C-d" . company-show-doc-buffer)))
 
 (use-package flycheck
+  :pin melpa
   :commands global-flycheck-mode flycheck-mode flycheck-add-next-checker
   :functions turn-off-flycheck
   :init (add-hook 'after-init-hook 'global-flycheck-mode)
@@ -398,10 +401,6 @@
   :commands cargo-minor-mode
   :diminish cargo-minor-mode)
 
-(use-package flycheck-rust
-  :pin melpa
-  :commands flycheck-rust-setup)
-
 (use-package racer
   :pin melpa
   :commands racer-mode
@@ -414,7 +413,6 @@
   :bind (:map rust-mode-map
          ("RET" . newline-and-indent))
   :config
-  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
   (add-hook 'rust-mode-hook 'turn-on-font-lock)
   (add-hook 'rust-mode-hook 'whitespace-mode)
   (add-hook 'rust-mode-hook 'my/wide-columns)
@@ -440,8 +438,9 @@
 
 (use-package cc-mode
   :ensure nil
-  :mode ("\\.c" . c-mode) ("\\.h" . c-mode)
-        ("\\.java" . java-mode)
+  :mode ("\\.c\\'" . c-mode)
+        ("\\.h\\'" . c-mode)
+        ("\\.java\\'" . java-mode)
   :bind (:map c-mode-base-map
          ("RET" . c-context-line-break)
          :map java-mode-map
@@ -468,6 +467,10 @@
   :ensure nil
   :commands yas-minor-mode
   :diminish yas-minor-mode)
+
+(use-package sbt-mode
+  :pin melpa
+  :commands sbt-start)
 
 (use-package ensime
   :commands ensime ensime-mode ensime-pop-find-definition-stack
@@ -578,6 +581,32 @@
 (use-package lua-mode
   :pin melpa
   :mode "\\.lua\\'")
+
+(use-package unicode-math-input
+  :ensure nil
+  :bind (:map quail-simple-translation-keymap
+         ("C-h" .  quail-delete-last-char)
+         :map quail-translation-keymap
+         ("C-h" .  quail-delete-last-char))
+  :config
+  (quail-defrule "\\\\" ?\\ "unicode-math-input")
+  (quail-defrule "\\given" ?∶ "unicode-math-input")
+  (dolist (r '(("\\R" . ?ℝ) ("\\Z" . ?ℤ) ("\\N" . ?ℕ) ("\\Q" . ?ℚ) ("\\1" . ?𝟙)
+               ("\\epsilon" . ?ε) ("\\lunateepsilon" . ?ϵ)
+               ("\\setminus" . ?∖) (nil . ?⧵)
+               ("\\tfrac12" . ?½)
+               ("\\tfrac23" . ?⅔) ("\\tfrac13" . ?⅓)
+               ("\\tfrac14" . ?¼) ("\\tfrac34" . ?¾)
+               (nil . ?∘)))
+    (let ((key (car r))
+          (char (cdr r)))
+      (when key
+        (quail-defrule key char "unicode-math-input"))
+      (set-fontset-font t char "Source Code Pro")
+      (dolist (font '("Deja Vu Sans Mono" "Deja Vu Sans"
+                      "Latin Modern Math"
+                      "STIX Math"))
+        (set-fontset-font t char font nil 'append)))))
 
 (provide 'init)
 
