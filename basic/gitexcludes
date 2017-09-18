@@ -25,3 +25,4 @@ flycheck_*
 .mypy_cache/
 _region_.tex
 auto/
+.ipynb_checkpoints/
