@@ -10,7 +10,10 @@ XTerm*faceName: xft:Source Code Pro-9
 UXTerm*faceName: xft:Source Code Pro-9
 XTerm*termName: xterm-256color
 UXTerm*termName: xterm-256color
-Xft.antialias: true
-Xft.hinting: true
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.autohint: 0
+Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
+Xft.dpi: 124
