@@ -1,5 +1,5 @@
 [user]
-	name = Marshall Bockrath-Vandegrift
+	name = Marshall Bockrath
 	email = llasram@gmail.com
 [core]
 	excludesfile = ~/.gitexcludes
@@ -24,3 +24,5 @@
 	templatedir = ~/.git-template
 [rerere]
 	enabled = true
+[magit]
+	hideCampaign = true

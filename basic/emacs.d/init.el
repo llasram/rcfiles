@@ -584,6 +584,7 @@
 
 (use-package unicode-math-input
   :ensure nil
+  :defer 2
   :bind (:map quail-simple-translation-keymap
          ("C-h" .  quail-delete-last-char)
          :map quail-translation-keymap
@@ -592,12 +593,15 @@
   (quail-defrule "\\\\" ?\\ "unicode-math-input")
   (quail-defrule "\\given" ?∶ "unicode-math-input")
   (dolist (r '(("\\R" . ?ℝ) ("\\Z" . ?ℤ) ("\\N" . ?ℕ) ("\\Q" . ?ℚ) ("\\1" . ?𝟙)
+               ("\\E" . ?𝔼) ("\\Pr" . ?ℙ)
                ("\\epsilon" . ?ε) ("\\lunateepsilon" . ?ϵ)
                ("\\setminus" . ?∖) (nil . ?⧵)
                ("\\tfrac12" . ?½)
                ("\\tfrac23" . ?⅔) ("\\tfrac13" . ?⅓)
                ("\\tfrac14" . ?¼) ("\\tfrac34" . ?¾)
-               (nil . ?∘)))
+               (nil . ?∘) (nil . ?↦)
+               ("\\restriction" . ?↾)
+               ("\\tran" . ?ᵀ)))
     (let ((key (car r))
           (char (cdr r)))
       (when key
