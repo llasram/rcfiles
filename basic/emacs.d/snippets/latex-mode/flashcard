@@ -2,12 +2,12 @@
 # name: flashcard
 # key: flashcard
 # --
-\begin{flashcard}{}
+\begin{flashcard}{exam3}
 \begin{front}{${1:$(capitalize yas-text)}}
-  ${2:Title}
+  ${3:Title}
 \end{front}
 \begin{back}
-  \begin{${1:environment}}
+  \begin{${1:environment}}${2:[label]}
     $0
   \end{$1}
 \end{back}

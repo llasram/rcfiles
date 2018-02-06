@@ -22,7 +22,7 @@
 (setq gnus-posting-styles
       '((".*")
         ("nnimap\\+cybraics:.*"
-         (from "Marshall Bockrath-Vandegrift <llasram@cybraics.com>")
+         (from "Marshall Bockrath <mbockrath@cybraics.com>")
          (gcc "nnimap+cybraics:INBOX \"nnimap+cybraics:Sent Items\"")
          ("X-Message-SMTP-Method" "smtp smtp.emailsrvr.com 587")
          (signature-file "~/.signature.cybraics"))))

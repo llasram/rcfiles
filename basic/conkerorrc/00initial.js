@@ -141,11 +141,13 @@ define_webjump("apocket", "javascript:(function(){var%20e=function(t,n,r,i,s){va
 
 define_webjump("apinboard", "javascript:if(document.getSelection){s=document.getSelection();}else{s='';};document.location='https://pinboard.in/add?next=same&url='+encodeURIComponent(location.href)+'&description='+encodeURIComponent(s)+'&title='+encodeURIComponent(document.title)");
 
+define_webjump("fblink", "javascript:window.location.href='http://facebook.com/l.php?u='+encodeURIComponent(window.location.href);")
+
 define_webjump(
     "wb", "http://web.archive.org/web/*/%s",
     $alternative = ("javascript:window.location.href=" +
                     "'http://web.archive.org/web/*/'" +
-                    "+window.location.href;"));
+                    "+encodeURIComponent(window.location.href);"));
 
 define_webjump("vtdn", "https://www.virustotal.com/en/domain/%s/information/");
 

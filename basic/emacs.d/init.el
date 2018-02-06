@@ -582,6 +582,14 @@
   :pin melpa
   :mode "\\.lua\\'")
 
+(use-package ein
+  :pin melpa
+  :config
+  (require 'ein)
+  (require 'ein-loaddefs)
+  (require 'ein-notebook)
+  (require 'ein-subpackages))
+
 (use-package unicode-math-input
   :ensure nil
   :defer 2
@@ -593,15 +601,17 @@
   (quail-defrule "\\\\" ?\\ "unicode-math-input")
   (quail-defrule "\\given" ?∶ "unicode-math-input")
   (dolist (r '(("\\R" . ?ℝ) ("\\Z" . ?ℤ) ("\\N" . ?ℕ) ("\\Q" . ?ℚ) ("\\1" . ?𝟙)
-               ("\\E" . ?𝔼) ("\\Pr" . ?ℙ)
+               ("\\E" . ?𝔼) ("\\Pr" . ?ℙ) ("\\C" . ?ℂ)
                ("\\epsilon" . ?ε) ("\\lunateepsilon" . ?ϵ)
                ("\\setminus" . ?∖) (nil . ?⧵)
                ("\\tfrac12" . ?½)
                ("\\tfrac23" . ?⅔) ("\\tfrac13" . ?⅓)
                ("\\tfrac14" . ?¼) ("\\tfrac34" . ?¾)
                (nil . ?∘) (nil . ?↦)
+               ("\\oo" . ?∞)
                ("\\restriction" . ?↾)
-               ("\\tran" . ?ᵀ)))
+               ("\\tran" . ?ᵀ)
+               (nil . ?⟨) (nil . ?⟩)))
     (let ((key (car r))
           (char (cdr r)))
       (when key

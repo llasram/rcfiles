@@ -151,7 +151,7 @@ export LC_COLLATE=C
 
 # Randomness
 alias comitor="~/ws/comitor/comitor.rb > ~/tmp/comics.html \
-                 && conkeror ~/tmp/comics.html"
+                 && firefox ~/tmp/comics.html"
 
 
 # Python startup, for history and tab-completion

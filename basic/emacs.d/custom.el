@@ -103,6 +103,7 @@
  '(company-tooltip-align-annotations t)
  '(compilation-read-command nil)
  '(compilation-window-height 8)
+ '(ein:completion-backend (quote ein:use-company-backend))
  '(eldoc-idle-delay 0)
  '(electric-indent-mode t)
  '(electric-layout-mode t)
@@ -110,6 +111,7 @@
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
+ '(elpy-rpc-python-command "python3")
  '(ensime-default-java-flags (quote ("-Xms1024m" "-Xmx1024m")))
  '(ensime-implicit-gutter-icons nil)
  '(ensime-startup-notification nil)
@@ -313,7 +315,8 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (sbt-mode math-symbol-lists flycheck git-timemachine csv-mode puppet-mode flycheck-mypy stan-mode ob-python auto-compile toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode htmlize git-gutter find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
+    (lua-mode ein sbt-mode math-symbol-lists flycheck git-timemachine csv-mode puppet-mode flycheck-mypy stan-mode ob-python auto-compile toml-mode racer rust-mode bind-key use-package ruby-electric yaml-mode typopunct swiper polymode paredit ob-ipython muse multiple-cursors monroe mmm-mode markdown-mode magit link j-mode htmlize git-gutter find-file-in-repository ess erc-hl-nicks ensime elpy edit-server dictionary connection company-math cargo browse-kill-ring bbdb auctex ag ace-jump-mode)))
+ '(python-shell-interpreter "python3")
  '(racer-cmd "~/.cargo/bin/racer")
  '(racer-rust-src-path "/home/llasram/ws/rust/src/")
  '(ruby-electric-expand-delimiters-list (quote (124)))
@@ -349,7 +352,7 @@
  '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
  '(use-package-always-ensure t)
- '(user-full-name "Marshall Bockrath-Vandegrift")
+ '(user-full-name "Marshall Bockrath")
  '(user-mail-address "llasram@gmail.com")
  '(warning-suppress-types (quote ((undo discard-info))))
  '(whitespace-action (quote (auto-cleanup)))
